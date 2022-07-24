@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('personalities', function (Blueprint $table) {
             $table->id();
-            $table->char("firstname", 128);
-            $table->char("lastname", 128);
+            $table->string("firstname", 128);
+            $table->string("lastname", 128);
         });
     }
 

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('languages', function (Blueprint $table) {
             $table->id();
-            $table->char("language", 8)->unique();
+            $table->string("language", 8)->unique();
         });
     }
 

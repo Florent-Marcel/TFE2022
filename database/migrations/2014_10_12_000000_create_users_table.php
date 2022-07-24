@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->char('firstname', 128)->nullable();
-            $table->char('lastname', 128)->nullable();
-            $table->timestamp('last_login', 128);
+            $table->string('firstname', 128)->nullable();
+            $table->string('lastname', 128)->nullable();
+            $table->timestamp('last_login', 128)->nullable();
             $table->boolean("is_blocked")->default(false);
             $table->boolean("is_admin")->default(false);
             $table->rememberToken();

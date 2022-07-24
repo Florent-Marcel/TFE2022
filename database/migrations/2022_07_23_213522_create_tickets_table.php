@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId("user_id")->constrained("users");
             $table->foreignId("showing_id")->constrained("showings");
-            $table->char("unique_code", 512);
+            $table->string("unique_code", 512);
             $table->boolean("is_used")->default(false);
             $table->boolean("is_blocked")->default(false);
         });
