@@ -28,4 +28,8 @@ class Showing extends Model
     public function tickets(){
         return $this->hasMany(Ticket::class);
     }
+
+    public function movie(){
+        return $this->hasOne(Movie::class);
+    }
 }

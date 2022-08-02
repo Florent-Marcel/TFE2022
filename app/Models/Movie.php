@@ -20,4 +20,8 @@ class Movie extends Model
     public function personalitiesProfessionsMovies(){
         return $this->hasMany(PersonalityProfessionMovie::class);
     }
+
+    public function showings(){
+        return $this->hasMany(Showing::class);
+    }
 }
