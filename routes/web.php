@@ -31,7 +31,7 @@ Route::get('/dashboard', function () {
 
 Route::get('/movies', function () {
     return Inertia::render('Movies', [
-        'movies' => Movie::all(),
+        'movies' => Movie::allWithShowings(),
     ]);
 })->middleware(['auth', 'verified'])->name('movies');
 
