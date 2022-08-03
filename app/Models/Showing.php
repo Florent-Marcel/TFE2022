@@ -30,6 +30,15 @@ class Showing extends Model
     }
 
     public function movie(){
-        return $this->hasOne(Movie::class);
+        return $this->belongsTo(Movie::class);
+    }
+
+    public static function allWithMovie(){
+        $showings = Showing::all();
+        foreach($showings as &$show){
+            $show->movie;
+            unset($show);
+        }
+        return $showings;
     }
 }

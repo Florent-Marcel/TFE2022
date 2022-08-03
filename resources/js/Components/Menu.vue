@@ -1,15 +1,17 @@
 <script setup>
 import { defineComponent } from 'vue'
+import { Link } from '@inertiajs/inertia-vue3';
 </script>
 
 <template>
     <div class="menu">
         <div class="elem-menu">
-            <a class="actif" href="./films.html">Films</a>
-            <div class="actif-bar"></div>
+            <Link :class="{'actif' : route().current() == 'movies'}" :href="route('movies')">Films</Link>
+            <div class="actif-bar" v-if="route().current() == 'movies'"></div>
         </div>
         <div class="elem-menu">
-            <a href="./seances.html">Séances</a>
+            <Link :class="{'actif' : route().current() == 'showings'}" :href="route('showings')">Showings</Link>
+            <div class="actif-bar" v-if="route().current() == 'showings'"></div>
         </div>
     </div>
 </template>

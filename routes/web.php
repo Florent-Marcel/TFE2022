@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Movie;
+use App\Models\Showing;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,5 +35,11 @@ Route::get('/movies', function () {
         'movies' => Movie::allWithShowings(),
     ]);
 })->middleware(['auth', 'verified'])->name('movies');
+
+Route::get('/showings', function () {
+    return Inertia::render('Showings', [
+        'showings' => Showing::allWithMovie(),
+    ]);
+})->middleware(['auth', 'verified'])->name('showings');
 
 require __DIR__.'/auth.php';
