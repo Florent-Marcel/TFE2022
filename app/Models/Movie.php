@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Mail\OrderShipped;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class Movie extends Model
 {
@@ -27,6 +29,7 @@ class Movie extends Model
     }
 
     public static function allWithShowings(){
+        //Mail::to(auth()->user())->send(new OrderShipped());
         $movies = Movie::all();
         foreach($movies as &$movie){
             $showings = $movie->showings;
