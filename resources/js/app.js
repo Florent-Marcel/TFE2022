@@ -9,6 +9,8 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
+import VueMultiselect from 'vue-multiselect'
+import 'vue-multiselect/dist/vue-multiselect.css'
 
 library.add(faUser)
 
@@ -22,6 +24,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue, Ziggy)
             .component('font-awesome-icon', FontAwesomeIcon)
+            .component('VueMultiselect', VueMultiselect)
             .mount(el);
     },
 });

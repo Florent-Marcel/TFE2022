@@ -33,6 +33,7 @@ export default defineComponent({
     align-content: center;
     background: #22577A;
     color: #F4F3F7;
+    margin-bottom: 10px;
 }
 
 .menu .elem-menu{

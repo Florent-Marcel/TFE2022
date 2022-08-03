@@ -30,8 +30,10 @@ class Movie extends Model
         $movies = Movie::all();
         foreach($movies as &$movie){
             $showings = $movie->showings;
+            $types = $movie->types;
             $movie->date_showings = $showings;
-            unset($movie, $showings);
+            $movie->types = $types;
+            unset($movie, $showings, $types);
         }
         return $movies;
     }
