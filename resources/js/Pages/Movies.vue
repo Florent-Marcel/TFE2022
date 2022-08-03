@@ -155,10 +155,11 @@ export default defineComponent({
 
 .filter-wrapper{
     height: fit-content;
-    width: 50%;
+    width: fit-content;
     background: #22577A;
     margin: auto;
     display: flex;
+    justify-content: center;
     padding: 5px;
 }
 
@@ -217,5 +218,7 @@ export default defineComponent({
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+    width: 80%;
+    margin: auto;
 }
 </style>
