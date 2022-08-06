@@ -37,7 +37,8 @@ import { Head } from '@inertiajs/inertia-vue3';
                     <span>{{movie.title}}</span>
                 </div>
                 <div class="movie-poster">
-                    <img>
+                    <img v-if="movie.poster_url" :src="movie.poster_url">
+                    <img v-else>
                 </div>
                 <div class="movie-dates" v-if="findExtremitySceance(movie.showings, true) != findExtremitySceance(movie.showings, false)">
                     Du {{dateToString(findExtremitySceance(movie.showings, true))}} au {{dateToString(findExtremitySceance(movie.showings, false))}}
@@ -47,7 +48,7 @@ import { Head } from '@inertiajs/inertia-vue3';
                 </div>
             </div>
         </div>
-        
+
     </BreezeAuthenticatedLayout>
 </template>
 
