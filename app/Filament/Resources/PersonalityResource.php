@@ -58,7 +58,7 @@ class PersonalityResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\PersonalitiesProfessionsMoviesRelationManager::class,
         ];
     }
 
