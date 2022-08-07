@@ -108,6 +108,7 @@ class MovieResource extends Resource
     {
         return [
             RelationManagers\MovieTypesRelationManager::class,
+            RelationManagers\PersonalityProfessionMovieRelationManager::class,
         ];
     }
 
