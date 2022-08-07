@@ -33,7 +33,7 @@ class ProfessionResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('profession'),
+                TextColumn::make('profession')->sortable()->searchable(),
             ])
             ->filters([
                 //
