@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('personalities', function (Blueprint $table) {
             $table->id();
-            $table->string("firstname", 128);
-            $table->string("lastname", 128);
+            $table->integer('tmdb_id')->unique();
+            $table->string("name", 256);
+            $table->string("profile_url", 512);
         });
     }
 

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Movie;
+use App\Models\MovieType;
 use App\Models\Personality;
 use App\Models\PersonalityProfessionMovie;
 use App\Models\Profession;
@@ -23,7 +24,7 @@ class MovieSeeder extends Seeder
     public function run()
     {
 
-        $movies = array(
+        /* $movies = array(
             'La La Land', 'Saving Private Ryan', 'Psycho', 'The Godfather', 'Singing in the rain', 'The Artist',
             'Parasite', 'Life is beautiful', 'American Beauty', 'The Professional', 'Once Upon a Time in the West',
             'Once Upon a Time in America', 'Casablanca', 'The Pianist', 'The Departed', 'Terminator', 'Terminator 2',
@@ -65,22 +66,52 @@ class MovieSeeder extends Seeder
                 'date_release' => $faker->date('Y_m_d'),
                 'duration' => rand(3600, 10800),
                 'rating' => rand(0, 100) / 10,
+                'tmdb_id' => $i,
             ];
+        } */
+
+
+        $ids = [1018,1023,1024,1039,1040,1049,1050,1051,1052,1058,1059,1073,1075,1088,1089,1090,1091,1092,1093,1103,1114,1115,1116,1123,1124,1125,1126,1127,1162,1163,1164,1165,1285,1213,1244,1245,1246,1247,1248,1249,1250,1251,1252,1253,1254,1255,1256,1257,1259,1260,1262,1263,1264,1265,1266,1267,1268,1269,1271,1272,1273,1277,1278,1279,1280,1281,1282,1283,1284,1294,1358,1359,1360,1361,1362,1363,1364,1365,1366,1367,1368,1369,1370,1371,1372,1373,1374,1375,1376,1377,1378,1379,1380,1381,1382,1386,1387,1388,1389,1391,1392,1393,1394,1396];
+
+        foreach($ids as $i){
+            $infoMovie = Movie::tmdbGetByID($i);
+            $movie = Movie::createFromTMDB($infoMovie);
+            if($movie){
+                $movieCredits = Movie::getCredids($infoMovie['en']['id']);
+                $addedCast = Personality::addFromTMDB($movieCredits);
+                $addedProfession = Profession::addFromTMDB($movieCredits, $addedCast);
+                PersonalityProfessionMovie::addFromTMDB($movieCredits, $addedCast, $movie);
+
+                $genres = $infoMovie['en']['genres'];
+                Type::createIfNotPresent($genres);
+                $movieTypesToAdd = [];
+                foreach($genres as $genre){
+                    $types = Type::getByTMDBID($genre['id']);
+                    if(count($types) > 0){
+                        array_push($movieTypesToAdd, ['movie_id' => $movie->id, 'type_id' => $types[0]->id]);
+                    }
+                }
+                MovieType::insert($movieTypesToAdd);
+            }
         }
 
-        Movie::insert($data);
+
+
+
+
+        /* Movie::insert($data);
 
         $types = Type::all();
         $personalities = Personality::all();
-        $professions = Profession::all();
+        $professions = Profession::all(); */
 
-        Movie::all()->each(function ($movie) use ($types) {
+        /* Movie::all()->each(function ($movie) use ($types) {
             $movie->types()->attach(
                 $types->random(rand(1, 2))->pluck('id')->toArray()
             );
-        });
+        }); */
 
-        Movie::all()->each(function ($movie) use ($personalities, $professions) {
+        /* Movie::all()->each(function ($movie) use ($personalities, $professions) {
             PersonalityProfessionMovie::insert(
                 [
                     "personality_id" => $personalities->random(1)->pluck("id")[0],
@@ -88,6 +119,6 @@ class MovieSeeder extends Seeder
                     "movie_id" => $movie->id,
                 ]
             );
-        });
+        }); */
     }
 }

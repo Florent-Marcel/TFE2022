@@ -19,8 +19,8 @@ class PersonalitySeeder extends Seeder
         $data = [];
         for($i=0; $i<150; $i++){
             $data[$i] = [
-                'firstname' => $faker->firstName(),
-                'lastname' => $faker->lastName(),
+                'tmdb_id' => $i,
+                'name' => $faker->firstName()." ".$faker->lastName(),
             ];
         }
 

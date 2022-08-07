@@ -28,4 +28,17 @@ class Showing extends Model
     public function tickets(){
         return $this->hasMany(Ticket::class);
     }
+
+    public function movie(){
+        return $this->belongsTo(Movie::class);
+    }
+
+    public static function allWithMovie(){
+        $showings = Showing::all();
+        foreach($showings as &$show){
+            $show->movie;
+            unset($show);
+        }
+        return $showings;
+    }
 }

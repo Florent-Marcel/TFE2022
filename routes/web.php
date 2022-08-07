@@ -1,6 +1,10 @@
 <?php
 
+use App\Models\Movie;
+use App\Models\Showing;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,11 +18,28 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/movies', function () {
+    return Inertia::render('Movies', [
+        'movies' => Movie::allWithShowings(),
+    ]);
+})->middleware(['auth', 'verified'])->name('movies');
+
+Route::get('/showings', function () {
+    return Inertia::render('Showings', [
+        'showings' => Showing::allWithMovie(),
+    ]);
+})->middleware(['auth', 'verified'])->name('showings');
 
 require __DIR__.'/auth.php';

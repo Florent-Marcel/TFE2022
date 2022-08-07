@@ -1,0 +1,74 @@
+<script setup>
+import { defineComponent } from 'vue'
+import { Link } from '@inertiajs/inertia-vue3';
+</script>
+
+<template>
+    <div class="menu">
+        <div class="elem-menu">
+            <Link :class="{'actif' : route().current() == 'movies'}" :href="route('movies')">Films</Link>
+            <div class="actif-bar" v-if="route().current() == 'movies'"></div>
+        </div>
+        <div class="elem-menu">
+            <Link :class="{'actif' : route().current() == 'showings'}" :href="route('showings')">Showings</Link>
+            <div class="actif-bar" v-if="route().current() == 'showings'"></div>
+        </div>
+    </div>
+</template>
+
+
+<script>
+
+export default defineComponent({
+    props:{
+    }
+})
+
+</script>
+
+<style scoped>
+.menu{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    background: #22577A;
+    color: #F4F3F7;
+    margin-bottom: 10px;
+}
+
+.menu .elem-menu{
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    flex-wrap: wrap;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.menu .elem-menu a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.menu .elem-menu:hover{
+    filter:brightness(150%);
+}
+
+.menu .elem-menu .actif{
+    font-family: 'Nunito-black';
+}
+
+.elem-menu .actif-bar {
+    width: 100%;
+    background: #DDDAE7;
+    height: 5px;
+    position: absolute;
+    bottom: 0px;
+}
+</style>
