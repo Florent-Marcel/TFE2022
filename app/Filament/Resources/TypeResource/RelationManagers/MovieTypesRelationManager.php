@@ -8,6 +8,8 @@ use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -24,6 +26,19 @@ class MovieTypesRelationManager extends RelationManager
 
     public static function table(Table $table): Table
     {
-        return MovieTypeResource::table($table);
+        return $table
+            ->columns([
+                TextColumn::make('movie.title')->searchable()->sortable(),
+            ])
+            ->filters([
+
+            ])
+            ->actions([
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\DeleteBulkAction::make(),
+            ]);
     }
 }
