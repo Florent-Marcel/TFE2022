@@ -16,6 +16,10 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\MultiSelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -85,10 +89,12 @@ class MovieResource extends Resource
     {
         return $table
             ->columns([
-                //
+                ImageColumn::make('poster_url')->label('Poster'),
+                TextColumn::make('title')->searchable(),
+                TextColumn::make('date_release')->searchable(),
             ])
             ->filters([
-                //
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
