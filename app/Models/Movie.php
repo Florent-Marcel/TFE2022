@@ -30,6 +30,10 @@ class Movie extends Model
         return $this->belongsToMany(Type::class, MovieType::class);
     }
 
+    public function movieTypes(){
+        return $this->hasMany(MovieType::class);
+    }
+
     public function personalitiesProfessionsMovies(){
         return $this->hasMany(PersonalityProfessionMovie::class);
     }

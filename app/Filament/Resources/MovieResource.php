@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\MovieResource\Pages;
 use App\Filament\Resources\MovieResource\RelationManagers;
+use App\Filament\Resources\MovieResource\RelationManagers\MovieTypesRelationManager;
 use App\Models\Movie;
 use App\Models\Type;
 use Filament\Forms;
@@ -106,7 +107,7 @@ class MovieResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\MovieTypesRelationManager::class,
         ];
     }
 
