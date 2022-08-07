@@ -20,7 +20,7 @@ class CreateMovie extends CreateRecord
     {
         $movie = static::getModel()::create($data);
 
-        if(isset($data['tmdb_data']) && $data['tmdb_data']){
+        if(isset($data['tmdb_data'], $data['tmdb_data']['en'])){
             $tmdbData = json_decode($data['tmdb_data'], true);
 
             $movieCredits = Movie::getCredids($tmdbData['en']['id']);
@@ -40,7 +40,6 @@ class CreateMovie extends CreateRecord
             }
             MovieType::insert($movieTypesToAdd);
         }
-        $data['synopsis'] = $data['tmdb_data'];
         return $movie;
     }
 }

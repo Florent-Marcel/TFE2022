@@ -41,9 +41,7 @@ class MovieResource extends Resource
             }
         }
 
-        if(isset($data)){
-            return self::getFormWithTMDB($form, $data);
-        }
+        return self::getFormWithTMDB($form, isset($data) ? $data : "");
 
         return self::getForm($form);
     }
@@ -51,14 +49,14 @@ class MovieResource extends Resource
     public static function getFormWithTMDB(Form $form, $data): Form{
         return $form
             ->schema([
-                TextInput::make('title')->default($data['en']['title']),
-                DatePicker::make('date_release')->default($data['en']['release_date']),
-                TextInput::make('duration')->numeric()->default($data['en']['runtime']),
-                TextInput::make('rating')->numeric()->default($data['en']['vote_average']),
-                Textarea::make('synopsis')->default($data['en']['overview']),
-                TextInput::make('tmdb_id')->numeric()->unique()->default($data['en']['id']),
-                TextInput::make('poster_url')->url()->default($data['en']['poster_url']),
-                Hidden::make('tmdb_data')->default(json_encode($data)),
+                TextInput::make('title')->default(isset($data['en']['title']) ? $data['en']['title'] : "")->required(),
+                DatePicker::make('date_release')->default(isset($data['en']['release_date']) ? $data['en']['release_date'] : "")->required(),
+                TextInput::make('duration')->numeric()->default(isset($data['en']['runtime']) ? $data['en']['runtime'] : "")->required(),
+                TextInput::make('rating')->numeric()->default(isset($data['en']['vote_average']) ? $data['en']['vote_average'] : ""),
+                Textarea::make('synopsis')->default(isset($data['en']['overview']) ? $data['en']['overview'] : ""),
+                TextInput::make('tmdb_id')->numeric()->unique()->default(isset($data['en']['id']) ? $data['en']['id'] : "")->required(),
+                TextInput::make('poster_url')->url()->default(isset($data['en']['poster_url']) ? $data['en']['poster_url'] : ""),
+                Hidden::make('tmdb_data')->default(isset($data) ? json_encode($data) : ""),
             ]);
     }
 

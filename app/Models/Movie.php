@@ -91,10 +91,10 @@ class Movie extends Model
                 'title' => $tmdbData['en']['title'],
                 'date_release' => $tmdbData['en']['release_date'],
                 'duration' => $tmdbData['en']['runtime'],
-                'rating' => $tmdbData['en']['vote_average'],
+                'rating' => isset($tmdbData['en']['vote_average']) ? $tmdbData['en']['vote_average'] : "",
                 'synopsis' => $tmdbData['en']['overview'],
                 'tmdb_id' => $tmdbData['en']['id'],
-                'poster_url' => $tmdbData['en']['poster_url'],
+                'poster_url' => isset($tmdbData['en']['poster_url']) ? $tmdbData['en']['poster_url'] : "",
             ]);
         }
 
