@@ -46,8 +46,6 @@ class MovieResource extends Resource
         }
 
         return self::getFormWithTMDB($form, isset($data) ? $data : "");
-
-        return self::getForm($form);
     }
 
     public static function getFormWithTMDB(Form $form, $data): Form{
@@ -92,6 +90,7 @@ class MovieResource extends Resource
                 ImageColumn::make('poster_url')->label('Poster'),
                 TextColumn::make('title')->searchable(),
                 TextColumn::make('date_release')->searchable(),
+                TextColumn::make('tmdb_id')->searchable(),
             ])
             ->filters([
 

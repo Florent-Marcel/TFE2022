@@ -9,12 +9,18 @@ class Type extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'tmdb_id', 'type'
     ];
 
     public function movies(){
         return $this->belongsToMany(Movie::class, MovieType::class);
+    }
+
+    public function movieTypes(){
+        return $this->hasMany(MovieType::class);
     }
 
     //Array from tmdb structured like this:
