@@ -9,6 +9,8 @@ class Personality extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'tmdb_id', 'name', 'profile_url',
     ];

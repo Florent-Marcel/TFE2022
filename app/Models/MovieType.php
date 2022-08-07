@@ -10,6 +10,8 @@ class MovieType extends Pivot
 {
     protected $table = 'movies_types';
 
+    public $timestamps = false;
+
     public function movie(){
         return $this->belongsTo(Movie::class);
     }

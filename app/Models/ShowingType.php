@@ -9,6 +9,8 @@ class ShowingType extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'type', 'is_event',
     ];

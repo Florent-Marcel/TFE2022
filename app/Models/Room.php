@@ -9,6 +9,8 @@ class Room extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'num_room', 'nb_places'
     ];

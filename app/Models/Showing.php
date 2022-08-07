@@ -9,6 +9,8 @@ class Showing extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'begin', 'price', 'buffer'
     ];

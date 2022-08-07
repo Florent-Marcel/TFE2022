@@ -9,6 +9,8 @@ class RoomType extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $table = "room_types";
 
     protected $fillable = [
