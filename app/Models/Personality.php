@@ -17,6 +17,14 @@ class Personality extends Model
         return $this->hasMany(PersonalityProfessionMovie::class);
     }
 
+    public function movies(){
+        return $this->belongsToMany(Movie::class, PersonalityProfessionMovie::class);
+    }
+
+    public function professions(){
+        return $this->belongsToMany(Profession::class, PersonalityProfessionMovie::class);
+    }
+
     public static function addFromTMDB($tmdbData){
         $toAdd = [];
         unset($tmdbData['id']);
