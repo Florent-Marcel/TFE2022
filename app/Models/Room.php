@@ -20,7 +20,7 @@ class Room extends Model
         return $this->belongsTo(RoomType::class);
     }
 
-    public function movies(){
+    public function showings(){
         return $this->hasMany(Showing::class);
     }
 }

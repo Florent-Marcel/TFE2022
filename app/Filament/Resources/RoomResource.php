@@ -58,6 +58,7 @@ class RoomResource extends Resource
     {
         return [
             RelationManagers\RoomTypeRelationManager::class,
+            RelationManagers\ShowingsRelationManager::class,
         ];
     }
 
