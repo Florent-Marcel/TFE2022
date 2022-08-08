@@ -57,14 +57,13 @@ class TicketResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\UserRelationManager::class,
         ];
     }
 
