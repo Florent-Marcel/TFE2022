@@ -37,7 +37,7 @@ import { Head } from '@inertiajs/inertia-vue3';
                     <span>{{movie.title}}</span>
                 </div>
                 <div class="movie-poster">
-                    <img v-if="movie.poster_url" :src="movie.poster_url">
+                    <img v-if="movie.poster_url && movie.canLoadIMG" :src="movie.poster_url" @load="loadNext()">
                     <img v-else>
                 </div>
                 <div class="movie-dates" v-if="findExtremitySceance(movie.showings, true) != findExtremitySceance(movie.showings, false)">
@@ -65,13 +65,28 @@ export default defineComponent({
                 genre: null,
                 title: null,
                 },
+            loadIndex: 0,
+            maxImgLoadSimultaneous: 20,
         }
     },
 
-    mounted(){
+    beforeMount(){
+        for(let movie of this.movies){
+            movie.canLoadIMG = false
+            if(this.loadIndex < this.maxImgLoadSimultaneous){
+                movie.canLoadIMG = true;
+                this.loadIndex++;
+            }
+        }
     },
 
     methods:{
+        loadNext(){
+            if(this.movies[this.loadIndex]){
+                this.movies[this.loadIndex].canLoadIMG = true;
+            }
+            this.loadIndex++;
+        },
         findExtremitySceance(sceances, first=false){
             let current = null;
             for(let sceance of sceances){
