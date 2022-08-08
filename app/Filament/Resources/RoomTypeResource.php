@@ -8,6 +8,7 @@ use App\Models\RoomType;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
@@ -45,14 +46,14 @@ class RoomTypeResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\RoomsRelationManager::class,
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -60,5 +61,5 @@ class RoomTypeResource extends Resource
             'create' => Pages\CreateRoomType::route('/create'),
             'edit' => Pages\EditRoomType::route('/{record}/edit'),
         ];
-    }    
+    }
 }

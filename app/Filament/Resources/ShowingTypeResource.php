@@ -51,14 +51,14 @@ class ShowingTypeResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -66,5 +66,5 @@ class ShowingTypeResource extends Resource
             'create' => Pages\CreateShowingType::route('/create'),
             'edit' => Pages\EditShowingType::route('/{record}/edit'),
         ];
-    }    
+    }
 }
