@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('tmdb_id')->unique();
             $table->string("name", 256);
             $table->string("profile_url", 512)->nullable();
+            $table->softDeletes();
         });
     }
 

@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('languages', function (Blueprint $table) {
             $table->id();
             $table->string("language", 8)->unique();
+            $table->softDeletes();
         });
     }
 

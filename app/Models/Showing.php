@@ -4,15 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Showing extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     public $timestamps = false;
 
     protected $fillable = [
-        'begin', 'price', 'buffer', 'movie_id', 'showing_type_id', 'language_id', 'room_id' 
+        'begin', 'price', 'buffer', 'movie_id', 'showing_type_id', 'language_id', 'room_id'
     ];
 
     public function showingType(){

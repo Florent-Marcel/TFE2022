@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string("type", 64)->unique();
             $table->boolean("is_event");
+            $table->softDeletes();
         });
     }
 

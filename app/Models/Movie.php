@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use GuzzleHttp;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Http;
 
 class Movie extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     public $timestamps = false;
 
