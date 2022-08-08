@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('firstname', 128)->nullable();
             $table->string('lastname', 128)->nullable();
-            $table->timestamp('last_login', 128)->nullable();
+            $table->timestamp('last_login')->nullable();
             $table->boolean("is_blocked")->default(false);
             $table->boolean("is_admin")->default(false);
             $table->rememberToken();

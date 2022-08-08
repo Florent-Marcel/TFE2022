@@ -25,7 +25,7 @@ class ProfessionResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('profession')->required()->unique(),
+                TextInput::make('profession')->required()->unique()->maxLength(128),
             ]);
     }
 

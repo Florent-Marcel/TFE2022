@@ -30,7 +30,7 @@ class TicketResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('unique_code')->default(Uuid::uuid())->disabled()->required(),
+                TextInput::make('unique_code')->default(Uuid::uuid())->disabled()->required()->maxLength(512),
                 Select::make('user_id')->relationship('user', 'email')->required(),
                 Select::make('showing_id')->relationship('showing', 'begin')->required(),
                 Toggle::make('is_used'),

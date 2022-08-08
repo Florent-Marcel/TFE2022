@@ -32,9 +32,8 @@ class UserResource extends Resource
                 TextInput::make('name')->required(),
                 TextInput::make('email')->required(),
                 TextInput::make('password')->password()->dehydrated(fn($state) => filled($state))->dehydrateStateUsing(fn($state) => Hash::make($state)),
-                TextInput::make('firstname'),
-                TextInput::make('lastname'),
-                TextInput::make('break')->hidden(),
+                TextInput::make('firstname')->maxLength(128),
+                TextInput::make('lastname')->maxLength(128),
                 Checkbox::make('is_blocked')->label('Blocked'),
                 Checkbox::make('is_admin')->label('Admin'),
             ]);

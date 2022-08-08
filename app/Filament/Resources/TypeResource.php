@@ -26,7 +26,7 @@ class TypeResource extends Resource
         return $form
             ->schema([
                 TextInput::make('tmdb_id')->numeric()->unique()->required(),
-                TextInput::make('type')->unique()->required(),
+                TextInput::make('type')->unique()->required()->maxLength(64),
             ]);
     }
 

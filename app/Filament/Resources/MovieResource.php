@@ -66,13 +66,13 @@ class MovieResource extends Resource
     public static function getForm(Form $form): Form{
         return $form
             ->schema([
-                TextInput::make('title'),
+                TextInput::make('title')->maxLength(512),
                 DatePicker::make('date_release'),
                 TextInput::make('duration')->numeric(),
                 TextInput::make('rating')->numeric(),
                 Textarea::make('synopsis'),
                 TextInput::make('tmdb_id')->unique()->numeric(),
-                TextInput::make('poster_url')->url(),
+                TextInput::make('poster_url')->url()->maxLength(512),
                 Hidden::make('tmdb_data'),
             ]);
     }

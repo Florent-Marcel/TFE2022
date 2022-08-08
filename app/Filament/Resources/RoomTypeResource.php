@@ -26,7 +26,7 @@ class RoomTypeResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('type')->required()->unique(),
+                TextInput::make('type')->required()->unique()->maxLength(64),
             ]);
     }
 

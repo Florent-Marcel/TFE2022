@@ -29,7 +29,7 @@ class PersonalityResource extends Resource
             ->schema([
                 TextInput::make('name')->unique()->required(),
                 TextInput::make('tmdb_id')->numeric()->unique()->required(),
-                TextInput::make('profile_url')->url(),
+                TextInput::make('profile_url')->url()->maxLength(512),
             ]);
     }
 
