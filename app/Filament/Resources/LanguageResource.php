@@ -42,17 +42,17 @@ class LanguageResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ShowingsRelationManager::class,
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -60,5 +60,5 @@ class LanguageResource extends Resource
             'create' => Pages\CreateLanguage::route('/create'),
             'edit' => Pages\EditLanguage::route('/{record}/edit'),
         ];
-    }    
+    }
 }

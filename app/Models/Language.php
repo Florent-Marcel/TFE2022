@@ -15,7 +15,7 @@ class Language extends Model
         'language',
     ];
 
-    public function movies(){
+    public function showings(){
         return $this->hasMany(Showing::class);
     }
 }

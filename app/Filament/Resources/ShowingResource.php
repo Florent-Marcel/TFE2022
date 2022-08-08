@@ -85,17 +85,17 @@ class ShowingResource extends Resource
                                 Tables\Actions\EditAction::make(),
                             ])
                             ->bulkActions([
-                                Tables\Actions\DeleteBulkAction::make(),
+
                             ]);
                     }
-    
+
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\LanguageRelationManager::class,
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -103,5 +103,5 @@ class ShowingResource extends Resource
             'create' => Pages\CreateShowing::route('/create'),
             'edit' => Pages\EditShowing::route('/{record}/edit'),
         ];
-    }    
+    }
 }
