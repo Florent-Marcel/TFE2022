@@ -16,7 +16,7 @@ class ShowingType extends Model
         'type', 'is_event',
     ];
 
-    public function movies(){
+    public function showings(){
         return $this->hasMany(Showing::class);
     }
 }

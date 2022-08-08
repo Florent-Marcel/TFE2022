@@ -93,6 +93,7 @@ class ShowingResource extends Resource
     {
         return [
             RelationManagers\LanguageRelationManager::class,
+            RelationManagers\ShowingTypeRelationManager::class,
         ];
     }
 
