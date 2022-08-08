@@ -12,19 +12,19 @@ class Showing extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'begin', 'price', 'buffer'
+        'begin', 'price', 'buffer', 'movie_id', 'showing_type_id', 'language_id', 'room_id' 
     ];
 
     public function showingType(){
-        return $this->hasOne(ShowingType::class);
+        return $this->belongsTo(ShowingType::class);
     }
 
     public function language(){
-        return $this->hasOne(Language::class);
+        return $this->belongsTo(Language::class);
     }
 
     public function room(){
-        return $this->hasOne(Room::class);
+        return $this->belongsTo(Room::class);
     }
 
     public function tickets(){
