@@ -12,11 +12,11 @@ class Room extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'num_room', 'nb_places'
+        'num_room', 'nb_places', 'room_type_id',
     ];
 
     public function roomType(){
-        return $this->hasOne(RoomType::class);
+        return $this->belongsTo(RoomType::class);
     }
 
     public function movies(){
