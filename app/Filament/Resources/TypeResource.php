@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TypeResource\Pages;
 use App\Filament\Resources\TypeResource\RelationManagers;
+use App\Filament\Widgets\TypesChart;
 use App\Models\Type;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
@@ -61,6 +62,13 @@ class TypeResource extends Resource
             'index' => Pages\ListTypes::route('/'),
             'create' => Pages\CreateType::route('/create'),
             'edit' => Pages\EditType::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            TypesChart::class,
         ];
     }
 }

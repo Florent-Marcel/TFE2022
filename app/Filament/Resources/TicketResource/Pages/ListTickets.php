@@ -16,4 +16,8 @@ class ListTickets extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    protected function getFooterWidgets(): array{
+        return TicketResource::getWidgets();
+    }
 }

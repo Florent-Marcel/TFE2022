@@ -20,4 +20,6 @@ class Ticket extends Model
     public function showing(){
         return $this->belongsTo(Showing::class);
     }
+
+    
 }
