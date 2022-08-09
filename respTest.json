@@ -1,0 +1,72 @@
+{
+    "id": "7FC983735E185290R",
+    "intent": "CAPTURE",
+    "status": "COMPLETED",
+    "purchase_units": [
+        {
+            "reference_id": "default",
+            "amount": {
+                "currency_code": "USD",
+                "value": "0.01"
+            },
+            "payee": {
+                "email_address": "sb-0qlpm20022832@business.example.com",
+                "merchant_id": "ULGW49W7DPUXY"
+            },
+            "shipping": {
+                "name": {
+                    "full_name": "John Doe"
+                },
+                "address": {
+                    "address_line_1": "Rue du Cornet 6",
+                    "admin_area_2": "Verviers",
+                    "admin_area_1": "BE_zip = 4800",
+                    "postal_code": "4800",
+                    "country_code": "BE"
+                }
+            },
+            "payments": {
+                "captures": [
+                    {
+                        "id": "34471076FK057131A",
+                        "status": "COMPLETED",
+                        "amount": {
+                            "currency_code": "USD",
+                            "value": "0.01"
+                        },
+                        "final_capture": true,
+                        "seller_protection": {
+                            "status": "ELIGIBLE",
+                            "dispute_categories": [
+                                "ITEM_NOT_RECEIVED",
+                                "UNAUTHORIZED_TRANSACTION"
+                            ]
+                        },
+                        "create_time": "2022-08-09T20:12:19Z",
+                        "update_time": "2022-08-09T20:12:19Z"
+                    }
+                ]
+            }
+        }
+    ],
+    "payer": {
+        "name": {
+            "given_name": "John",
+            "surname": "Doe"
+        },
+        "email_address": "sb-1oqk019965829@personal.example.com",
+        "payer_id": "65GRLUBRJ8YSN",
+        "address": {
+            "country_code": "BE"
+        }
+    },
+    "create_time": "2022-08-09T20:12:11Z",
+    "update_time": "2022-08-09T20:12:19Z",
+    "links": [
+        {
+            "href": "https://api.sandbox.paypal.com/v2/checkout/orders/7FC983735E185290R",
+            "rel": "self",
+            "method": "GET"
+        }
+    ]
+}

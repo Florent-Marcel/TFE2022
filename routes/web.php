@@ -42,4 +42,9 @@ Route::get('/showings', function () {
     ]);
 })->middleware(['auth', 'verified'])->name('showings');
 
+Route::get('/test', function () {
+    return Inertia::render('PaypalTest', [
+    ]);
+})->name('test');
+
 require __DIR__.'/auth.php';
