@@ -1,5 +1,7 @@
 <script setup>
 import BreezeAuthenticatedLayout from '@/Layouts/Auth.vue';
+import Modal from '@/Components/Modal.vue';
+import InfoMovie from '@/Components/InfoMovie.vue';
 import { defineComponent } from 'vue'
 import { Head } from '@inertiajs/inertia-vue3';
 </script>
@@ -31,8 +33,8 @@ import { Head } from '@inertiajs/inertia-vue3';
             </div>
         </div>
 
-        <div class="movie-wrapper">
-            <div class="movie-rectangle" v-for="movie in movies" :key="movie.id" v-show="filter(movie)">
+        <div class="movie-wrapper" scroll="false">
+            <div class="movie-rectangle" v-for="movie in movies" :key="movie.id" v-show="filter(movie)" @click="getMovie(movie)">
                 <div class="movie-title">
                     <span>{{movie.title}}</span>
                 </div>
@@ -50,6 +52,9 @@ import { Head } from '@inertiajs/inertia-vue3';
         </div>
 
     </BreezeAuthenticatedLayout>
+    <Modal :enabled="true" v-if="dataMovie.id" @close="movieClose">
+        <InfoMovie :movie="dataMovie"></InfoMovie>
+    </Modal>
 </template>
 
 <script>
@@ -67,6 +72,7 @@ export default defineComponent({
                 },
             loadIndex: 0,
             maxImgLoadSimultaneous: 20,
+            dataMovie: {},
         }
     },
 
@@ -81,6 +87,23 @@ export default defineComponent({
     },
 
     methods:{
+        async getMovie(movie){
+            if(movie && movie.id){
+                let app = this;
+                return axios.get("/api/movie/"+movie.id)
+                    .then(function(response){
+                        console.log(response);
+                        app.dataMovie = response.data;
+                        return app.dataMovie;
+                    })
+                    .catch(function(response){
+                        console.log(response)
+                    })
+            }
+        },
+        movieClose(){
+            this.dataMovie = {};
+        },
         loadNext(){
             if(this.movies[this.loadIndex]){
                 this.movies[this.loadIndex].canLoadIMG = true;
@@ -156,15 +179,36 @@ export default defineComponent({
                 }
             }
             return genres;
+        },
+        canScroll(){
+            return Object.keys(this.dataMovie).length == 0;
         }
     },
     watch: {
+        dataMovie(){
+            if(this.canScroll){
+                window.onscroll=function(){}
+            } else{
+                let x = window.scrollX;
+                let y = window.scrollY;
+                window.onscroll=function(){window.scrollTo(x, y);}
+            }
+            
+        }
     }
 })
 
 </script>
 
+<style>
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
+}
+</style>
+
 <style scoped>
+
 .title{
     text-align: center;
 }

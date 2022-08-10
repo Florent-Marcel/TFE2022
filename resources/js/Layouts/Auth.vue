@@ -55,5 +55,10 @@ h3{
     font-family: 'Nunito-black';
     font-size: 19px;
 }
+
+h4{
+    font-family: 'Nunito-black';
+    font-size: 16px;
+}
 </style>
 
