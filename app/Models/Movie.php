@@ -105,4 +105,24 @@ class Movie extends Model
 
         return null;
     }
+
+    public static function getMovieByID($id){
+        $movie = Movie::findOrFail($id);
+        $movie->showings;
+        foreach($movie->showings as &$show){
+            $show->showingType;
+            $show->language;
+            $show->room->roomType;
+        }
+        unset($show);
+        $movie->types;
+        $movie->personalitiesProfessionsMovies;
+        foreach($movie->personalitiesProfessionsMovies as &$perso){
+            $perso->personality;
+            $perso->profession;
+        }
+        unset($perso);
+
+        return $movie;
+    }
 }
