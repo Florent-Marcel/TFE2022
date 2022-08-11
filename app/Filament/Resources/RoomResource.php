@@ -7,6 +7,10 @@ use App\Filament\Resources\RoomResource\RelationManagers;
 use App\Models\Room;
 use App\Models\RoomType;
 use Filament\Forms;
+use Filament\Forms\Components\Builder;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
@@ -16,8 +20,9 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Schema;
+use Filament\Forms\Components\ViewField;
 
 class RoomResource extends Resource
 {
@@ -32,6 +37,7 @@ class RoomResource extends Resource
                 TextInput::make('num_room')->required()->unique()->numeric(),
                 TextInput::make('nb_places')->required()->numeric(),
                 Select::make('room_type_id')->required()->relationship('roomType', 'type'),
+                ViewField::make('json')->view('forms.components.range-slider'),
             ]);
     }
 
@@ -68,6 +74,7 @@ class RoomResource extends Resource
             'index' => Pages\ListRooms::route('/'),
             'create' => Pages\CreateRoom::route('/create'),
             'edit' => Pages\EditRoom::route('/{record}/edit'),
+            'layout' => Pages\EditLayout::route('/{record}/layout'),
         ];
     }
 }

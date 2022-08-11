@@ -14,6 +14,7 @@ class EditRoom extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
+            Actions\Action::make("layout")->url(RoomResource::getUrl("layout", $this->getRecord()->id)),
         ];
     }
 }

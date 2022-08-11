@@ -13,7 +13,7 @@ class Room extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'num_room', 'nb_places', 'room_type_id',
+        'num_room', 'nb_places', 'room_type_id', 'json'
     ];
 
     public function roomType(){
