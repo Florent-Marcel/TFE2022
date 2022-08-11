@@ -13,7 +13,7 @@ class Room extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'num_room', 'nb_places', 'room_type_id', 'json'
+        'num_room', 'nb_places', 'room_type_id', 'layout_json', 'nb_rows', 'max_places_row'
     ];
 
     public function roomType(){
@@ -22,5 +22,14 @@ class Room extends Model
 
     public function showings(){
         return $this->hasMany(Showing::class);
+    }
+
+    public static function generateJson($nbRows, $maxPlacesRow){
+        $nbSeats = $nbRows * $maxPlacesRow;
+        $res = [];
+        for($i=1; $i<=$nbSeats; $i++){
+            $res[$i] = ["activated" => true, "num_seat" =>$i];
+        }
+        return json_encode($res);
     }
 }

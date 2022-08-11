@@ -34,10 +34,12 @@ class RoomResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('num_room')->required()->unique()->numeric(),
-                TextInput::make('nb_places')->required()->numeric(),
+                TextInput::make('num_room')->required()->unique(ignoreRecord: true)->numeric(),
                 Select::make('room_type_id')->required()->relationship('roomType', 'type'),
-                ViewField::make('json')->view('forms.components.range-slider'),
+                TextInput::make('nb_rows')->required()->numeric()->minValue(1)->integer()->label('Number of row'),
+                TextInput::make('max_places_row')->required()->numeric()->minValue(1)->label('Max places per row')->integer(),
+                TextInput::make('nb_places')->numeric()->disabled()->integer(),
+                TextInput::make('layout_json')->disabled(),
             ]);
     }
 

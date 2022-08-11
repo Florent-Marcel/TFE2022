@@ -16,4 +16,9 @@ class ListRooms extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    protected function getDefaultTableSortColumn(): ?string
+    {
+        return 'num_room';
+    }
 }

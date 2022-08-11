@@ -18,6 +18,9 @@ return new class extends Migration
             $table->foreignId("room_type_id")->constrained("room_types");
             $table->integer("num_room")->unique();
             $table->integer("nb_places");
+            $table->integer("nb_rows");
+            $table->integer("max_places_row");
+            $table->text("layout_json");
             $table->softDeletes();
         });
     }
