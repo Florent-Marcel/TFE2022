@@ -27,8 +27,8 @@ class PersonalityResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')->unique()->required(),
-                TextInput::make('tmdb_id')->numeric()->unique()->required(),
+                TextInput::make('name')->unique(ignoreRecord: true)->required(),
+                TextInput::make('tmdb_id')->numeric()->unique(ignoreRecord: true)->required(),
                 TextInput::make('profile_url')->url()->maxLength(512),
             ]);
     }

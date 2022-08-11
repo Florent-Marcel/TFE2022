@@ -28,7 +28,7 @@ class ShowingTypeResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('type')->unique()->required()->maxLength(64),
+                TextInput::make('type')->unique(ignoreRecord: true)->required()->maxLength(64),
                 Checkbox::make('is_event'),
             ]);
     }

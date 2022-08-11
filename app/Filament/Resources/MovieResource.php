@@ -57,23 +57,9 @@ class MovieResource extends Resource
                 TextInput::make('duration')->numeric()->default(isset($data['en']['runtime']) ? $data['en']['runtime'] : "")->required(),
                 TextInput::make('rating')->numeric()->default(isset($data['en']['vote_average']) ? $data['en']['vote_average'] : ""),
                 Textarea::make('synopsis')->default(isset($data['en']['overview']) ? $data['en']['overview'] : ""),
-                TextInput::make('tmdb_id')->numeric()->unique()->default(isset($data['en']['id']) ? $data['en']['id'] : "")->required(),
+                TextInput::make('tmdb_id')->numeric()->unique(ignoreRecord: true)->default(isset($data['en']['id']) ? $data['en']['id'] : "")->required(),
                 TextInput::make('poster_url')->url()->default(isset($data['en']['poster_url']) ? $data['en']['poster_url'] : ""),
                 Hidden::make('tmdb_data')->default(isset($data) ? json_encode($data) : ""),
-            ]);
-    }
-
-    public static function getForm(Form $form): Form{
-        return $form
-            ->schema([
-                TextInput::make('title')->maxLength(512),
-                DatePicker::make('date_release'),
-                TextInput::make('duration')->numeric(),
-                TextInput::make('rating')->numeric(),
-                Textarea::make('synopsis'),
-                TextInput::make('tmdb_id')->unique()->numeric(),
-                TextInput::make('poster_url')->url()->maxLength(512),
-                Hidden::make('tmdb_data'),
             ]);
     }
 

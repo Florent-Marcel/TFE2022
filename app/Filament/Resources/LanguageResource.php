@@ -25,7 +25,7 @@ class LanguageResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('language')->required()->unique()->maxLength(8),
+                TextInput::make('language')->required()->unique(ignoreRecord: true)->maxLength(8),
             ]);
     }
 
