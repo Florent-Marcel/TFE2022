@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Personality extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    public $timestamps = false;
 
     protected $fillable = [
         'tmdb_id', 'name', 'profile_url',
@@ -15,6 +18,14 @@ class Personality extends Model
 
     public function personalitiesProfessionsMovies(){
         return $this->hasMany(PersonalityProfessionMovie::class);
+    }
+
+    public function movies(){
+        return $this->belongsToMany(Movie::class, PersonalityProfessionMovie::class);
+    }
+
+    public function professions(){
+        return $this->belongsToMany(Profession::class, PersonalityProfessionMovie::class);
     }
 
     public static function addFromTMDB($tmdbData){

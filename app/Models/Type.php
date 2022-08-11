@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Type extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    public $timestamps = false;
 
     protected $fillable = [
         'tmdb_id', 'type'
@@ -15,6 +18,10 @@ class Type extends Model
 
     public function movies(){
         return $this->belongsToMany(Movie::class, MovieType::class);
+    }
+
+    public function movieTypes(){
+        return $this->hasMany(MovieType::class);
     }
 
     //Array from tmdb structured like this:

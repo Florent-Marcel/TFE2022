@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eb386eceb51663c6bcd62f8318122cf1",
+    "content-hash": "3e358968f6cc641e0c623bbd707f334a",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -1035,6 +1035,80 @@
             "time": "2022-08-04T21:29:35+00:00"
         },
         {
+            "name": "flowframe/laravel-trend",
+            "version": "v0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Flowframe/laravel-trend.git",
+                "reference": "10f80dad8225caca58d286b580ebd27c2a0bf3fa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Flowframe/laravel-trend/zipball/10f80dad8225caca58d286b580ebd27c2a0bf3fa",
+                "reference": "10f80dad8225caca58d286b580ebd27c2a0bf3fa",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^8.37|^9",
+                "php": "^8.0",
+                "spatie/laravel-package-tools": "^1.4.3"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^5.3|^6.1",
+                "orchestra/testbench": "^6.15|^7.0",
+                "pestphp/pest": "^1.18",
+                "pestphp/pest-plugin-laravel": "^1.1",
+                "spatie/laravel-ray": "^1.23",
+                "vimeo/psalm": "^4.8"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Flowframe\\Trend\\TrendServiceProvider"
+                    ],
+                    "aliases": {
+                        "Trend": "Flowframe\\Trend\\TrendFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Flowframe\\Trend\\": "src",
+                    "Flowframe\\Trend\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lars Klopstra",
+                    "email": "lars@flowframe.nl",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Easily generate model trends",
+            "homepage": "https://github.com/flowframe/laravel-trend",
+            "keywords": [
+                "Flowframe",
+                "laravel",
+                "laravel-trend"
+            ],
+            "support": {
+                "issues": "https://github.com/Flowframe/laravel-trend/issues",
+                "source": "https://github.com/Flowframe/laravel-trend/tree/v0.1.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/larsklopstra",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-02-25T13:52:24+00:00"
+        },
+        {
             "name": "fruitcake/php-cors",
             "version": "v1.2.0",
             "source": {
@@ -1741,35 +1815,35 @@
         },
         {
             "name": "laravel/sanctum",
-            "version": "v2.15.1",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sanctum.git",
-                "reference": "31fbe6f85aee080c4dc2f9b03dc6dd5d0ee72473"
+                "reference": "b71e80a3a8e8029e2ec8c1aa814b999609ce16dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sanctum/zipball/31fbe6f85aee080c4dc2f9b03dc6dd5d0ee72473",
-                "reference": "31fbe6f85aee080c4dc2f9b03dc6dd5d0ee72473",
+                "url": "https://api.github.com/repos/laravel/sanctum/zipball/b71e80a3a8e8029e2ec8c1aa814b999609ce16dc",
+                "reference": "b71e80a3a8e8029e2ec8c1aa814b999609ce16dc",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "illuminate/console": "^6.9|^7.0|^8.0|^9.0",
-                "illuminate/contracts": "^6.9|^7.0|^8.0|^9.0",
-                "illuminate/database": "^6.9|^7.0|^8.0|^9.0",
-                "illuminate/support": "^6.9|^7.0|^8.0|^9.0",
-                "php": "^7.2|^8.0"
+                "illuminate/console": "^9.21",
+                "illuminate/contracts": "^9.21",
+                "illuminate/database": "^9.21",
+                "illuminate/support": "^9.21",
+                "php": "^8.0.2"
             },
             "require-dev": {
                 "mockery/mockery": "^1.0",
-                "orchestra/testbench": "^4.0|^5.0|^6.0|^7.0",
-                "phpunit/phpunit": "^8.0|^9.3"
+                "orchestra/testbench": "^7.0",
+                "phpunit/phpunit": "^9.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.x-dev"
+                    "dev-master": "3.x-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -1802,7 +1876,7 @@
                 "issues": "https://github.com/laravel/sanctum/issues",
                 "source": "https://github.com/laravel/sanctum"
             },
-            "time": "2022-04-08T13:39:49+00:00"
+            "time": "2022-07-29T21:33:30+00:00"
         },
         {
             "name": "laravel/serializable-closure",

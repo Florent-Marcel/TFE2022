@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer("duration", false, true);
             $table->double("rating", null, null, true)->nullable();
             $table->text('poster_url', 512)->nullable();
+            $table->softDeletes();
         });
     }
 

@@ -10,18 +10,24 @@ class PersonalityProfessionMovie extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
+    protected $fillable = [
+        'movie_id', 'profession_id', 'personality_id'
+    ];
+
     protected $table = "personalities_professions_movies";
 
-    public function movies(){
-        return $this->belongsToMany(Movie::class);
+    public function movie(){
+        return $this->belongsTo(Movie::class);
     }
 
-    public function personalities(){
-        return $this->belongsToMany(Personality::class);
+    public function personality(){
+        return $this->belongsTo(Personality::class);
     }
 
-    public function professions(){
-        return $this->belongsToMany(Profession::class);
+    public function profession(){
+        return $this->belongsTo(Profession::class);
     }
 
     public static function addFromTMDB($credits, $addedCast, $movie){

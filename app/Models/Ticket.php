@@ -10,14 +10,16 @@ class Ticket extends Model
     use HasFactory;
 
     protected $fillable = [
-        'unique_code', 'is_used', 'is_blocked',
+        'unique_code', 'is_used', 'is_blocked', 'user_id', 'showing_id'
     ];
 
     public function user(){
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function showing(){
-        return $this->hasOne(Showing::class);
+        return $this->belongsTo(Showing::class);
     }
+
+    
 }

@@ -1,5 +1,7 @@
 <script setup>
 import BreezeAuthenticatedLayout from '@/Layouts/Auth.vue';
+import Modal from '@/Components/Modal.vue';
+import InfoMovie from '@/Components/InfoMovie.vue';
 import { defineComponent } from 'vue'
 import { Head } from '@inertiajs/inertia-vue3';
 </script>
@@ -31,13 +33,13 @@ import { Head } from '@inertiajs/inertia-vue3';
             </div>
         </div>
 
-        <div class="movie-wrapper">
-            <div class="movie-rectangle" v-for="movie in movies" :key="movie.id" v-show="filter(movie)">
+        <div class="movie-wrapper" scroll="false">
+            <div class="movie-rectangle" v-for="movie in movies" :key="movie.id" v-show="filter(movie)" @click="getMovie(movie)">
                 <div class="movie-title">
                     <span>{{movie.title}}</span>
                 </div>
                 <div class="movie-poster">
-                    <img v-if="movie.poster_url" :src="movie.poster_url">
+                    <img v-if="movie.poster_url && movie.canLoadIMG" :src="movie.poster_url" @load="loadNext()">
                     <img v-else>
                 </div>
                 <div class="movie-dates" v-if="findExtremitySceance(movie.showings, true) != findExtremitySceance(movie.showings, false)">
@@ -50,6 +52,9 @@ import { Head } from '@inertiajs/inertia-vue3';
         </div>
 
     </BreezeAuthenticatedLayout>
+    <Modal :enabled="true" v-if="dataMovie.id" @close="movieClose">
+        <InfoMovie :movie="dataMovie"></InfoMovie>
+    </Modal>
 </template>
 
 <script>
@@ -65,13 +70,46 @@ export default defineComponent({
                 genre: null,
                 title: null,
                 },
+            loadIndex: 0,
+            maxImgLoadSimultaneous: 20,
+            dataMovie: {},
         }
     },
 
-    mounted(){
+    beforeMount(){
+        for(let movie of this.movies){
+            movie.canLoadIMG = false
+            if(this.loadIndex < this.maxImgLoadSimultaneous){
+                movie.canLoadIMG = true;
+                this.loadIndex++;
+            }
+        }
     },
 
     methods:{
+        async getMovie(movie){
+            if(movie && movie.id){
+                let app = this;
+                return axios.get("/api/movie/"+movie.id)
+                    .then(function(response){
+                        console.log(response);
+                        app.dataMovie = response.data;
+                        return app.dataMovie;
+                    })
+                    .catch(function(response){
+                        console.log(response)
+                    })
+            }
+        },
+        movieClose(){
+            this.dataMovie = {};
+        },
+        loadNext(){
+            if(this.movies[this.loadIndex]){
+                this.movies[this.loadIndex].canLoadIMG = true;
+            }
+            this.loadIndex++;
+        },
         findExtremitySceance(sceances, first=false){
             let current = null;
             for(let sceance of sceances){
@@ -141,15 +179,36 @@ export default defineComponent({
                 }
             }
             return genres;
+        },
+        canScroll(){
+            return Object.keys(this.dataMovie).length == 0;
         }
     },
     watch: {
+        dataMovie(){
+            if(this.canScroll){
+                window.onscroll=function(){}
+            } else{
+                let x = window.scrollX;
+                let y = window.scrollY;
+                window.onscroll=function(){window.scrollTo(x, y);}
+            }
+            
+        }
     }
 })
 
 </script>
 
+<style>
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
+}
+</style>
+
 <style scoped>
+
 .title{
     text-align: center;
 }

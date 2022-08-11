@@ -22,6 +22,7 @@ return new class extends Migration
             $table->dateTime("begin");
             $table->double("price");
             $table->integer("buffer")->default(0);
+            $table->softDeletes();
         });
     }
 

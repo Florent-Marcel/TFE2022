@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use GuzzleHttp;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Http;
 
 class Movie extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     public $timestamps = false;
 
@@ -28,6 +29,10 @@ class Movie extends Model
 
     public function types(){
         return $this->belongsToMany(Type::class, MovieType::class);
+    }
+
+    public function movieTypes(){
+        return $this->hasMany(MovieType::class);
     }
 
     public function personalitiesProfessionsMovies(){
@@ -91,13 +96,33 @@ class Movie extends Model
                 'title' => $tmdbData['en']['title'],
                 'date_release' => $tmdbData['en']['release_date'],
                 'duration' => $tmdbData['en']['runtime'],
-                'rating' => $tmdbData['en']['vote_average'],
+                'rating' => isset($tmdbData['en']['vote_average']) ? $tmdbData['en']['vote_average'] : "",
                 'synopsis' => $tmdbData['en']['overview'],
                 'tmdb_id' => $tmdbData['en']['id'],
-                'poster_url' => $tmdbData['en']['poster_url'],
+                'poster_url' => isset($tmdbData['en']['poster_url']) ? $tmdbData['en']['poster_url'] : "",
             ]);
         }
 
         return null;
+    }
+
+    public static function getMovieByID($id){
+        $movie = Movie::findOrFail($id);
+        $movie->showings;
+        foreach($movie->showings as &$show){
+            $show->showingType;
+            $show->language;
+            $show->room->roomType;
+        }
+        unset($show);
+        $movie->types;
+        $movie->personalitiesProfessionsMovies;
+        foreach($movie->personalitiesProfessionsMovies as &$perso){
+            $perso->personality;
+            $perso->profession;
+        }
+        unset($perso);
+
+        return $movie;
     }
 }

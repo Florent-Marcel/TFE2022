@@ -11,6 +11,9 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import VueMultiselect from 'vue-multiselect'
 import 'vue-multiselect/dist/vue-multiselect.css'
+import moment from 'moment';
+import 'moment/dist/locale/fr';
+import 'moment/dist/locale/en-gb';
 
 library.add(faUser)
 
@@ -23,6 +26,7 @@ createInertiaApp({
         return createApp({ render: () => h(app, props) })
             .use(plugin)
             .use(ZiggyVue, Ziggy)
+            .use(moment)
             .component('font-awesome-icon', FontAwesomeIcon)
             .component('VueMultiselect', VueMultiselect)
             .mount(el);

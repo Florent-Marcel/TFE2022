@@ -28,12 +28,14 @@ class TicketSeeder extends Seeder
             if(rand(0,1)){
                 $is_blocked = !$is_used;
             }
+            $show = $showings->random(1);
             $data[$i] = [
                 "user_id" => $users->random(1)->pluck("id")[0],
-                "showing_id" => $showings->random(1)->pluck("id")[0],
+                "showing_id" => $show->pluck("id")[0],
                 "unique_code" => $faker->uuid(),
                 "is_used" => $is_used,
                 "is_blocked" => $is_blocked,
+                "created_at" => $faker->dateTimeBetween("2022-01-01", $show->pluck("begin")[0]),
             ];
         }
         Ticket::insert($data);
