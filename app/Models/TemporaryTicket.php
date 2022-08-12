@@ -39,4 +39,22 @@ class TemporaryTicket extends Model
 
         return $res->toArray();
     }
+
+    public static function createTemporaryTickets($showId, $seats, $code){
+        if(!Showing::seatsStillAvailable($showId, $seats)){
+            return false;
+        }
+        $show = Showing::findOrFail($showId);
+        $data = [];
+        foreach($seats as $seat){
+            array_push($data, [
+                "code" => $code,
+                "showing_id" => intval($showId),
+                "num_seat" => intval($seat),
+                "user_id" => Auth::id(),
+                "created_at" => now()
+            ]);
+        }
+        return self::insert($data);
+    }
 }

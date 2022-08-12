@@ -60,7 +60,31 @@ class Showing extends Model
             unset($ticket->showing_id);
         }
         unset($ticket);
-        
+
         return $show;
+    }
+
+    public static function seatsStillAvailable($idShow, $seats){
+        $show = self::findOrFail($idShow);
+        if(!is_array($seats) || count($seats) == 0){
+            return false;
+        }
+        $show->tickets;
+        foreach($show->tickets as $ticket){
+            if(!$ticket->is_blocked){
+                if(in_array($ticket->num_seat, $seats)){
+                    return false;
+                }
+            }
+        }
+        $show->temporaryTickets;
+        foreach($show->temporaryTickets as $ticket){
+            if(!$ticket->is_blocked){
+                if(in_array($ticket->num_seat, $seats)){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

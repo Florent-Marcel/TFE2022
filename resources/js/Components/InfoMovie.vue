@@ -43,7 +43,7 @@ import { defineComponent } from 'vue'
             <div class="showings-wrapper">
                 <div class="showing-type" v-for="showingType in showingTypes" :key="showingType">
                     <h4 class="sub-title">
-                        {{showingType.language}} - {{showingType.type}}
+                        {{showingType.language}} - {{showingType.type}} - {{showingType.price}}€
                     </h4>
                     <div class="showing-list">
                         <div class="showing" v-for="show in showingType.showings" :key="show.id">
@@ -74,6 +74,10 @@ export default defineComponent({
         movie: {
             type: Object,
         },
+        idShow: {
+            type: Number,
+            default: 0,
+        }
     },
     data() {
         return {
@@ -127,14 +131,17 @@ export default defineComponent({
                 return res;
             }
             for(let show of this.movie.showings){
-                let key = show.language.id+"_"+show.room.room_type.id;
-                if(!res[key]){
-                    res[key] = {};
-                    res[key].language = show.language.language;
-                    res[key].type = show.room.room_type.type;
-                    res[key].showings = [];
+                if(!this.idShow || show.id == this.idShow){
+                    let key = show.language.id+"_"+show.room.room_type.id;
+                    if(!res[key]){
+                        res[key] = {};
+                        res[key].language = show.language.language;
+                        res[key].type = show.room.room_type.type;
+                        res[key].price = show.price
+                        res[key].showings = [];
+                    }
+                    res[key].showings.push(show);
                 }
-                res[key].showings.push(show);
             }
             console.log(res)
             return res;
@@ -147,6 +154,8 @@ export default defineComponent({
 <style scoped>
 .movie-component{
     padding: 5px;
+    background-color: #235878;
+    color: white;
 }
 
 .movie-poster img{

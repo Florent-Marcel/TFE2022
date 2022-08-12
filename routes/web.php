@@ -2,9 +2,11 @@
 
 use App\Models\Movie;
 use App\Models\Showing;
+use App\Models\TemporaryTicket;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Ramsey\Uuid\Uuid;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,5 +43,15 @@ Route::get('/showings', function () {
         'showings' => Showing::allWithMovie(),
     ]);
 })->middleware(['auth', 'verified'])->name('showings');
+
+Route::get('/seats/{idShow}', function ($idShow) {
+    $show = Showing::showWithSeats($idShow);
+    return Inertia::render('Seats', [
+        'show' => $show,
+        'temporaryTickets' => TemporaryTicket::getTemporaryTicketByShow($idShow),
+        'sessionCode' => Uuid::uuid1(),
+        'movie' => Movie::getMovieByID($show->movie_id)
+    ]);
+})->middleware(['auth', 'verified'])->name('seats');
 
 require __DIR__.'/auth.php';
