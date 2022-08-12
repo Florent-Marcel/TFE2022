@@ -34,6 +34,7 @@ class TicketResource extends Resource
                 TextInput::make('unique_code')->default(Uuid::uuid())->disabled()->required()->maxLength(512),
                 Select::make('user_id')->relationship('user', 'email')->required(),
                 Select::make('showing_id')->relationship('showing', 'begin')->required(),
+                Select::make('num_seat')->required(),
                 Toggle::make('is_used'),
                 Toggle::make('is_blocked'),
             ]);
@@ -48,6 +49,7 @@ class TicketResource extends Resource
                 TextColumn::make('showing.begin')->searchable()->sortable()->label('Begin'),
                 TextColumn::make('showing.movie.title')->searchable()->sortable()->label('Movie'),
                 TextColumn::make('showing.room.num_room')->searchable()->sortable()->label('Num room'),
+                TextColumn::make('num_seat')->searchable()->sortable(),
                 BooleanColumn::make('is_used')->sortable()->label('Used'),
                 BooleanColumn::make('is_blocked')->sortable()->label('Blocked'),
             ])
