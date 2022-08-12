@@ -36,6 +36,10 @@ class Showing extends Model
         return $this->belongsTo(Movie::class);
     }
 
+    public function temporaryTickets(){
+        return $this->hasMany(TemporaryTicket::class);
+    }
+
     public static function allWithMovie(){
         $showings = Showing::all();
         foreach($showings as &$show){
@@ -43,5 +47,20 @@ class Showing extends Model
             unset($show);
         }
         return $showings;
+    }
+
+    public static function showWithSeats($idShow){
+        $show = Showing::findOrFail($idShow);
+        $show->tickets;
+        $show->room;
+        $show->movie;
+        foreach($show->tickets as &$ticket){
+            unset($ticket->unique_code);
+            unset($ticket->user_id);
+            unset($ticket->showing_id);
+        }
+        unset($ticket);
+        
+        return $show;
     }
 }
