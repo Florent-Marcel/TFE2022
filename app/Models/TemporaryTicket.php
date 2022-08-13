@@ -40,6 +40,14 @@ class TemporaryTicket extends Model
         return $res->toArray();
     }
 
+    public static function getTemporaryTicketByCode($code){
+        $res= self::select('*')->where([
+            ['code', '=', $code],
+        ])->get();
+
+        return $res;
+    }
+
     public static function createTemporaryTickets($showId, $seats, $code){
         if(!Showing::seatsStillAvailable($showId, $seats)){
             return false;

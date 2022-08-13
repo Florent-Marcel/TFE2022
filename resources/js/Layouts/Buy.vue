@@ -52,7 +52,7 @@ const displayMovie = ref(false);
                     <span>{{$dateToLittleString(show.begin)}} - {{$dateToHourString(show.begin)}}</span>
                     <span>{{show.language.language}}</span>
                     <span>{{show.room.room_type.type}}</span>
-                    <span>{{show.price}}€</span>
+                    <span>{{show.price}}€ per ticket</span>
                 </div>
             </div>
         </div>

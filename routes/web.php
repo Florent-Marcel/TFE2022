@@ -54,4 +54,22 @@ Route::get('/seats/{idShow}', function ($idShow) {
     ]);
 })->middleware(['auth', 'verified'])->name('seats');
 
+Route::get('/payment/{code}', function ($code) {
+    $tempTickets = TemporaryTicket::getTemporaryTicketByCode($code);
+    if(count($tempTickets) == 0){
+        //error
+    }
+    if(auth()->id() != $tempTickets[0]->user_id){
+        //error
+    }
+    $show = Showing::showWithSeats($tempTickets[0]->showing_id);
+    $movie = Movie::getMovieByID($show->movie_id);
+    return Inertia::render('Payment', [
+        'show' => $show,
+        'temporaryTickets' => $tempTickets,
+        'sessionCode' => $code,
+        'movie' => $movie,
+    ]);
+})->middleware(['auth', 'verified'])->name('payment');
+
 require __DIR__.'/auth.php';
