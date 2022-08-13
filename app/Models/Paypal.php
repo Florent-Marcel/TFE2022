@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
@@ -20,5 +21,52 @@ class Paypal extends Model
         $data->secret = Crypt::decryptString($data->secret);
 
         return $data;
+    }
+
+    private static function auth($data){
+        $url = $data->base_url."/v1/oauth2/token";
+        $client = new Client();
+        $res = $client->post($url, [
+            "auth" => [
+                $data->client_id,
+                $data->secret,
+            ],
+            "headers" => [
+                "Accept" => "application/json",
+                "Content-Type" => "application/x-www-form-urlencoded",
+            ],
+            "form_params" => [
+                "grant_type" => "client_credentials",
+            ],
+        ]);
+        if($res->getStatusCode() != 200){
+            return false;
+        }
+
+        return json_decode($res->getBody()->getContents());
+    }
+
+    public static function getcapture($idCapture){
+        $data = self::getDecryptedData();
+        $auth = self::auth($data);
+        if(!$auth){
+            return false;
+        }
+
+        $url = $data->base_url."/v2/payments/captures/$idCapture";
+        $accessTocken = $auth->access_token;
+        $client = new Client();
+
+        $res = $client->get($url, [
+            "headers" => [
+                "Authorization" => "Bearer $accessTocken",
+            ],
+        ]);
+
+        if($res->getStatusCode() != 200){
+            return false;
+        }
+
+        return json_decode($res->getBody()->getContents());
     }
 }

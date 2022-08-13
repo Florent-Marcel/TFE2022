@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('paypal', function (Blueprint $table) {
+        Schema::create('paypals', function (Blueprint $table) {
             $table->id();
             $table->string('account');
             $table->string('client_id', 512);
