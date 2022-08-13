@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\TemporaryTicketController;
 use App\Models\Movie;
+use App\Models\Paypal;
 use App\Models\Showing;
 use App\Models\TemporaryTicket;
 use Carbon\Carbon;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -38,6 +40,7 @@ Route::get('/dashboard', function () {
 Route::get('/movies', function () {
     return Inertia::render('Movies', [
         'movies' => Movie::allWithShowings(),
+        'test' => Paypal::getcapture("6J348723VP4207907"),
     ]);
 })->middleware(['auth', 'verified'])->name('movies');
 
