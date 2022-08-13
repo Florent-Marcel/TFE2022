@@ -14,8 +14,6 @@ import axios from 'axios';
 
     <BuyLayout :movie="movie" :show="show" :title="'Select your seats'">
         <div class="wrapper-seats">
-            <span class="info">{{movie.title}}</span>
-            <span class="info">{{show.price}}€</span>
             <span class="label-screen">Screen</span>
             <hr class="screen" title="screen"/>
             <div class="row" v-for="row in seats" :key="row.index">
@@ -23,7 +21,9 @@ import axios from 'axios';
                     <font-awesome-icon :icon="['fa', 'couch']" v-if="seat.activated"/>
                 </div>
             </div>
-            <Button  @click="createTemporaryTickets">Continue</Button>
+            <span class="info" v-if="nbSeatsSelected">{{nbSeatsSelected * show.price}}€</span>
+            <span class="info" v-else></span>
+            <Button :disabled="!canContinue" @click="createTemporaryTickets">Continue</Button>
             <div class="errors">
                 <div v-for="error in errors">
                     {{error}}
@@ -104,6 +104,7 @@ export default defineComponent({
                     thappis.errors.push('An error occured');
                     return false;
                 }
+                window.location.href = app.$route('payment', app.sessionCode);
                 return true;
             })
             .catch(function(error){
@@ -143,7 +144,10 @@ export default defineComponent({
             return res;
         },
         canContinue(){
-            return this.seatsSelected.length > 0 &&  this.seatsSelected.length <= 10;
+            return this.nbSeatsSelected > 0 &&  this.nbSeatsSelected <= 10;
+        },
+        nbSeatsSelected(){
+            return this.seatsSelected.length;
         }
     },
     watch: {
@@ -228,5 +232,6 @@ button{
     font-family: 'Nunito-black';
     margin-top: 10px;
     color: #22577A;
+    min-height: 21px;
 }
 </style>
