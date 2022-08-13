@@ -1,22 +1,19 @@
 <script setup>
 import BreezeAuthenticatedLayout from '@/Layouts/Auth.vue';
-import InfoMovie from '@/Components/InfoMovie.vue';
+import BuyLayout from '@/Layouts/Buy.vue';
+
 import { defineComponent } from 'vue'
 import { Head } from '@inertiajs/inertia-vue3';
 import Button from '@/Components/Button.vue';
 import axios from 'axios';
-import Modal from '@/Components/Modal.vue';
+
 </script>
 
 <template>
     <Head title="Dashboard" />
 
-    <BreezeAuthenticatedLayout>
-        <div class="title">
-            <h3>Select your seats</h3>
-        </div>
-
-        <div class="wrapper" v-if="loaded">
+    <BuyLayout :movie="movie" :show="show" :title="'Select your seats'">
+        <div class="wrapper-seats">
             <span class="info">{{movie.title}}</span>
             <span class="info">{{show.price}}€</span>
             <span class="label-screen">Screen</span>
@@ -26,20 +23,16 @@ import Modal from '@/Components/Modal.vue';
                     <font-awesome-icon :icon="['fa', 'couch']" v-if="seat.activated"/>
                 </div>
             </div>
-            <Button :disabled="!canContinue" @click="createTemporaryTickets">Continue</Button>
-            <div class="info details" @click="displayMovie = true;">Display details</div>
+            <Button  @click="createTemporaryTickets">Continue</Button>
             <div class="errors">
                 <div v-for="error in errors">
                     {{error}}
                 </div>
             </div>
         </div>
-        <Modal v-if="displayMovie" @close="movieClose">
-            <InfoMovie :movie="movie" :idShow="show.id"></InfoMovie>
-        </Modal>
 
 
-    </BreezeAuthenticatedLayout>
+    </BuyLayout>
 </template>
 
 <script>
@@ -55,7 +48,6 @@ export default defineComponent({
     data() {
         return {
             layout: [],
-            loaded: false,
             seats: [],
             errors: [],
             displayMovie: false,
@@ -65,7 +57,6 @@ export default defineComponent({
     beforeMount(){
         this.layout = JSON.parse(this.show.room.layout_json);
         this.seats = this.generateSeats();
-        this.loaded = true;
     },
 
     methods:{
@@ -98,10 +89,8 @@ export default defineComponent({
         isTaken(seat){
             return this.seatsTaken.includes(seat.num_seat) || this.temporaryTickets.find(x => x.num_seat == seat.num_seat);
         },
-        movieClose(){
-            this.displayMovie = false;
-        },
         async createTemporaryTickets(){
+            this.errors.length = 0;
             let app = this;
             return await axios.post("/api/createTemporaryTickets",
             {
@@ -119,7 +108,7 @@ export default defineComponent({
             })
             .catch(function(error){
                 let res = error.response
-                if(res.status = 423){
+                if(res.status == 423){
                     app.errors.push('The seats are no longer available');
                 } else{
                     app.errors.push('An error occured');
@@ -154,19 +143,24 @@ export default defineComponent({
             return res;
         },
         canContinue(){
-            return this.seatsSelected.length > 0;
+            return this.seatsSelected.length > 0 &&  this.seatsSelected.length <= 10;
         }
     },
     watch: {
-
+        seatsSelected(){
+            let message = "You cannot command more than 10 tickets at once"
+            this.errors = this.errors.filter(x => x != message);
+            if(this.seatsSelected.length >= 11){
+                this.errors.push(message);
+            }
+        }
     }
 })
 
 </script>
 
 <style scoped>
-
-.wrapper{
+.wrapper-seats{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -175,10 +169,6 @@ export default defineComponent({
     background: #cfe4f2;
     padding: 10px;
     border-radius: 5px;
-}
-
-.title{
-    text-align: center;
 }
 
 .seat{
@@ -231,10 +221,7 @@ button{
     color: red;
     font-family: 'Nunito-black';
     margin-top: 10px;
-}
-
-.details{
-    cursor: pointer;
+    text-align: center;
 }
 
 .info{
