@@ -28,10 +28,10 @@ movie: {
 });
 
 const movieClose = () =>{
-    displayMovie = false;
+    displayMovie.value = false;
 };
 
-let displayMovie = false;
+const displayMovie = ref(false);
 </script>
 
 <script>
