@@ -26,15 +26,15 @@ import { defineComponent } from 'vue'
                 </div>
                 <h4 class="sub-title">Duration</h4>
                 <div class="info-movie">
-                    {{minutesToString(movie.duration)}}
+                    {{$minutesToString(movie.duration)}}
                 </div>
                 <h4 class="sub-title">Release date</h4>
                 <div class="info-movie">
-                    {{dateToString(movie.date_release)}}
+                    {{$dateToString(movie.date_release)}}
                 </div>
                 <h4 class="sub-title">Rating</h4>
                 <div class="info-movie">
-                    {{doubleToString(movie.rating)}} / 10
+                    {{$doubleToString(movie.rating)}} / 10
                 </div>
             </div>
         </div>
@@ -47,8 +47,8 @@ import { defineComponent } from 'vue'
                     </h4>
                     <div class="showing-list">
                         <div class="showing" v-for="show in showingType.showings" :key="show.id">
-                            <div>{{dateToLittleString(show.begin)}}</div>
-                            <div>{{dateToHourString(show.begin)}}</div>
+                            <div>{{$dateToLittleString(show.begin)}}</div>
+                            <div>{{$dateToHourString(show.begin)}}</div>
                         </div>
                     </div>
                 </div>
@@ -96,27 +96,6 @@ export default defineComponent({
         console.log(this.movie.personalities_professions_movies);
     },
     methods: {
-        minutesToString(minutes){
-            let nbHours = Math.floor(minutes /60);
-            let nbMinutes = minutes % 60;
-            return `${nbHours}h${nbMinutes}`;
-        },
-        dateToString(date){
-            moment.locale('fr');
-            return moment(date).format('LL');
-        },
-        dateToLittleString(date){
-            moment.locale('fr');
-            return moment(date).format('L');
-        },
-        dateToHourString(date){
-            moment.locale('fr');
-            return moment(date).format('LT');
-        },
-        doubleToString(num){
-            num = parseFloat(num);
-            return Math.round((num + Number.EPSILON) * 100) / 100
-        },
         loadNext(){
             if(this.movie.personalities_professions_movies[this.loadIndex]){
                 this.movie.personalities_professions_movies[this.loadIndex].canLoadIMG = true;

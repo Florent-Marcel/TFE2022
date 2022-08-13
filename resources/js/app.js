@@ -23,14 +23,45 @@ createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
     setup({ el, app, props, plugin }) {
-        return createApp({ render: () => h(app, props) })
+        const myApp = createApp({ render: () => h(app, props) })
             .use(plugin)
             .use(ZiggyVue, Ziggy)
             .use(moment)
             .component('font-awesome-icon', FontAwesomeIcon)
-            .component('VueMultiselect', VueMultiselect)
-            .mount(el);
+            .component('VueMultiselect', VueMultiselect);
+
+        myApp.config.globalProperties.$dateToLittleString = (date) =>{
+            moment.locale('fr');
+            return moment(date).format('L');
+        };
+
+        myApp.config.globalProperties.$dateToHourString = (date) =>{
+            moment.locale('fr');
+            return moment(date).format('LT');
+        };
+
+        myApp.config.globalProperties.$minutesToString = (minutes) => {
+            let nbHours = Math.floor(minutes /60);
+            let nbMinutes = minutes % 60;
+            return `${nbHours}h${nbMinutes}`;
+        };
+        myApp.config.globalProperties.$dateToString = (date) =>{
+            moment.locale('fr');
+            return moment(date).format('LL');
+        },
+        myApp.config.globalProperties.$doubleToString = (num) => {
+            num = parseFloat(num);
+            return Math.round((num + Number.EPSILON) * 100) / 100
+        },
+
+        myApp.mount(el);
+        return myApp;
+    },
+    provide: {
+        globalVariable: 123,
     },
 });
 
 InertiaProgress.init({ color: '#4B5563' });
+
+

@@ -49,6 +49,7 @@ const displayMovie = ref(false);
                 <img class="movie-poster" :src="movie.poster_url" @click="displayMovie = true;" title="Display details"/>
                 <span class="info-seance movie-title" @click="displayMovie = true;" title="Display details">{{movie.title}}</span>
                 <div class="info-seance">
+                    <span>{{$dateToLittleString(show.begin)}} - {{$dateToHourString(show.begin)}}</span>
                     <span>{{show.language.language}}</span>
                     <span>{{show.room.room_type.type}}</span>
                     <span>{{show.price}}€</span>
