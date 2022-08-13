@@ -52,8 +52,9 @@ class Showing extends Model
     public static function showWithSeats($idShow){
         $show = Showing::findOrFail($idShow);
         $show->tickets;
-        $show->room;
+        $show->room->roomType;
         $show->movie;
+        $show->language;
         foreach($show->tickets as &$ticket){
             unset($ticket->unique_code);
             unset($ticket->user_id);
@@ -86,5 +87,18 @@ class Showing extends Model
             }
         }
         return true;
+    }
+
+    public static function isNumSeatsCorrect($idShow, $numSeats){
+        $show = self::findOrFail($idShow);
+        $room = $show->room;
+        $layout = json_decode($room->layout_json);
+        $count = 0;
+        foreach($layout as $seat){
+            if(isset($seat->num_seat) && in_array($seat->num_seat, $numSeats)){
+                $count++;
+            }
+        }
+        return $count == count($numSeats);
     }
 }

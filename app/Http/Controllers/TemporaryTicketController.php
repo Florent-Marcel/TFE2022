@@ -93,6 +93,9 @@ class TemporaryTicketController extends Controller
         if(!is_array($request->seats)){
             throw new HttpException(400, "seats is not a array");
         }
+        if(!Showing::isNumSeatsCorrect($request->id, $request->seats)){
+            throw new HttpException(423, "The seats are not valid");
+        }
         if(!Showing::seatsStillAvailable($request->id, $request->seats)){
             throw new HttpException(423, "The seats are no longer available");
         }
