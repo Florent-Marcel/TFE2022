@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Movie;
 use App\Models\Showing;
 use App\Models\TemporaryTicket;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -105,5 +107,34 @@ class TemporaryTicketController extends Controller
 
         return TemporaryTicket::createTemporaryTickets($request->id, $request->seats, $request->code);
 
+    }
+
+    public function deleteUserLastTemporaryTickets(Request $request){
+        return TemporaryTicket::deleteLastFromUser();
+    }
+
+    public function askPayment($code){
+        $tempTickets = TemporaryTicket::getTemporaryTicketByCode($code);
+        if(count($tempTickets) == 0){
+            throw new HttpException(404, "Tickets not found");
+        }
+        if(auth()->id() != $tempTickets[0]->user_id){
+            throw new HttpException(403, "not authorized to access");
+        }
+        $now = now();
+        $tickDate = new Carbon($tempTickets[0]->created_at);
+        $tickDate->addMinutes(25);
+        $tickDate = $tickDate->timestamp;
+        $now = $now->timestamp;
+        $time = $now - $tickDate;
+        $show = Showing::showWithSeats($tempTickets[0]->showing_id);
+        $movie = Movie::getMovieByID($show->movie_id);
+        return [
+            'show' => $show,
+            'temporaryTickets' => $tempTickets,
+            'sessionCode' => $code,
+            'movie' => $movie,
+            'time' => $time,
+        ];
     }
 }

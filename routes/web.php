@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\TemporaryTicketController;
 use App\Models\Movie;
 use App\Models\Showing;
 use App\Models\TemporaryTicket;
+use Carbon\Carbon;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Ramsey\Uuid\Uuid;
@@ -55,21 +58,9 @@ Route::get('/seats/{idShow}', function ($idShow) {
 })->middleware(['auth', 'verified'])->name('seats');
 
 Route::get('/payment/{code}', function ($code) {
-    $tempTickets = TemporaryTicket::getTemporaryTicketByCode($code);
-    if(count($tempTickets) == 0){
-        //error
-    }
-    if(auth()->id() != $tempTickets[0]->user_id){
-        //error
-    }
-    $show = Showing::showWithSeats($tempTickets[0]->showing_id);
-    $movie = Movie::getMovieByID($show->movie_id);
-    return Inertia::render('Payment', [
-        'show' => $show,
-        'temporaryTickets' => $tempTickets,
-        'sessionCode' => $code,
-        'movie' => $movie,
-    ]);
+    $controller = new TemporaryTicketController();
+    $data = $controller->askPayment($code);
+    return Inertia::render('Payment', $data);
 })->middleware(['auth', 'verified'])->name('payment');
 
 require __DIR__.'/auth.php';

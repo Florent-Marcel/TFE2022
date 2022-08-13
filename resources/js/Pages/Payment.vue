@@ -9,6 +9,7 @@ import axios from 'axios';
 import { inject } from 'vue'
 import { maybeMap } from 'qs/lib/utils';
 import { usePage } from '@inertiajs/inertia-vue3'
+import { Inertia } from '@inertiajs/inertia'
 
 
 
@@ -22,8 +23,9 @@ import { usePage } from '@inertiajs/inertia-vue3'
             <span class="info">{{movie.title}}</span>
             <span class="info">Number of tickets: {{nbTickets}}</span>
             <span class="info">Total : {{price}}€</span>
-            <div class="mx-auto w-50" ref="paypal"></div>
-            <Button>Continue</Button>
+            <div class="paypal" ref="paypal" v-show="!timeError"></div>
+            <Button @click="cancel">Cancel</Button>
+            <span class="info">Remaining time: {{$secondsToMinutesString(remainingTime)}}</span>
             <div class="errors">
                 <div v-for="error in errors">
                     {{error}}
@@ -43,6 +45,7 @@ export default defineComponent({
         temporaryTickets: Object,
         sessionCode: String,
         movie: Object,
+        time: Number,
     },
 
     data() {
@@ -51,14 +54,25 @@ export default defineComponent({
             seats: [],
             errors: [],
             displayMovie: false,
+            intervalId: 0,
+            passedSeconds: 0,
+            timeError: false,
         }
     },
 
     beforeMount(){
-        console.log(this.show);
-        console.log(this.temporaryTickets);
-        console.log(this.sessionCode);
-        console.log(this.movie);
+        let app = this;
+        let now = new Date(Date.now());
+        let ticketCreation = new Date(this.temporaryTickets[0].created_at)
+        this.intervalId = window.setInterval(function(){
+            app.passedSeconds++;
+        }
+        , 1000);
+        Inertia.on('before', (event) => {
+            if(app.intervalId){
+                clearInterval(app.intervalId)
+            }
+        })
     },
 
     mounted(){
@@ -66,7 +80,6 @@ export default defineComponent({
         script.src ="https://www.paypal.com/sdk/js?currency=EUR&client-id=Aawzj-LDXzTPUd-AltFDeaBa-f-mXkBAAbyU5Urj3_6FYOOk7Jx46jfkOJ2WN7k9QA1R88p2UwfGCMqV";
         script.addEventListener("load", this.setLoaded);
         document.body.appendChild(script);
-        console.log(this.paypalItems)
     },
 
     methods:{
@@ -95,7 +108,7 @@ export default defineComponent({
                     },
                     onApprove: async (data, actions, resp) => {
                         // This function captures the funds from the transaction.
-                        return actions.order.capture().then(function(details) {
+                        return await actions.order.capture().then( async function(details) {
                             // This function shows a transaction success message to your buyer.
                             console.log(details)
                             console.log(details.purchase_units[0].payments.captures[0].id)
@@ -107,6 +120,25 @@ export default defineComponent({
                     }
                 })
             .render(this.$refs.paypal);
+        },
+        async createTickets(){
+
+        },
+        async deleteCurrentTempSeats(){
+            axios.post('/api/deleteUserLastTemporaryTickets')
+            .then(function(response){
+                console.log(response)
+                return response.data;
+            })
+            .catch(function(error){
+                console.log(error)
+                return false
+            })
+        },
+
+        async cancel(timeOut=1){
+            await this.deleteCurrentTempSeats();
+            setTimeout(() => {window.history.back()}, timeOut);
         }
     },
     computed: {
@@ -132,7 +164,20 @@ export default defineComponent({
                 });
             }
             return res;
-        }
+        },
+        remainingTime(){
+            let ticketTime = this.time * -1;
+            let res = ticketTime - this.passedSeconds
+            if(res < 0){
+                res = 0;
+                if(!this.timeError){
+                    this.errors.push("Your token is no longer valid. You will be redirected in 5 seconds");
+                    this.timeError = true;
+                    this.cancel(5000);
+                }
+            }
+            return res;
+        },
     },
     watch: {
     }
@@ -146,7 +191,7 @@ export default defineComponent({
     flex-direction: column;
     align-items: center;
     width: fit-content;
-    margin: auto;
+    min-height: 100%;
     background: #cfe4f2;
     padding: 10px;
     border-radius: 5px;
@@ -154,8 +199,12 @@ export default defineComponent({
 
 button{
     color:white;
-    background-color: #6A96B0;
+    background-color: #ff906e;
     margin-top: 20px;
+}
+
+button:hover{
+    background-color: #ffa78c;
 }
 
 .errors *{
@@ -169,5 +218,15 @@ button{
     font-family: 'Nunito-black';
     margin-top: 10px;
     color: #22577A;
+}
+
+.paypal{
+    margin-top: 15px;
+    position: relative;
+    z-index: 1;
+}
+
+.errors{
+    max-width: 200px;
 }
 </style>

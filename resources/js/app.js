@@ -45,14 +45,24 @@ createInertiaApp({
             let nbMinutes = minutes % 60;
             return `${nbHours}h${nbMinutes}`;
         };
+
         myApp.config.globalProperties.$dateToString = (date) =>{
             moment.locale('fr');
             return moment(date).format('LL');
         },
+
         myApp.config.globalProperties.$doubleToString = (num) => {
             num = parseFloat(num);
             return Math.round((num + Number.EPSILON) * 100) / 100
         },
+
+        myApp.config.globalProperties.$secondsToMinutesString = (seconds) => {
+            let nbMinutes = Math.floor(seconds /60);
+            let nbSeconds = seconds % 60;
+            return `${nbMinutes}m${nbSeconds}s`;
+        },
+
+        myApp.config.globalProperties.$route = route
 
         myApp.mount(el);
         return myApp;

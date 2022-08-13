@@ -65,4 +65,17 @@ class TemporaryTicket extends Model
         }
         return self::insert($data);
     }
+
+    public static function deleteLastFromUser(){
+        if(!auth()->hasUser()){
+            return false;
+        }
+        $userId = auth()->id();
+        $temp = TemporaryTicket::where('user_id', '=', $userId)->latest()->first();
+        if(!$temp){
+            return false;
+        }
+
+        return TemporaryTicket::where('code', '=', $temp->code)->delete();
+    }
 }

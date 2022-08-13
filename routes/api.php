@@ -29,4 +29,9 @@ Route::middleware('auth:sanctum')->post('/createTemporaryTickets', function (Req
     return $temporaryTicketController->multipleStore($request);
 });
 
+Route::middleware('auth:sanctum')->post('/deleteUserLastTemporaryTickets', function (Request $request) {
+    $temporaryTicketController = new TemporaryTicketController();
+    return $temporaryTicketController->deleteUserLastTemporaryTickets($request);
+});
+
 
