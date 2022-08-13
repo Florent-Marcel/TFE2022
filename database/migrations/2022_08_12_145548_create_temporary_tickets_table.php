@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('temporary_tickets', function (Blueprint $table) {
             $table->id();
-            $table->text('code')->index();
+            $table->string('code')->index();
             $table->integer('num_seat');
             $table->foreignId('showing_id')->constrained('showings');
             $table->foreignId('user_id')->constrained('users');
