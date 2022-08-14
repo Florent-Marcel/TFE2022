@@ -32,6 +32,7 @@ const submit = () => {
         <Head title="Log in" />
         <div class="login-wrapper">
             <div class="login">
+                <h3 class="title">Login</h3>
                 <BreezeValidationErrors class="mb-4" />
 
                 <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
@@ -60,8 +61,8 @@ const submit = () => {
                     </div>
 
                     <div class="flex items-center justify-end mt-4">
-                        <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-white hover:text-gray-900">
-                            Forgot your password?
+                        <Link v-if="canResetPassword" :href="route('register')" class="underline text-sm text-white hover:text-gray-900">
+                            you don't have an account?
                         </Link>
 
                         <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
@@ -94,5 +95,9 @@ label, label *{
     padding: 10px;
     background-color: #22577A;
     vertical-align: middle;
+}
+.title{
+    text-align: center;
+    color: #F4F3F7;
 }
 </style>

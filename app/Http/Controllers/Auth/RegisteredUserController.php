@@ -9,6 +9,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 
@@ -22,6 +23,16 @@ class RegisteredUserController extends Controller
     public function create()
     {
         return Inertia::render('Auth/Register');
+    }
+
+    /**
+     * Display the update view.
+     *
+     * @return \Inertia\Response
+     */
+    public function viewUpdate()
+    {
+        return Inertia::render('Auth/Update');
     }
 
     /**
@@ -51,6 +62,30 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        return redirect(RouteServiceProvider::HOME);
+    }
+
+    public function update(Request $request)
+    {
+        $request->validate([
+            'email' => ['required',
+                        'string',
+                        'email',
+                        'max:255',
+                        Rule::unique('users')->ignore(Auth::user()->id),
+                        ],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'firstname' => 'required|string|max:128',
+            'lastname' => 'required|string|max:128',
+        ]);
+
+        Auth::user()->email = $request->email;
+        Auth::user()->password = Hash::make($request->password);
+        Auth::user()->firstname = $request->firstname;
+        Auth::user()->lastname = $request->lastname;
+
+        auth::user()->save();
 
         return redirect(RouteServiceProvider::HOME);
     }
