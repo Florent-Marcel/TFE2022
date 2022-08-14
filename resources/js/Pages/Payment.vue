@@ -57,15 +57,17 @@ export default defineComponent({
             intervalId: 0,
             passedSeconds: 0,
             timeError: false,
+            idCapture: "",
+            enterDate: "",
         }
     },
 
     beforeMount(){
         let app = this;
-        let now = new Date(Date.now());
-        let ticketCreation = new Date(this.temporaryTickets[0].created_at)
+        this.enterDate = new Date();
         this.intervalId = window.setInterval(function(){
-            app.passedSeconds++;
+            let now = new Date();
+            app.passedSeconds = Math.ceil((now - app.enterDate)/1000)
         }
         , 1000);
         Inertia.on('before', (event) => {
@@ -80,6 +82,7 @@ export default defineComponent({
         script.src ="https://www.paypal.com/sdk/js?currency=EUR&client-id=Aawzj-LDXzTPUd-AltFDeaBa-f-mXkBAAbyU5Urj3_6FYOOk7Jx46jfkOJ2WN7k9QA1R88p2UwfGCMqV";
         script.addEventListener("load", this.setLoaded);
         document.body.appendChild(script);
+        console.log(this.show)
     },
 
     methods:{
@@ -111,8 +114,13 @@ export default defineComponent({
                         return await actions.order.capture().then( async function(details) {
                             // This function shows a transaction success message to your buyer.
                             console.log(details)
+                            app.idCapture = details.purchase_units[0].payments.captures[0].id;
                             console.log(details.purchase_units[0].payments.captures[0].id)
                             alert('Transaction completed by ' + details.payer.name.given_name);
+                            let res = await app.createTickets();
+                            if(res){
+                                window.location.href = app.$route('result.payment', app.idCapture);
+                            }
                         })
                     },
                     onError: err => {
@@ -122,7 +130,20 @@ export default defineComponent({
             .render(this.$refs.paypal);
         },
         async createTickets(){
-
+            let app = this;
+            return await axios.post("/api/createTickets",
+                {
+                    "codeTempTicket": app.sessionCode,
+                    "idCapturePaypal": app.idCapture
+                })
+            .then(function(response){
+                console.log(response)
+                return response.data
+            })
+            .catch(function(error){
+                console.log(error)
+                return false;
+            })
         },
         async deleteCurrentTempSeats(){
             axios.post('/api/deleteUserLastTemporaryTickets')
@@ -143,7 +164,7 @@ export default defineComponent({
     },
     computed: {
         price(){
-            return this.show.price * this.nbTickets;
+            return Math.floor(this.show.price * this.nbTickets * 100) / 100;
         },
         nbTickets(){
             return this.temporaryTickets.length;

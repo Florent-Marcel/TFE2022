@@ -21,7 +21,7 @@ return new class extends Migration
             $table->boolean("is_used")->default(false);
             $table->boolean("is_blocked")->default(false);
             $table->integer("num_seat");
-            $table->string("paypal_captures_id");
+            $table->string("paypal_capture_id");
             $table->timestamps();
         });
     }

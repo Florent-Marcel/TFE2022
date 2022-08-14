@@ -62,7 +62,6 @@ import { Head } from '@inertiajs/inertia-vue3';
 export default defineComponent({
     props:{
         movies: Array,
-        test: String,
     },
 
     data() {
@@ -85,7 +84,6 @@ export default defineComponent({
                 this.loadIndex++;
             }
         }
-        console.log(this.test)
     },
 
     methods:{

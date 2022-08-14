@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TemporaryTicketController;
+use App\Http\Controllers\TicketController;
 use App\Models\Movie;
 use App\Models\Paypal;
 use App\Models\Showing;
@@ -40,7 +41,6 @@ Route::get('/dashboard', function () {
 Route::get('/movies', function () {
     return Inertia::render('Movies', [
         'movies' => Movie::allWithShowings(),
-        'test' => Paypal::getcapture("6J348723VP4207907"),
     ]);
 })->middleware(['auth', 'verified'])->name('movies');
 
@@ -65,5 +65,16 @@ Route::get('/payment/{code}', function ($code) {
     $data = $controller->askPayment($code);
     return Inertia::render('Payment', $data);
 })->middleware(['auth', 'verified'])->name('payment');
+
+Route::get('/result/{payment}', function ($payment) {
+    $controller = new TicketController();
+    $data = $controller->getFromIdCapture($payment);
+    return Inertia::render('PaymentResult', $data );
+})->middleware(['auth', 'verified'])->name('result.payment');
+
+Route::get('/downloadPDF/{ticket}', function($ticket){
+    $controller = new TicketController();
+    return $controller->downloadPDF($ticket);
+})->middleware(['auth', 'verified'])->name('download.ticket');
 
 require __DIR__.'/auth.php';

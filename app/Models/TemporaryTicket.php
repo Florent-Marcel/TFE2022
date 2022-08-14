@@ -78,4 +78,16 @@ class TemporaryTicket extends Model
 
         return TemporaryTicket::where('code', '=', $temp->code)->delete();
     }
+
+    public static function checkPayment($tempTickets, $payment){
+        $payed = $payment->amount->value;
+        $payed = floatval($payed);
+
+        $price = 0.0;
+        $show = Showing::findOrFail($tempTickets[0]->showing_id);
+        $price = $show->price * count($tempTickets);
+        $price = floor($price * 100) / 100;
+
+        return floatval($price) == $payed;
+    }
 }

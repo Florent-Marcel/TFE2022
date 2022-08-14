@@ -7,7 +7,7 @@ import { InertiaProgress } from '@inertiajs/progress';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUser, faCouch, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faCouch, faCircleXmark, faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import VueMultiselect from 'vue-multiselect'
 import 'vue-multiselect/dist/vue-multiselect.css'
@@ -15,7 +15,7 @@ import moment from 'moment';
 import 'moment/dist/locale/fr';
 import 'moment/dist/locale/en-gb';
 
-library.add(faUser, faCouch, faCircleXmark)
+library.add(faUser, faCouch, faCircleXmark, faFilePdf)
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
