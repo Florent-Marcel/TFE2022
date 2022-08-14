@@ -14,15 +14,20 @@ const showingNavigationDropdown = ref(false);
 </script>
 
 <template>
-    <Header></Header>
-    <Menu></Menu>
+    <div class="header-wrapper">
+        <Header></Header>
+        <Menu></Menu>
+    </div>
     <main class="main">
-        <slot />
+        <slot  />
     </main>
 </template>
 
 
 <style>
+:root{
+    --header-margin: 80px;
+}
 @font-face {
     font-family: "Nunito";
     src: url('/fonts/NunitoSans-Regular.ttf');
@@ -32,6 +37,13 @@ const showingNavigationDropdown = ref(false);
     font-family: "Nunito-black";
     src: url("/fonts/NunitoSans-Black.ttf");
 }
+
+.header-wrapper{
+    position: fixed;
+    top: 0px;
+    width: 100%;
+}
+
 
 html {
     background: #F4F3F7;
@@ -43,6 +55,8 @@ html * {
 }
 
 body {
+    height: calc(100% - var(--header-margin));
+    max-height: calc(100% - var(--header-margin));
     margin: 0px 0px 8px 0px;
 }
 
@@ -59,6 +73,27 @@ h3{
 h4{
     font-family: 'Nunito-black';
     font-size: 16px;
+}
+
+#app{
+    height: 100%;
+}
+
+html, body{
+    height: 100%;
+}
+
+body{
+    position: relative;
+}
+
+.content{
+
+}
+
+.main{
+    height: 100%;
+    margin-top: 80px;
 }
 </style>
 

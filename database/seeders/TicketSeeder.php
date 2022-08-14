@@ -30,7 +30,7 @@ class TicketSeeder extends Seeder
                 $is_blocked = !$is_used;
             }
             $show = $showings->random(1);
-            
+
             $data[$i] = [
                 "user_id" => $users->random(1)->pluck("id")[0],
                 "showing_id" => $show->pluck("id")[0],
@@ -39,6 +39,7 @@ class TicketSeeder extends Seeder
                 "is_blocked" => $is_blocked,
                 "created_at" => $faker->dateTimeBetween("2022-01-01", $show->pluck("begin")[0]),
                 "num_seat" => $numSeat,
+                "paypal_capture_id" => $faker->password(),
             ];
             $numSeat++;
         }
