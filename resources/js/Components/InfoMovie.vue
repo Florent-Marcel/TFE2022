@@ -1,6 +1,7 @@
 <script setup>
 import moment from 'moment';
 import { defineComponent } from 'vue'
+import { Link } from '@inertiajs/inertia-vue3';
 </script>
 
 <template>
@@ -46,7 +47,11 @@ import { defineComponent } from 'vue'
                         {{showingType.language}} - {{showingType.type}} - {{showingType.price}}€
                     </h4>
                     <div class="showing-list">
-                        <div class="showing" v-for="show in showingType.showings" :key="show.id">
+                        <Link :href="route('seats', show.id)" class="showing" v-for="show in showingType.showings" :key="show.id" v-if="!idShow">
+                            <div>{{$dateToLittleString(show.begin)}}</div>
+                            <div>{{$dateToHourString(show.begin)}}</div>
+                        </Link>
+                        <div :href="route('seats', show.id)" class="showing-disabled" v-for="show in showingType.showings" :key="show" v-else>
                             <div>{{$dateToLittleString(show.begin)}}</div>
                             <div>{{$dateToHourString(show.begin)}}</div>
                         </div>
@@ -93,7 +98,6 @@ export default defineComponent({
                 this.loadIndex++;
             }
         }
-        console.log(this.movie.personalities_professions_movies);
     },
     methods: {
         loadNext(){
@@ -101,6 +105,9 @@ export default defineComponent({
                 this.movie.personalities_professions_movies[this.loadIndex].canLoadIMG = true;
             }
             this.loadIndex++;
+        },
+        redirectSeats(show){
+            window.location.href = this.$route('seats', show.id);
         },
     },
     computed: {
@@ -122,7 +129,6 @@ export default defineComponent({
                     res[key].showings.push(show);
                 }
             }
-            console.log(res)
             return res;
         }
     }
@@ -180,7 +186,7 @@ export default defineComponent({
     margin-top: 10px;
 }
 
-.showings-wrapper .showing{
+.showings-wrapper .showing, .showings-wrapper .showing-disabled{
     background-color: #6A96B0;
     width: 100px;
     height: 50px;
@@ -198,6 +204,10 @@ export default defineComponent({
     align-items: center;
     align-content: center;
     flex-wrap: wrap;
+}
+
+.showing:hover{
+    filter: brightness(120%);
 }
 
 .personality img{
