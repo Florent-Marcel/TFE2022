@@ -45,7 +45,7 @@ class Movie extends Model
     }
 
     public static function currentMovies(){
-        $movies = Movie::select('movies.*')->join('showings', 'showings.movie_id', '=', 'movies.id')->whereDate('showings.begin','>=', Carbon::today())->groupBy('movies.id')->get();
+        $movies = Movie::select('movies.*')->join('showings', 'showings.movie_id', '=', 'movies.id')->whereDate('showings.begin','>=', now())->groupBy('movies.id')->get();
         $toRemove = [];
         foreach($movies as $key => &$movie){
             $movie->showings;
@@ -112,15 +112,22 @@ class Movie extends Model
         return null;
     }
 
-    public static function getMovieByID($id){
+    public static function getMovieByID($id, $events=false){
         $movie = Movie::findOrFail($id);
+        $toRemove = [];
         $movie->showings;
-        foreach($movie->showings as &$show){
+
+        foreach($movie->showings as $key => &$show){
+            if($show->begin < Carbon::now()){
+                array_push($toRemove, $key);
+                continue;
+            }
             $show->showingType;
             $show->language;
             $show->room->roomType;
         }
         unset($show);
+
         $movie->types;
         $movie->personalitiesProfessionsMovies;
         foreach($movie->personalitiesProfessionsMovies as &$perso){
@@ -128,6 +135,14 @@ class Movie extends Model
             $perso->profession;
         }
         unset($perso);
+
+        foreach($toRemove as $rem){
+            $movie->showings->forget($rem);
+        }
+        $showings = $movie->showings->values();
+
+        $movie = $movie->toArray();
+        $movie['showings'] = $showings;
 
         return $movie;
     }

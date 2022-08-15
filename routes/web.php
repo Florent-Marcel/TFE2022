@@ -47,9 +47,16 @@ Route::get('/movies', function () {
 
 Route::get('/showings', function () {
     return Inertia::render('Showings', [
-        'showings' => Showing::allWithMovie(),
+        'showings' => Showing::currentShowings(),
     ]);
 })->middleware(['auth', 'verified'])->name('showings');
+
+Route::get('/events', function () {
+    return Inertia::render('Showings', [
+        'showings' => Showing::currentShowings(true),
+        'isEvents' => true,
+    ]);
+})->middleware(['auth', 'verified'])->name('events');
 
 Route::get('/seats/{idShow}', function ($idShow) {
     $show = Showing::showWithSeats($idShow);

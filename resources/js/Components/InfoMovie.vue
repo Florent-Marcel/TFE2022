@@ -98,6 +98,15 @@ export default defineComponent({
                 this.loadIndex++;
             }
         }
+        this.movie.showings.sort(function(a, b){
+            if(a.begin < b.begin){
+                return -1;
+            }
+            if(a.begin > b.begin){
+                return 1;
+            }
+            return 0;
+        })
     },
     methods: {
         loadNext(){

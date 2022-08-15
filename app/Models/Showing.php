@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -40,13 +41,24 @@ class Showing extends Model
         return $this->hasMany(TemporaryTicket::class);
     }
 
-    public static function allWithMovie(){
-        $showings = Showing::all();
-        foreach($showings as &$show){
-            $show->movie;
+    public static function currentShowings($events = false){
+        $showings = Showing::whereDate('begin', '>=', now())->get();
+        $toRemove = [];
+        foreach($showings as $key => &$show){
+            $show->showingType;
+            if($events != $show->showingType->is_event){
+                array_push($toRemove, $key);
+                continue;
+            }
+            $show->movie->personalitiesProfessionsMovies;
+            $show->room->roomType;
+            $show->language;
             unset($show);
         }
-        return $showings;
+        foreach($toRemove as $rem){
+            $showings->forget($rem);
+        }
+        return $showings->values();
     }
 
     public static function showWithSeats($idShow){
