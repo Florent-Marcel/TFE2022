@@ -17,7 +17,7 @@ import { Head } from '@inertiajs/inertia-vue3';
         <div class="filter-wrapper">
             <div class="filter">
                 <span class="filter-label">{{__("Type")}}</span>
-                <VueMultiselect :options="genres" label="type" v-model="filters.genre">
+                <VueMultiselect :options="genres" :label="$t('type')" v-model="filters.genre">
                 </VueMultiselect>
             </div>
             <div class="filter">
@@ -30,7 +30,7 @@ import { Head } from '@inertiajs/inertia-vue3';
         <div class="movie-wrapper" scroll="false">
             <div class="movie-rectangle" v-for="movie in movies" :key="movie.id" v-show="filter(movie)" @click="getMovie(movie)">
                 <div class="movie-title">
-                    <span>{{movie.title}}</span>
+                    <span>{{movie[$t('title')]}}</span>
                 </div>
                 <div class="movie-poster">
                     <img v-if="movie.poster_url && movie.canLoadIMG" :src="movie.poster_url" @load="loadNext()">
@@ -146,12 +146,12 @@ export default defineComponent({
             if(!this.filters.title){
                 return true;
             }
-            return movie.title.includes(this.filters.title)
+            return movie[this.$t('title')].includes(this.filters.title)
         }
     },
     computed: {
         titles(){
-            return this.movies.map(x => x.title);
+            return this.movies.map(x => x[this.$t('title')]);
         },
         filterTitle(){
             return this.filters.title;
