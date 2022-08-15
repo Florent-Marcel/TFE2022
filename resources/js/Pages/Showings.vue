@@ -15,13 +15,27 @@ import { Link } from '@inertiajs/inertia-vue3';
             <h3 v-if="!isEvents">Liste des séances</h3>
             <h3 v-else>Liste des évènements</h3>
         </div>
+
+        <div class="filter-wrapper">
+            <div class="filter">
+                <span class="filter-label">Title</span>
+                <VueMultiselect :options="titles" v-model="filters.title">
+                </VueMultiselect>
+            </div>
+            <div class="filter">
+                <span class="filter-label">Language</span>
+                <VueMultiselect :options="languages" v-model="filters.language">
+                </VueMultiselect>
+            </div>
+        </div>
+
         <div class="wrapper-content">
-            <div v-for="(movies, date) in showByDatesMovies" :key="date" class="movie-showings-wrapper">
+            <div v-for="(movies, date) in filtered" :key="date" class="movie-showings-wrapper">
                 <h3 class="date-show">{{date}}</h3>
                 <div v-for="(movie, idMovie) in movies" :key="idMovie">
                     <div :class="{'show-wrapper':true, 'not-last':!isLast(movies,idMovie)}">
                         <div @click="infoMovie(movie)" class="movie-title">
-                        <span>{{movie.title}} - {{movie[0].language.language}} {{movie[0].room.room_type.type}}</span>
+                        <span>{{movie[0].movie.title}} - {{movie[0].language.language}} {{movie[0].room.room_type.type}}</span>
                         <span v-if="isEvents"> - {{movie[0].showing_type.type.replace("_", " ")}}</span>
                         </div>
                         <div class="time-wrapper">
@@ -56,11 +70,12 @@ export default defineComponent({
         return{
             showByDatesMovies: {},
             dataMovie: {},
+            filters: {title: "", language: ""},
+            filtered: {},
         }
     },
 
     mounted(){
-        console.log(this.showings)
         this.showings.sort(function(a, b){
             let aBegin = Date.parse(a.begin);
             let bBegin = Date.parse(b.begin);
@@ -82,10 +97,9 @@ export default defineComponent({
                 this.showByDatesMovies[date][key] = [];
             }
             this.showByDatesMovies[date][key].push(show);
-            this.showByDatesMovies[date][key]['title'] = show.movie.title
         }
 
-        console.log(this.showByDatesMovies)
+        this.filtered = this.showByDatesMovies;
     },
 
     methods:{
@@ -103,7 +117,6 @@ export default defineComponent({
         },
         async infoMovie(movie){
             await this.getMovie(movie[0].movie);
-            console.log(this.dataMovie)
         },
         movieClose(){
             this.dataMovie = {};
@@ -122,17 +135,102 @@ export default defineComponent({
             }
         },
         isLast(movies,idMovie){
-            console.log(movies)
             let isLast = false;
             for(const [key, movie] of Object.entries(movies)){
                 isLast = key == idMovie
             }
             return isLast;
-        }
+        },
+
+        filter(){
+            let tmp = this.showByDatesMovies
+            tmp  = this.filterByTitle(tmp)
+            tmp  = this.filterByLangue(tmp)
+            this.filtered = tmp;
+            return tmp;
+        },
+
+        filterByTitle(showByDatesMovies){
+            if(!this.filters.title){
+                return showByDatesMovies;
+            }
+            let res = {};
+            for(const [keyShow, show] of Object.entries(showByDatesMovies)){
+                for(const [keyData, data] of Object.entries(show)){
+                    if(data[0].movie.title.includes(this.filters.title)){
+                        if(!res[keyShow]){
+                            res[keyShow] = {};
+                        }
+                        res[keyShow][keyData] = data;
+                    }
+                }
+            }
+            this.filteredByTitles = res;
+            return res
+        },
+        filterByLangue(showByDatesMovies){
+            if(!this.filters.language){
+                return showByDatesMovies;
+            }
+            let res = {};
+            for(const [keyShow, show] of Object.entries(showByDatesMovies)){
+                for(const [keyData, data] of Object.entries(show)){
+                    for(const [keyDetails, details] of Object.entries(data)){
+                        if(keyDetails != 'title'){
+                            if(details.language.language == this.filters.language){
+                                if(!res[keyShow]){
+                                    res[keyShow] = {}
+                                }
+                                if(!res[keyShow][keyData]){
+                                    res[keyShow][keyData] = {}
+                                }
+                                if(!res[keyShow][keyData][keyDetails]){
+                                    res[keyShow][keyData][keyDetails] = details;
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+            return res
+        },
     },
     computed: {
         canScroll(){
             return Object.keys(this.dataMovie).length == 0;
+        },
+        titles(){
+            let res = [];
+            for(const [keyShow, show] of Object.entries(this.filtered)){
+                for(const [keyData, data] of Object.entries(show)){
+                    if(!res.includes(data[0].movie.title)){
+                        res.push(data[0].movie.title);
+                    }
+                }
+            }
+            return res;
+        },
+        languages(){
+            let res = [];
+            for(const [keyShow, show] of Object.entries(this.filtered)){
+                for(const [keyData, data] of Object.entries(show)){
+                    for(const [keyDetails, details] of Object.entries(data)){
+                        if(keyDetails != 'title'){
+                            if(!res.includes(details.language.language)){
+                                res.push(details.language.language);
+                            }
+                        }
+                    }
+                }
+            }
+            return res
+        },
+        filterTitle(){
+            return this.filters.title;
+        },
+        filterLanguage(){
+            return this.filters.language;
         },
     },
     watch: {
@@ -145,6 +243,12 @@ export default defineComponent({
                 window.onscroll=function(){window.scrollTo(x, y);}
             }
         },
+        filterTitle(){
+            this.filter();
+        },
+        filterLanguage(){
+            this.filter();
+        }
     }
 })
 
