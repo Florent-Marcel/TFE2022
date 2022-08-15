@@ -1,4 +1,4 @@
-
+<?php $locale = Config::get('app.locale') ?>
 
 <!DOCTYPE html>
 <html>
@@ -14,7 +14,11 @@
               <img src="data:image/png;base64, {!! $qrcode !!}">
           </td>
           <td rowspan="3" colspan="2" class="title">
-              {{$ticket->showing->movie->title}}
+              @if(Config::get('app.locale') == 'en')
+                {{$ticket->showing->movie->title_en}}
+              @else
+                {{$ticket->showing->movie->title_fr}}
+              @endif
           </td>
           <td>
               Room: {{$ticket->showing->room->num_room}}

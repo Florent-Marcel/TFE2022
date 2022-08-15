@@ -12,18 +12,18 @@ import { Link } from '@inertiajs/inertia-vue3';
             </div>
             <div class="data-movie-right">
                 <div class="title">
-                    <h3>{{movie.title}}</h3>
+                    <h3>{{movie[$t('title')]}}</h3>
                 </div>
                 <div class="genre-list">
                     <div v-for="genre in movie.types" :key="genre.id">
                         <div class="genre">
-                            {{genre.type}}
+                            {{genre[$t('type')]}}
                         </div>
                     </div>
                 </div>
                 <h4 class="sub-title">Synopsis</h4>
                 <div class="overview info-movie">
-                    {{movie.synopsis}}
+                    {{movie[$t('synopsis')]}}
                 </div>
                 <h4 class="sub-title">{{__("Duration")}}</h4>
                 <div class="info-movie">

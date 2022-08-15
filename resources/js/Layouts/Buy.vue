@@ -47,7 +47,7 @@ const displayMovie = ref(false);
             <slot />
             <div class="wrapper-movie">
                 <img class="movie-poster" :src="movie.poster_url" @click="displayMovie = true;" title="Display details"/>
-                <span class="info-seance movie-title" @click="displayMovie = true;" title="Display details">{{movie.title}}</span>
+                <span class="info-seance movie-title" @click="displayMovie = true;" title="Display details">{{movie[$t('title')]}}</span>
                 <div class="info-seance">
                     <span>{{$dateToLittleString(show.begin)}} - {{$dateToHourString(show.begin)}}</span>
                     <span>{{show.language.language}}</span>
