@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Mail\OrderShipped;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -43,17 +44,22 @@ class Movie extends Model
         return $this->hasMany(Showing::class);
     }
 
-    public static function allWithShowings(){
-        //Mail::to(auth()->user())->send(new OrderShipped());
-        $movies = Movie::all();
-        foreach($movies as &$movie){
-            $showings = $movie->showings;
-            $types = $movie->types;
-            $movie->date_showings = $showings;
-            $movie->types = $types;
+    public static function currentMovies(){
+        $movies = Movie::select('movies.*')->join('showings', 'showings.movie_id', '=', 'movies.id')->whereDate('showings.begin','>=', Carbon::today())->groupBy('movies.id')->get();
+        $toRemove = [];
+        foreach($movies as $key => &$movie){
+            $movie->showings;
+            if(count($movie->showings) == 0){
+                array_push($toRemove, $key);
+                continue;
+            }
+            $movie->types;
             unset($movie, $showings, $types);
         }
-        return $movies;
+        foreach($toRemove as $rem){
+            $movies->forget($rem);
+        }
+        return $movies->values();
     }
 
     public static function tmdbSearch($title, $year){

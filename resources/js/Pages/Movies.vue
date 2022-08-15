@@ -61,7 +61,7 @@ import { Head } from '@inertiajs/inertia-vue3';
 
 export default defineComponent({
     props:{
-        movies: Array,
+        movies: Object,
     },
 
     data() {
