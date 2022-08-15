@@ -27,6 +27,11 @@ import { Link } from '@inertiajs/inertia-vue3';
                 <VueMultiselect :options="languages" v-model="filters.language">
                 </VueMultiselect>
             </div>
+            <div class="filter">
+                <span class="filter-label">Event type</span>
+                <VueMultiselect :options="events" v-model="filters.event">
+                </VueMultiselect>
+            </div>
         </div>
 
         <div class="wrapper-content">
@@ -100,6 +105,9 @@ export default defineComponent({
         }
 
         this.filtered = this.showByDatesMovies;
+        if(this.isEvents){
+            this.filters.event = "";
+        }
     },
 
     methods:{
@@ -146,6 +154,7 @@ export default defineComponent({
             let tmp = this.showByDatesMovies
             tmp  = this.filterByTitle(tmp)
             tmp  = this.filterByLangue(tmp)
+            tmp  = this.filterByEvent(tmp)
             this.filtered = tmp;
             return tmp;
         },
@@ -176,18 +185,40 @@ export default defineComponent({
             for(const [keyShow, show] of Object.entries(showByDatesMovies)){
                 for(const [keyData, data] of Object.entries(show)){
                     for(const [keyDetails, details] of Object.entries(data)){
-                        if(keyDetails != 'title'){
-                            if(details.language.language == this.filters.language){
-                                if(!res[keyShow]){
-                                    res[keyShow] = {}
-                                }
-                                if(!res[keyShow][keyData]){
-                                    res[keyShow][keyData] = {}
-                                }
-                                if(!res[keyShow][keyData][keyDetails]){
-                                    res[keyShow][keyData][keyDetails] = details;
-                                }
-
+                        if(details.language.language == this.filters.language){
+                            if(!res[keyShow]){
+                                res[keyShow] = {}
+                            }
+                            if(!res[keyShow][keyData]){
+                                res[keyShow][keyData] = {}
+                            }
+                            if(!res[keyShow][keyData][keyDetails]){
+                                res[keyShow][keyData][keyDetails] = details;
+                            }
+                        }
+                    }
+                }
+            }
+            return res
+        },
+        filterByEvent(showByDatesMovies){
+            if(!this.filters.event){
+                return showByDatesMovies;
+            }
+            let res = {};
+            for(const [keyShow, show] of Object.entries(showByDatesMovies)){
+                for(const [keyData, data] of Object.entries(show)){
+                    for(const [keyDetails, details] of Object.entries(data)){
+                        let event = details.showing_type.type.replace("_", " ")
+                        if(event == this.filters.event){
+                            if(!res[keyShow]){
+                                res[keyShow] = {}
+                            }
+                            if(!res[keyShow][keyData]){
+                                res[keyShow][keyData] = {}
+                            }
+                            if(!res[keyShow][keyData][keyDetails]){
+                                res[keyShow][keyData][keyDetails] = details;
                             }
                         }
                     }
@@ -226,11 +257,30 @@ export default defineComponent({
             }
             return res
         },
+        events(){
+            let res = [];
+            for(const [keyShow, show] of Object.entries(this.filtered)){
+                for(const [keyData, data] of Object.entries(show)){
+                    for(const [keyDetails, details] of Object.entries(data)){
+                        if(keyDetails != 'title'){
+                            let event = details.showing_type.type.replace("_", " ")
+                            if(!res.includes(event)){
+                                res.push(event);
+                            }
+                        }
+                    }
+                }
+            }
+            return res
+        },
         filterTitle(){
             return this.filters.title;
         },
         filterLanguage(){
             return this.filters.language;
+        },
+        filterEvent(){
+            return this.filters.event ? this.filters.event : ""; //Pour la réactivité de vue
         },
     },
     watch: {
@@ -248,6 +298,9 @@ export default defineComponent({
         },
         filterLanguage(){
             this.filter();
+        },
+        filterEvent(){
+            this.filter();
         }
     }
 })
@@ -257,6 +310,7 @@ export default defineComponent({
 <style scoped>
 .wrapper-content {
     padding-bottom: 10px;
+    margin-top: 10px;
 }
 .title{
     text-align: center;
@@ -264,12 +318,14 @@ export default defineComponent({
 
 .filter-wrapper{
     height: fit-content;
-    width: fit-content;
     background: #22577A;
     margin: auto;
     display: flex;
     justify-content: center;
     padding: 5px;
+    flex-wrap: wrap;
+    max-width: fit-content;
+    width: 80%;
 }
 
 .filter-wrapper .filter{
@@ -299,6 +355,9 @@ export default defineComponent({
 
 @media only screen and (max-width: 700px) {
     .movie-showings-wrapper{
+        width: 100%;
+    }
+    .filter-wrapper{
         width: 100%;
     }
 }
