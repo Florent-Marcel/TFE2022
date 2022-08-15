@@ -193,7 +193,6 @@ export default defineComponent({
                 let y = window.scrollY;
                 window.onscroll=function(){window.scrollTo(x, y);}
             }
-
         }
     }
 })
@@ -221,6 +220,7 @@ export default defineComponent({
     display: flex;
     justify-content: center;
     padding: 5px;
+    flex-wrap: wrap;
 }
 
 .filter-wrapper .filter{

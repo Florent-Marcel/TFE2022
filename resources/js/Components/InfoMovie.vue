@@ -167,6 +167,15 @@ export default defineComponent({
     margin: 5px;
 }
 
+@media only screen and (max-width: 700px) {
+    .poster-section{
+        flex-direction: column;
+    }
+    .movie-poster{
+        margin: auto;
+    }
+}
+
 .genre-list{
     display: flex;
     flex-direction: row;
