@@ -10,24 +10,18 @@ import { Head } from '@inertiajs/inertia-vue3';
     <Head title="Dashboard" />
 
     <BreezeAuthenticatedLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Dashboard
-            </h2>
-        </template>
-
         <div class="title">
-            <h3>Liste des films à l'affiche</h3>
+            <h3>{{__("List of movies")}}</h3>
         </div>
 
         <div class="filter-wrapper">
             <div class="filter">
-                <span class="filter-label">Genre</span>
+                <span class="filter-label">{{__("Type")}}</span>
                 <VueMultiselect :options="genres" label="type" v-model="filters.genre">
                 </VueMultiselect>
             </div>
             <div class="filter">
-                <span class="filter-label">Title</span>
+                <span class="filter-label">{{__("Title")}}</span>
                 <VueMultiselect :options="titles" v-model="filters.title">
                 </VueMultiselect>
             </div>
@@ -43,10 +37,10 @@ import { Head } from '@inertiajs/inertia-vue3';
                     <img v-else>
                 </div>
                 <div class="movie-dates" v-if="findExtremitySceance(movie.showings, true) != findExtremitySceance(movie.showings, false)">
-                    Du {{dateToString(findExtremitySceance(movie.showings, true))}} au {{dateToString(findExtremitySceance(movie.showings, false))}}
+                    {{__("From")}} {{dateToString(findExtremitySceance(movie.showings, true))}} {{__("to")}} {{dateToString(findExtremitySceance(movie.showings, false))}}
                 </div>
                 <div class="movie-dates" v-else>
-                    Le {{dateToString(findExtremitySceance(movie.showings, true))}}
+                    {{dateToString(findExtremitySceance(movie.showings, true))}}
                 </div>
             </div>
         </div>

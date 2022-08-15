@@ -30,7 +30,7 @@ const submit = () => {
         <Head title="update" />
         <div class="update-wrapper">
             <div class="update">
-                <h3 class="title">edit your user data</h3>
+                <h3 class="title">{{__("Edit your user data")}}</h3>
                 <BreezeValidationErrors class="mb-4 errors" />
 
                 <form @submit.prevent="submit">
@@ -56,7 +56,7 @@ const submit = () => {
                     </div>
                     <div class="flex items-center justify-end mt-4">
                         <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            Update
+                            {{__("Update")}}
                         </BreezeButton>
                     </div>
                 </form>

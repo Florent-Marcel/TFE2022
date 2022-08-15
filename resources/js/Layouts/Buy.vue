@@ -41,7 +41,7 @@ const displayMovie = ref(false);
 <template>
     <BreezeAuthenticatedLayout>
         <div class="title">
-            <h3>{{title}}</h3>
+            <h3>{{__(title)}}</h3>
         </div>
         <div class="wrapper">
             <slot />
@@ -52,7 +52,7 @@ const displayMovie = ref(false);
                     <span>{{$dateToLittleString(show.begin)}} - {{$dateToHourString(show.begin)}}</span>
                     <span>{{show.language.language}}</span>
                     <span>{{show.room.room_type.type}}</span>
-                    <span>{{show.price}}€ per ticket</span>
+                    <span>{{show.price}}€ {{__("per ticket")}}</span>
                 </div>
             </div>
         </div>

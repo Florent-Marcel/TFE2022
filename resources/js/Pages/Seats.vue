@@ -14,7 +14,7 @@ import axios from 'axios';
 
     <BuyLayout :movie="movie" :show="show" :title="'Select your seats'">
         <div class="wrapper-seats">
-            <span class="label-screen">Screen</span>
+            <span class="label-screen">{{__("Screen")}}</span>
             <hr class="screen" title="screen"/>
             <div class="row" v-for="row in seats" :key="row.index">
                 <div v-for="seat in row.data" :key="seat.num_seat" @click="select(seat)" :class="{'seat' : true, 'nothing': !seat.activated, 'taken': isTaken(seat), 'selected': seat.selected}">
@@ -23,7 +23,7 @@ import axios from 'axios';
             </div>
             <span class="info" v-if="nbSeatsSelected">{{Math.floor(nbSeatsSelected * show.price * 100) / 100}}€</span>
             <span class="info" v-else></span>
-            <Button :disabled="!canContinue" @click="createTemporaryTickets">Continue</Button>
+            <Button :disabled="!canContinue" @click="createTemporaryTickets">{{__("Confirm")}}</Button>
             <div class="errors">
                 <div v-for="error in errors">
                     {{error}}

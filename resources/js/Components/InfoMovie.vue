@@ -21,26 +21,26 @@ import { Link } from '@inertiajs/inertia-vue3';
                         </div>
                     </div>
                 </div>
-                <h4 class="sub-title">Overview</h4>
+                <h4 class="sub-title">Synopsis</h4>
                 <div class="overview info-movie">
                     {{movie.synopsis}}
                 </div>
-                <h4 class="sub-title">Duration</h4>
+                <h4 class="sub-title">{{__("Duration")}}</h4>
                 <div class="info-movie">
                     {{$minutesToString(movie.duration)}}
                 </div>
-                <h4 class="sub-title">Release date</h4>
+                <h4 class="sub-title">{{__("Release date")}}</h4>
                 <div class="info-movie">
                     {{$dateToString(movie.date_release)}}
                 </div>
-                <h4 class="sub-title">Rating</h4>
+                <h4 class="sub-title">{{__("Rating")}}</h4>
                 <div class="info-movie">
                     {{$doubleToString(movie.rating)}} / 10
                 </div>
             </div>
         </div>
         <div class="under-section">
-            <h3 class="sub-title">Showings</h3>
+            <h3 class="sub-title">{{__("Showings")}}</h3>
             <div class="showings-wrapper">
                 <div class="showing-type" v-for="showingType in showingTypes" :key="showingType">
                     <h4 class="sub-title">
@@ -58,7 +58,7 @@ import { Link } from '@inertiajs/inertia-vue3';
                     </div>
                 </div>
             </div>
-            <h3 class="sub-title">personalities</h3>
+            <h3 class="sub-title">{{__("Personalities")}}</h3>
             <div class="personalities">
                 <div class="personality" v-for="perso in movie.personalities_professions_movies" :key="perso.id">
                     <img v-if="perso.canLoadIMG" :src="perso.personality.profile_url" @load="loadNext"/>

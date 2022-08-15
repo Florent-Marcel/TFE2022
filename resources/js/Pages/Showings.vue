@@ -12,23 +12,23 @@ import { Link } from '@inertiajs/inertia-vue3';
 
     <BreezeAuthenticatedLayout>
         <div class="title">
-            <h3 v-if="!isEvents">Liste des séances</h3>
-            <h3 v-else>Liste des évènements</h3>
+            <h3 v-if="!isEvents">{{__("List of movie showings")}}</h3>
+            <h3 v-else>{{__("List of events")}}</h3>
         </div>
 
         <div class="filter-wrapper">
             <div class="filter">
-                <span class="filter-label">Title</span>
+                <span class="filter-label">{{__("Title")}}</span>
                 <VueMultiselect :options="titles" v-model="filters.title">
                 </VueMultiselect>
             </div>
             <div class="filter">
-                <span class="filter-label">Language</span>
+                <span class="filter-label">{{__("Language")}}</span>
                 <VueMultiselect :options="languages" v-model="filters.language">
                 </VueMultiselect>
             </div>
             <div class="filter">
-                <span class="filter-label">Event type</span>
+                <span class="filter-label">{{__("Type of event")}}</span>
                 <VueMultiselect :options="events" v-model="filters.event">
                 </VueMultiselect>
             </div>
