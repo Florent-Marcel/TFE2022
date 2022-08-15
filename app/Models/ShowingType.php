@@ -13,7 +13,7 @@ class ShowingType extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'type', 'is_event',
+        'type_fr', 'type_en', 'is_event',
     ];
 
     public function showings(){

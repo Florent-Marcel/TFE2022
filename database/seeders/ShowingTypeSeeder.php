@@ -17,23 +17,28 @@ class ShowingTypeSeeder extends Seeder
     {
         $data = [
             [
-                'type' => "Marathon",
+                'type_fr' => "Marathon",
+                'type_en' => "Marathon",
                 'is_event' => 1,
             ],
             [
-                'type' => "Cast_visit",
+                'type_fr' => "Visite du casting",
+                'type_en' => "Cast visit",
                 'is_event' => 1,
             ],
             [
-                'type' => "Classic",
+                'type_fr' => "Classique",
+                'type_en' => "Classic",
                 'is_event' => 1,
             ],
             [
-                'type' => "Preview",
+                'type_fr' => "Avant-première",
+                'type_en' => "Preview",
                 'is_event' => 1,
             ],
             [
-                'type' => "Movie",
+                'type_fr' => "Film",
+                'type_en' => "Movie",
                 'is_event' => 0,
             ],
         ];

@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('types', function (Blueprint $table) {
             $table->id();
             $table->integer('tmdb_id')->unique();
-            $table->string("type", 64)->unique();
+            $table->string("type_fr", 64)->unique();
+            $table->string("type_en", 64)->unique();
             $table->softDeletes();
         });
     }

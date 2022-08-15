@@ -82,10 +82,12 @@ class MovieSeeder extends Seeder
                 $addedProfession = Profession::addFromTMDB($movieCredits, $addedCast);
                 PersonalityProfessionMovie::addFromTMDB($movieCredits, $addedCast, $movie);
 
-                $genres = $infoMovie['en']['genres'];
+                $genres = [];
+                $genres['en'] = $infoMovie['en']['genres'];
+                $genres['fr'] = $infoMovie['fr']['genres'];
                 Type::createIfNotPresent($genres);
                 $movieTypesToAdd = [];
-                foreach($genres as $genre){
+                foreach($genres['en'] as $genre){
                     $types = Type::getByTMDBID($genre['id']);
                     if(count($types) > 0){
                         array_push($movieTypesToAdd, ['movie_id' => $movie->id, 'type_id' => $types[0]->id]);
