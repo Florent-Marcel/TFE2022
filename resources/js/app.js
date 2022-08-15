@@ -14,6 +14,7 @@ import 'vue-multiselect/dist/vue-multiselect.css'
 import moment from 'moment';
 import 'moment/dist/locale/fr';
 import 'moment/dist/locale/en-gb';
+import globalMixin from './base'
 
 library.add(faUser, faCouch, faCircleXmark, faFilePdf)
 
@@ -24,6 +25,8 @@ createInertiaApp({
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
     setup({ el, app, props, plugin }) {
         const myApp = createApp({ render: () => h(app, props) })
+            .mixin({ methods: { route } })
+            .mixin(globalMixin)
             .use(plugin)
             .use(ZiggyVue, Ziggy)
             .use(moment)
