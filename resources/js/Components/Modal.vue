@@ -67,6 +67,14 @@ export default defineComponent({
     color: white;
 }
 
+@media only screen and (max-width: 700px) {
+    .modal-content{
+        margin: 0px;
+        max-height: calc(100% - 20px);
+        max-width: 100%;
+    }
+}
+
 .modal-body{
     text-align: justify;
 }

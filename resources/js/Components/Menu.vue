@@ -13,6 +13,10 @@ import { Link } from '@inertiajs/inertia-vue3';
             <Link :class="{'actif' : route().current() == 'showings'}" :href="route('showings')">Showings</Link>
             <div class="actif-bar" v-if="route().current() == 'showings'"></div>
         </div>
+        <div class="elem-menu">
+            <Link :class="{'actif' : route().current() == 'events'}" :href="route('events')">Events</Link>
+            <div class="actif-bar" v-if="route().current() == 'events'"></div>
+        </div>
     </div>
 </template>
 

@@ -98,6 +98,15 @@ export default defineComponent({
                 this.loadIndex++;
             }
         }
+        this.movie.showings.sort(function(a, b){
+            if(a.begin < b.begin){
+                return -1;
+            }
+            if(a.begin > b.begin){
+                return 1;
+            }
+            return 0;
+        })
     },
     methods: {
         loadNext(){
@@ -156,6 +165,15 @@ export default defineComponent({
 
 .poster-section > *{
     margin: 5px;
+}
+
+@media only screen and (max-width: 700px) {
+    .poster-section{
+        flex-direction: column;
+    }
+    .movie-poster{
+        margin: auto;
+    }
 }
 
 .genre-list{
