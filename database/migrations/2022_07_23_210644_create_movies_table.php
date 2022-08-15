@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('movies', function (Blueprint $table) {
             $table->id();
             $table->integer('tmdb_id')->unique();
-            $table->string("title", 512);
+            $table->string("title");
             $table->text("synopsis")->nullable();
             $table->date("date_release");
             $table->integer("duration", false, true);
             $table->double("rating", null, null, true)->nullable();
-            $table->text('poster_url', 512)->nullable();
+            $table->string('poster_url', 512)->nullable();
             $table->softDeletes();
         });
     }

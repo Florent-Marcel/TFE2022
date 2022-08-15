@@ -193,7 +193,7 @@ export default defineComponent({
                 let y = window.scrollY;
                 window.onscroll=function(){window.scrollTo(x, y);}
             }
-            
+
         }
     }
 })

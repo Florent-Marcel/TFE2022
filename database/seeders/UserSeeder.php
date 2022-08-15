@@ -22,7 +22,6 @@ class UserSeeder extends Seeder
         for($i=0; $i<150; $i++){
             $name = $faker->firstName();
             $data[$i] = [
-                "name" => $name,
                 "email" => $faker->safeEmail(),
                 "password" => Str::random(200),
                 "firstname" => $name,
@@ -32,7 +31,6 @@ class UserSeeder extends Seeder
         }
 
         $data[150] = [
-            "name" => "Florent",
             "email" => "flo.marcel@hotmail.com",
             "password" => '$2y$10$phyZqyYk27l8hbOtl9HxH.SmbwuEP4y3O4nrdULIxWv64jhoKu4ry',
             "firstname" => "Florent",

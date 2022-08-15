@@ -1,6 +1,7 @@
 <script setup>
 import moment from 'moment';
 import { defineComponent } from 'vue'
+import { Link } from '@inertiajs/inertia-vue3';
 </script>
 
 <template>
@@ -26,15 +27,15 @@ import { defineComponent } from 'vue'
                 </div>
                 <h4 class="sub-title">Duration</h4>
                 <div class="info-movie">
-                    {{minutesToString(movie.duration)}}
+                    {{$minutesToString(movie.duration)}}
                 </div>
                 <h4 class="sub-title">Release date</h4>
                 <div class="info-movie">
-                    {{dateToString(movie.date_release)}}
+                    {{$dateToString(movie.date_release)}}
                 </div>
                 <h4 class="sub-title">Rating</h4>
                 <div class="info-movie">
-                    {{doubleToString(movie.rating)}} / 10
+                    {{$doubleToString(movie.rating)}} / 10
                 </div>
             </div>
         </div>
@@ -43,12 +44,16 @@ import { defineComponent } from 'vue'
             <div class="showings-wrapper">
                 <div class="showing-type" v-for="showingType in showingTypes" :key="showingType">
                     <h4 class="sub-title">
-                        {{showingType.language}} - {{showingType.type}}
+                        {{showingType.language}} - {{showingType.type}} - {{showingType.price}}€
                     </h4>
                     <div class="showing-list">
-                        <div class="showing" v-for="show in showingType.showings" :key="show.id">
-                            <div>{{dateToLittleString(show.begin)}}</div>
-                            <div>{{dateToHourString(show.begin)}}</div>
+                        <Link :href="route('seats', show.id)" class="showing" v-for="show in showingType.showings" :key="show.id" v-if="!idShow">
+                            <div>{{$dateToLittleString(show.begin)}}</div>
+                            <div>{{$dateToHourString(show.begin)}}</div>
+                        </Link>
+                        <div :href="route('seats', show.id)" class="showing-disabled" v-for="show in showingType.showings" :key="show" v-else>
+                            <div>{{$dateToLittleString(show.begin)}}</div>
+                            <div>{{$dateToHourString(show.begin)}}</div>
                         </div>
                     </div>
                 </div>
@@ -74,6 +79,10 @@ export default defineComponent({
         movie: {
             type: Object,
         },
+        idShow: {
+            type: Number,
+            default: 0,
+        }
     },
     data() {
         return {
@@ -89,35 +98,16 @@ export default defineComponent({
                 this.loadIndex++;
             }
         }
-        console.log(this.movie.personalities_professions_movies);
     },
     methods: {
-        minutesToString(minutes){
-            let nbHours = Math.floor(minutes /60);
-            let nbMinutes = minutes % 60;
-            return `${nbHours}h${nbMinutes}`;
-        },
-        dateToString(date){
-            moment.locale('fr');
-            return moment(date).format('LL');
-        },
-        dateToLittleString(date){
-            moment.locale('fr');
-            return moment(date).format('L');
-        },
-        dateToHourString(date){
-            moment.locale('fr');
-            return moment(date).format('LT');
-        },
-        doubleToString(num){
-            num = parseFloat(num);
-            return Math.round((num + Number.EPSILON) * 100) / 100
-        },
         loadNext(){
             if(this.movie.personalities_professions_movies[this.loadIndex]){
                 this.movie.personalities_professions_movies[this.loadIndex].canLoadIMG = true;
             }
             this.loadIndex++;
+        },
+        redirectSeats(show){
+            window.location.href = this.$route('seats', show.id);
         },
     },
     computed: {
@@ -127,16 +117,18 @@ export default defineComponent({
                 return res;
             }
             for(let show of this.movie.showings){
-                let key = show.language.id+"_"+show.room.room_type.id;
-                if(!res[key]){
-                    res[key] = {};
-                    res[key].language = show.language.language;
-                    res[key].type = show.room.room_type.type;
-                    res[key].showings = [];
+                if(!this.idShow || show.id == this.idShow){
+                    let key = show.language.id+"_"+show.room.room_type.id;
+                    if(!res[key]){
+                        res[key] = {};
+                        res[key].language = show.language.language;
+                        res[key].type = show.room.room_type.type;
+                        res[key].price = show.price
+                        res[key].showings = [];
+                    }
+                    res[key].showings.push(show);
                 }
-                res[key].showings.push(show);
             }
-            console.log(res)
             return res;
         }
     }
@@ -147,6 +139,8 @@ export default defineComponent({
 <style scoped>
 .movie-component{
     padding: 5px;
+    background-color: #235878;
+    color: white;
 }
 
 .movie-poster img{
@@ -192,7 +186,7 @@ export default defineComponent({
     margin-top: 10px;
 }
 
-.showings-wrapper .showing{
+.showings-wrapper .showing, .showings-wrapper .showing-disabled{
     background-color: #6A96B0;
     width: 100px;
     height: 50px;
@@ -210,6 +204,10 @@ export default defineComponent({
     align-items: center;
     align-content: center;
     flex-wrap: wrap;
+}
+
+.showing:hover{
+    filter: brightness(120%);
 }
 
 .personality img{

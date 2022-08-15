@@ -5,7 +5,7 @@ import { defineComponent } from 'vue'
 <template>
     <div id="vueModal" class="modal">
         <div :class="{'modal-content' : true, 'resizable' : resizable}">
-            <i v-if="closeButton" class="fa fa-times fa-lg close-modal" title="Close" @click="close"></i>
+            <font-awesome-icon v-if="closeButton" icon="fa-solid fa-circle-xmark" title="Close" class="close-modal" @click="close"/>
             <slot></slot>
         </div>
     </div>
@@ -29,7 +29,7 @@ export default defineComponent({
         close(){
             this.$emit('close');
         }
-    },  
+    },
 })
 
 </script>
@@ -46,7 +46,7 @@ export default defineComponent({
     position: fixed;
     left: 0;
     bottom: 0;
-    overflow: hidden;  
+    overflow: hidden;
 }
 
 .modal-content{
@@ -93,19 +93,14 @@ export default defineComponent({
     top: 7px;
     height: 20px;
     width: 20px;
-    --fa-primary-color: red;
-    --fa-secondary-color: red;
-    color: #888888;
+    color: rgb(201, 3, 3);
     cursor: pointer;
-    background-color: #dddddd;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 5px;
 }
 
 .close-modal:hover{
-    color: #000000;
-    background-color: #C2C2C2;
+    color: rgb(255, 94, 94);
 }
 </style>

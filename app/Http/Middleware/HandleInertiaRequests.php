@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
 
@@ -43,6 +44,10 @@ class HandleInertiaRequests extends Middleware
                     'location' => $request->url(),
                 ]);
             },
+            Inertia::share('user', fn (Request $request) => $request->user()
+                ? $request->user()->only('id', 'firstname', 'lastname', 'email')
+                : null
+            ),
         ]);
     }
 }

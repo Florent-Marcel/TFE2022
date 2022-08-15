@@ -22,7 +22,7 @@ import { Head } from '@inertiajs/inertia-vue3';
                             <div class="time-case">
                                 {{dateToTimeString(show.begin)}}
                             </div>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -76,14 +76,14 @@ export default defineComponent({
         dateToTimeString(date){
             let parsed = Date.parse(date);
             let time = new Date(parsed).toLocaleTimeString([],{
-                hour: '2-digit', 
+                hour: '2-digit',
                 minute:'2-digit'
             });
             return time;
         }
     },
     computed: {
-       
+
     },
     watch: {
     }
@@ -121,6 +121,7 @@ export default defineComponent({
 
 .movie-showings-wrapper {
     width: 80%;
+    max-width: 1000px;
     margin: auto;
     padding: 5px;
     background: #22577A;

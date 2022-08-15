@@ -26,7 +26,6 @@ class User extends Authenticatable implements FilamentUser
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
         'email',
         'password',
         'firstname',
@@ -56,5 +55,9 @@ class User extends Authenticatable implements FilamentUser
 
     public function tickets(){
         return $this->hasMany(Ticket::class);
+    }
+
+    public function temporaryTickets(){
+        return $this->hasMany(TemporaryTicket::class);
     }
 }

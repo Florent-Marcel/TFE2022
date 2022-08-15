@@ -22,9 +22,7 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            //TypeSeeder::class,
-            //ProfessionSeeder::class,
-            //PersonalitySeeder::class,
+            PaypalSeeder::class,
             MovieSeeder::class,
             UserSeeder::class,
             RoomTypeSeeder::class,

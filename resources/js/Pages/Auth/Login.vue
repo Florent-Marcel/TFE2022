@@ -6,6 +6,7 @@ import BreezeInput from '@/Components/Input.vue';
 import BreezeLabel from '@/Components/Label.vue';
 import BreezeValidationErrors from '@/Components/ValidationErrors.vue';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
+import Auth from '@/Layouts/Auth.vue';
 
 defineProps({
     canResetPassword: Boolean,
@@ -27,45 +28,76 @@ const submit = () => {
 </script>
 
 <template>
-    <BreezeGuestLayout>
+    <Auth>
         <Head title="Log in" />
+        <div class="login-wrapper">
+            <div class="login">
+                <h3 class="title">Login</h3>
+                <BreezeValidationErrors class="mb-4" />
 
-        <BreezeValidationErrors class="mb-4" />
+                <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
+                    {{ status }}
+                </div>
+                <div v-if="error" class="mb-4 font-medium text-sm text-red-600">
+                    {{ error }}
+                </div>
 
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-            {{ status }}
+                <form @submit.prevent="submit">
+                    <div>
+                        <BreezeLabel for="email" value="Email" />
+                        <BreezeInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus autocomplete="username" />
+                    </div>
+
+                    <div class="mt-4">
+                        <BreezeLabel for="password" value="Password" />
+                        <BreezeInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="current-password" />
+                    </div>
+
+                    <div class="block mt-4">
+                        <label class="flex items-center">
+                            <BreezeCheckbox name="remember" v-model:checked="form.remember" />
+                            <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                        </label>
+                    </div>
+
+                    <div class="flex items-center justify-end mt-4">
+                        <Link v-if="canResetPassword" :href="route('register')" class="underline text-sm text-white hover:text-gray-900">
+                            you don't have an account?
+                        </Link>
+
+                        <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                            Log in
+                        </BreezeButton>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div v-if="error" class="mb-4 font-medium text-sm text-red-600">
-            {{ error }}
-        </div>
-
-        <form @submit.prevent="submit">
-            <div>
-                <BreezeLabel for="email" value="Email" />
-                <BreezeInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus autocomplete="username" />
-            </div>
-
-            <div class="mt-4">
-                <BreezeLabel for="password" value="Password" />
-                <BreezeInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="current-password" />
-            </div>
-
-            <div class="block mt-4">
-                <label class="flex items-center">
-                    <BreezeCheckbox name="remember" v-model:checked="form.remember" />
-                    <span class="ml-2 text-sm text-gray-600">Remember me</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900">
-                    Forgot your password?
-                </Link>
-
-                <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
-                </BreezeButton>
-            </div>
-        </form>
-    </BreezeGuestLayout>
+    </Auth>
 </template>
+
+
+<style scoped>
+label, label *{
+    color: white;
+}
+.login-wrapper{
+    height: calc(100% - var(--header-margin));
+    width: 100%;
+    display: flex;
+}
+.login{
+    width: 500px;
+    height: fit-content;
+    margin: auto;
+    margin-top: auto;
+    border: 1px rgb(185, 185, 185) solid;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #22577A;
+    vertical-align: middle;
+}
+.title{
+    text-align: center;
+    color: #F4F3F7;
+}
+</style>

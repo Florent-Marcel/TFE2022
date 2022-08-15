@@ -29,7 +29,6 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')->required(),
                 TextInput::make('email')->required(),
                 TextInput::make('password')->password()->dehydrated(fn($state) => filled($state))->dehydrateStateUsing(fn($state) => Hash::make($state)),
                 TextInput::make('firstname')->maxLength(128),
@@ -43,7 +42,6 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')->searchable()->sortable(),
                 TextColumn::make('email')->searchable()->sortable(),
                 TextColumn::make('firstname')->searchable()->sortable(),
                 TextColumn::make('lastname')->searchable()->sortable(),

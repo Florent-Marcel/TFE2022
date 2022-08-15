@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\MovieController;
+use App\Http\Controllers\TemporaryTicketController;
+use App\Http\Controllers\TicketController;
 use App\Models\Movie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,3 +24,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->get('/movie/{id}', function (Request $request, $id) {
     return Movie::getMovieByID($id);
 });
+
+Route::middleware('auth:sanctum')->post('/createTemporaryTickets', function (Request $request) {
+    $temporaryTicketController = new TemporaryTicketController();
+    return $temporaryTicketController->multipleStore($request);
+});
+
+Route::middleware('auth:sanctum')->post('/deleteUserLastTemporaryTickets', function (Request $request) {
+    $temporaryTicketController = new TemporaryTicketController();
+    return $temporaryTicketController->deleteUserLastTemporaryTickets($request);
+});
+
+Route::middleware('auth:sanctum')->post('/createTickets', function (Request $request) {
+    $controller = new TicketController();
+    return $controller->multipleStore($request);
+});
+
+
