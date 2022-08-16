@@ -119,7 +119,7 @@ class Movie extends Model
         $movie->showings;
 
         foreach($movie->showings as $key => &$show){
-            if($show->begin < Carbon::now()){
+            if($show->begin < Carbon::now('Europe/Brussels')){
                 array_push($toRemove, $key);
                 continue;
             }

@@ -62,7 +62,7 @@ class TemporaryTicket extends Model
                 "showing_id" => intval($showId),
                 "num_seat" => intval($seat),
                 "user_id" => Auth::id(),
-                "created_at" => now()
+                "created_at" => now('Europe/Brussels')
             ]);
         }
         return self::insert($data);
@@ -94,7 +94,7 @@ class TemporaryTicket extends Model
     }
 
     public static function deleteOld(){
-        $now = now();
+        $now = now('Europe/Brussels');
         $validityLimit = $now->subMinutes(self::$durationValidityM);
         $tickets = self::where('created_at', '<=', $validityLimit)->delete();
     }

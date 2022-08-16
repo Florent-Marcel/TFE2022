@@ -31,7 +31,7 @@ class Ticket extends Model
             "showing_id" => $showId,
             "num_seat" => $numSeat,
             "paypal_capture_id" => $paypalCapId,
-            "created_at" => now(),
+            "created_at" => now('Europe/Brussels'),
         ]);
     }
 

@@ -42,7 +42,7 @@ class Showing extends Model
     }
 
     public static function currentShowings($events = false){
-        $showings = Showing::whereDate('begin', '>=', now())->get();
+        $showings = Showing::whereDate('begin', '>=', now('Europe/Brussels'))->get();
         $toRemove = [];
         foreach($showings as $key => &$show){
             $show->showingType;
