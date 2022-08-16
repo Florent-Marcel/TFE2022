@@ -82,7 +82,6 @@ export default defineComponent({
         script.src ="https://www.paypal.com/sdk/js?currency=EUR&client-id=Aawzj-LDXzTPUd-AltFDeaBa-f-mXkBAAbyU5Urj3_6FYOOk7Jx46jfkOJ2WN7k9QA1R88p2UwfGCMqV";
         script.addEventListener("load", this.setLoaded);
         document.body.appendChild(script);
-        console.log(this.show)
     },
 
     methods:{
@@ -113,9 +112,7 @@ export default defineComponent({
                         // This function captures the funds from the transaction.
                         return await actions.order.capture().then( async function(details) {
                             // This function shows a transaction success message to your buyer.
-                            console.log(details)
                             app.idCapture = details.purchase_units[0].payments.captures[0].id;
-                            console.log(details.purchase_units[0].payments.captures[0].id)
                             alert('Transaction completed by ' + details.payer.name.given_name);
                             let res = await app.createTickets();
                             if(res){
@@ -137,7 +134,6 @@ export default defineComponent({
                     "idCapturePaypal": app.idCapture
                 })
             .then(function(response){
-                console.log(response)
                 return response.data
             })
             .catch(function(error){
@@ -148,7 +144,6 @@ export default defineComponent({
         async deleteCurrentTempSeats(){
             axios.post('/api/deleteUserLastTemporaryTickets')
             .then(function(response){
-                console.log(response)
                 return response.data;
             })
             .catch(function(error){
@@ -164,7 +159,7 @@ export default defineComponent({
     },
     computed: {
         price(){
-            return Math.floor(this.show.price * this.nbTickets * 100) / 100;
+            return Math.round(this.show.price * this.nbTickets * 100) /100;
         },
         nbTickets(){
             return this.temporaryTickets.length;

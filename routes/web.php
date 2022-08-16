@@ -1,19 +1,12 @@
 <?php
 
+use App\Http\Controllers\MovieController;
+use App\Http\Controllers\ShowingController;
 use App\Http\Controllers\TemporaryTicketController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\WebsiteLangController;
-use App\Models\Movie;
-use App\Models\Paypal;
-use App\Models\Showing;
-use App\Models\TemporaryTicket;
-use Carbon\Carbon;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Ramsey\Uuid\Uuid;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,55 +33,28 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/movies', function () {
-    return Inertia::render('Movies', [
-        'movies' => Movie::currentMovies(),
-    ]);
-})->middleware(['auth', 'verified'])->name('movies');
+Route::get('/movies', [MovieController::class, 'index'])
+->middleware([])->name('movies');
 
-Route::get('/showings', function () {
-    return Inertia::render('Showings', [
-        'showings' => Showing::currentShowings(),
-    ]);
-})->middleware(['auth', 'verified'])->name('showings');
+Route::get('/showings', [ShowingController::class, 'index'])
+->middleware([])->name('showings');
 
-Route::get('/events', function () {
-    return Inertia::render('Showings', [
-        'showings' => Showing::currentShowings(true),
-        'isEvents' => true,
-    ]);
-})->middleware(['auth', 'verified'])->name('events');
+Route::get('/events', [ShowingController::class, 'indexEvents'])
+->middleware([])->name('events');
 
-Route::get('/seats/{idShow}', function ($idShow) {
-    $show = Showing::showWithSeats($idShow);
-    return Inertia::render('Seats', [
-        'show' => $show,
-        'temporaryTickets' => TemporaryTicket::getTemporaryTicketByShow($idShow),
-        'sessionCode' => Uuid::uuid1(),
-        'movie' => Movie::getMovieByID($show->movie_id)
-    ]);
-})->middleware(['auth', 'verified'])->name('seats');
+Route::get('/seats/{idShow}', [ShowingController::class, 'seats'])
+->middleware(['auth', 'verified'])->name('seats');
 
-Route::get('/payment/{code}', function ($code) {
-    $controller = new TemporaryTicketController();
-    $data = $controller->askPayment($code);
-    return Inertia::render('Payment', $data);
-})->middleware(['auth', 'verified'])->name('payment');
+Route::get('/payment/{code}', [TemporaryTicketController::class, 'askPayment'])
+->middleware(['auth', 'verified'])->name('payment');
 
-Route::get('/result/{payment}', function ($payment) {
-    $controller = new TicketController();
-    $data = $controller->getFromIdCapture($payment);
-    return Inertia::render('PaymentResult', $data );
-})->middleware(['auth', 'verified'])->name('result.payment');
+Route::get('/result/{payment}', [TicketController::class, 'indexFromCaptureId'])
+->middleware(['auth', 'verified'])->name('result.payment');
 
-Route::get('/downloadPDF/{ticket}', function($ticket){
-    $controller = new TicketController();
-    return $controller->downloadPDF($ticket);
-})->middleware(['auth', 'verified'])->name('download.ticket');
+Route::get('/downloadPDF/{ticket}', [TicketController::class, 'downloadPDF'])
+->middleware(['auth', 'verified'])->name('download.ticket');
 
-Route::get('lang/change/{lang}', function($lang){
-    $controller = new WebsiteLangController();
-    return $controller->change($lang);
-})->name('lang.change');
+Route::get('lang/change/{lang}', [WebsiteLangController::class, 'change'])
+->name('lang.change');
 
 require __DIR__.'/auth.php';

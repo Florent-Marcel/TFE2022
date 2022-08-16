@@ -33,7 +33,7 @@ class ShowingSeeder extends Seeder
                 "showing_type_id" => $showingTypes->random(1)->pluck("id")[0],
                 "language_id" => $languages->random(1)->pluck("id")[0],
                 "begin" => $faker->dateTimeBetween("2022-01-01", "2022-12-31"),
-                "price" => rand(50, 100) / 10
+                "price" => rand(500, 1000) / 100
             ];
         }
 

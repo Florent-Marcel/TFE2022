@@ -45,21 +45,12 @@ class Movie extends Model
     }
 
     public static function currentMovies(){
-        $movies = Movie::select('movies.*')->join('showings', 'showings.movie_id', '=', 'movies.id')->whereDate('showings.begin','>=', now())->groupBy('movies.id')->get();
-        $toRemove = [];
-        foreach($movies as $key => &$movie){
-            $movie->showings;
-            if(count($movie->showings) == 0){
-                array_push($toRemove, $key);
-                continue;
-            }
-            $movie->types;
-            unset($movie, $showings, $types);
-        }
-        foreach($toRemove as $rem){
-            $movies->forget($rem);
-        }
-        return $movies->values();
+        $movies = Movie::select('movies.*')->join('showings', 'showings.movie_id', '=', 'movies.id')
+                ->with('types', 'showings')
+                ->where('showings.begin','>=', Carbon::now('Europe/Brussels'))
+                ->groupBy('movies.id')->has('showings', '>', 0)->get();
+
+        return $movies;
     }
 
     public static function tmdbSearch($title, $year){
@@ -113,37 +104,19 @@ class Movie extends Model
         return null;
     }
 
-    public static function getMovieByID($id, $events=false){
-        $movie = Movie::findOrFail($id);
-        $toRemove = [];
-        $movie->showings;
-
-        foreach($movie->showings as $key => &$show){
-            if($show->begin < Carbon::now()){
-                array_push($toRemove, $key);
-                continue;
-            }
-            $show->showingType;
-            $show->language;
-            $show->room->roomType;
-        }
-        unset($show);
-
-        $movie->types;
-        $movie->personalitiesProfessionsMovies;
-        foreach($movie->personalitiesProfessionsMovies as &$perso){
-            $perso->personality;
-            $perso->profession;
-        }
-        unset($perso);
-
-        foreach($toRemove as $rem){
-            $movie->showings->forget($rem);
-        }
-        $showings = $movie->showings->values();
-
-        $movie = $movie->toArray();
-        $movie['showings'] = $showings;
+    public static function getMovieByID($id){
+        $movie = Movie::where('id', '=', $id)
+                ->with(['showings' => function($query) {
+                    $query->where('begin', '>=', Carbon::now('Europe/Brussels'))
+                    ->with('showingType', 'language')
+                    ->with(['room' => function($query) {
+                        $query->with('roomType');
+                    }]);
+                }])
+                ->with('types')
+                ->with(['personalitiesProfessionsMovies' => function($query) {
+                    $query->with('personality', 'profession');
+                }])->first();
 
         return $movie;
     }

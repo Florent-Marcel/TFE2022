@@ -83,19 +83,19 @@ class TemporaryTicket extends Model
 
     public static function checkPayment($tempTickets, $payment){
         $payed = $payment->amount->value;
-        $payed = floatval($payed);
+        $payed = $payed;
 
         $price = 0.0;
         $show = Showing::findOrFail($tempTickets[0]->showing_id);
         $price = $show->price * count($tempTickets);
-        $price = floor($price * 100) / 100;
+        $price = round($price, 2);
 
-        return floatval($price) == $payed;
+        return $price == $payed;
     }
 
     public static function deleteOld(){
         $now = now();
         $validityLimit = $now->subMinutes(self::$durationValidityM);
-        $tickets = self::where('created_at', '<=', $validityLimit)->delete();
+        self::where('created_at', '<=', $validityLimit)->delete();
     }
 }

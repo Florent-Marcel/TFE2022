@@ -21,7 +21,7 @@ import axios from 'axios';
                     <font-awesome-icon :icon="['fa', 'couch']" v-if="seat.activated"/>
                 </div>
             </div>
-            <span class="info" v-if="nbSeatsSelected">{{Math.floor(nbSeatsSelected * show.price * 100) / 100}}€</span>
+            <span class="info" v-if="nbSeatsSelected">{{Math.round(nbSeatsSelected * show.price *100)/100}}€</span>
             <span class="info" v-else></span>
             <Button :disabled="!canContinue" @click="createTemporaryTickets">{{__("Confirm")}}</Button>
             <div class="errors">

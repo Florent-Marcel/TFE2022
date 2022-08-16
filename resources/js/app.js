@@ -35,12 +35,14 @@ createInertiaApp({
             .component('VueMultiselect', VueMultiselect);
 
         myApp.config.globalProperties.$dateToLittleString = (date) =>{
-            moment.locale('fr');
+            let locale = usePage().props.value.locale
+            moment.locale(locale);
             return moment(date).format('L');
         };
 
         myApp.config.globalProperties.$dateToHourString = (date) =>{
-            moment.locale('fr');
+            let locale = usePage().props.value.locale
+            moment.locale(locale);
             return moment(date).format('LT');
         };
 
@@ -51,7 +53,8 @@ createInertiaApp({
         };
 
         myApp.config.globalProperties.$dateToString = (date) =>{
-            moment.locale('fr');
+            let locale = usePage().props.value.locale
+            moment.locale(locale);
             return moment(date).format('LL');
         },
 

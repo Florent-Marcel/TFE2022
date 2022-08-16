@@ -42,23 +42,17 @@ class Showing extends Model
     }
 
     public static function currentShowings($events = false){
-        $showings = Showing::whereDate('begin', '>=', now())->get();
-        $toRemove = [];
-        foreach($showings as $key => &$show){
-            $show->showingType;
-            if($events != $show->showingType->is_event){
-                array_push($toRemove, $key);
-                continue;
-            }
-            $show->movie->personalitiesProfessionsMovies;
-            $show->room->roomType;
-            $show->language;
-            unset($show);
-        }
-        foreach($toRemove as $rem){
-            $showings->forget($rem);
-        }
-        return $showings->values();
+        $showings = Showing::where('begin', '>=', now('Europe/Brussels'))
+                    ->join('showing_types', 'showings.showing_type_id', 'showing_types.id')
+                    ->join('movies', 'showings.movie_id', 'movies.id')
+                    ->join('rooms', 'showings.room_id', 'rooms.id')
+                    ->join('room_types', 'rooms.room_type_id', 'room_types.id')
+                    ->join('languages', 'showings.language_id', 'languages.id')
+                    ->select('showings.*',
+                    'type_fr', 'type_en', 'is_event', 'room_types.type AS type_room', 'room_types.id AS room_types_id',
+                    'languages.language', 'movies.title_fr', 'movies.title_en')
+                    ->where('is_event', $events)->get();
+        return $showings;
     }
 
     public static function showWithSeats($idShow){
@@ -75,6 +69,12 @@ class Showing extends Model
         unset($ticket);
 
         return $show;
+    }
+
+    public static function isShowStillAvailable($idShow){
+        $show = Showing::where('id', '=', $idShow)->select('begin')->first();
+        $now = now('Europe/Brussels');
+        return $show->begin > $now;
     }
 
     public static function seatsStillAvailable($idShow, $seats){

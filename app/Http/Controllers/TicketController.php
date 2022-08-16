@@ -9,6 +9,7 @@ use App\Models\TemporaryTicket;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Inertia\Inertia;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use PDF;
 use QrCode;
@@ -123,15 +124,16 @@ class TicketController extends Controller
         return $res;
     }
 
-    public function getFromIdCapture($captureId){
+    public function indexFromCaptureId($captureId){
         $tickets = Ticket::getByIdCapture($captureId);
         $show = Showing::showWithSeats($tickets[0]->showing_id);
         $movie = Movie::getMovieByID($show->movie_id);
-        return [
+        $data = [
             'show' => $show,
             'tickets' => $tickets,
             'movie' => $movie,
         ];
+        return Inertia::render('PaymentResult', $data );
     }
 
     public function downloadPDF($id) {
