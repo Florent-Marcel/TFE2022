@@ -27,7 +27,8 @@ class TypeResource extends Resource
         return $form
             ->schema([
                 TextInput::make('tmdb_id')->numeric()->unique(ignoreRecord: true)->required(),
-                TextInput::make('type')->unique(ignoreRecord: true)->required()->maxLength(64),
+                TextInput::make('type_en')->unique(ignoreRecord: true)->required()->maxLength(64),
+                TextInput::make('type_fr')->unique(ignoreRecord: true)->required()->maxLength(64),
             ]);
     }
 
@@ -35,7 +36,7 @@ class TypeResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('type')->searchable(),
+                TextColumn::make('type_en')->searchable(),
                 TextColumn::make('tmdb_id')->searchable(),
             ])
             ->filters([

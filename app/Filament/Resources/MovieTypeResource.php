@@ -29,10 +29,10 @@ class MovieTypeResource extends Resource
         return $form
             ->schema([
                 Select::make('movie_id')
-                    ->relationship('movie', 'title')
+                    ->relationship('movie', 'title_en')
                     ->required(),
                 Select::make('type_id')
-                    ->relationship('type', 'type')
+                    ->relationship('type', 'type_en')
                     ->required(),
             ]);
     }
@@ -41,12 +41,12 @@ class MovieTypeResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('movie.title')->searchable()->sortable(),
-                TextColumn::make('type.type')->searchable()->sortable(),
+                TextColumn::make('movie.title_en')->searchable()->sortable(),
+                TextColumn::make('type.type_en')->searchable()->sortable(),
             ])
             ->filters([
-                SelectFilter::make('movie')->relationship('movie', 'title'),
-                SelectFilter::make('type')->relationship('type', 'type'),
+                SelectFilter::make('movie')->relationship('movie', 'title_en'),
+                SelectFilter::make('type')->relationship('type', 'type_en'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

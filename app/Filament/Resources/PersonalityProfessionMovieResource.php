@@ -27,7 +27,7 @@ class PersonalityProfessionMovieResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('movie_id')->relationship('movie', 'title')->required(),
+                Select::make('movie_id')->relationship('movie', 'title_en')->required(),
                 Select::make('profession_id')->relationship('profession', 'profession')->required(),
                 Select::make('personality_id')->relationship('personality', 'name')->required(),
             ]);
@@ -37,12 +37,12 @@ class PersonalityProfessionMovieResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('movie.title')->sortable()->searchable(),
+                TextColumn::make('movie.title_en')->sortable()->searchable(),
                 TextColumn::make('profession.profession')->sortable()->searchable(),
                 TextColumn::make('personality.name')->sortable()->searchable(),
             ])
             ->filters([
-                SelectFilter::make('movie')->relationship('movie', 'title'),
+                SelectFilter::make('movie')->relationship('movie', 'title_en'),
                 SelectFilter::make('profession')->relationship('profession', 'profession'),
                 SelectFilter::make('personality')->relationship('personality', 'name'),
             ])

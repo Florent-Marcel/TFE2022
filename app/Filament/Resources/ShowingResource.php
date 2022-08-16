@@ -36,8 +36,8 @@ class ShowingResource extends Resource
             ->schema([
                 DateTimePicker::make('begin')->required(),
                 TextInput::make('price')->numeric()->mask(fn (TextInput\Mask $mask) => $mask->money('€', ',', 2)),
-                Select::make('movie_id')->relationship('movie', 'title')->required(),
-                Select::make('showing_type_id')->relationship('showingtype', 'type')->required(),
+                Select::make('movie_id')->relationship('movie', 'title_en')->required(),
+                Select::make('showing_type_id')->relationship('showingtype', 'type_en')->required(),
                 Select::make('language_id')->relationship('language', 'language')->required(),
                 Select::make('room_id')->relationship('room', 'num_room_type', function ($query) {
                     return $query->join('room_types', 'rooms.room_type_id', '=', 'room_types.id')->select('rooms.id as id', 'num_room', DB::raw("CONCAT(num_room, ' (', type, ')') as num_room_type"));
@@ -59,15 +59,15 @@ class ShowingResource extends Resource
                     return $time->format('Y-m-d H:i');
                 }),
                 TextColumn::make('price')->sortable(),
-                TextColumn::make('movie.title')->searchable()->sortable(),
-                TextColumn::make('showingtype.type')->sortable(),
+                TextColumn::make('movie.title_en')->searchable()->sortable(),
+                TextColumn::make('showingtype.type_en')->sortable(),
                 BooleanColumn::make('showingtype.is_event')->sortable()->label('event'),
                 TextColumn::make('language.language')->sortable(),
                 TextColumn::make('room.num_room')->sortable(),
                 TextColumn::make('room.roomtype.type')->sortable()->label('Room type'),
             ])
             ->filters([
-                SelectFilter::make('movie')->relationship('movie', 'title'),
+                SelectFilter::make('movie')->relationship('movie', 'title_en'),
                 SelectFilter::make('room')->relationship('room', 'num_room'),
                 Filter::make('created_at')
                     ->form([

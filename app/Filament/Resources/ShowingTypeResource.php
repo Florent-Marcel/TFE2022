@@ -28,7 +28,8 @@ class ShowingTypeResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('type')->unique(ignoreRecord: true)->required()->maxLength(64),
+                TextInput::make('type_fr')->unique(ignoreRecord: true)->required()->maxLength(64),
+                TextInput::make('type_en')->unique(ignoreRecord: true)->required()->maxLength(64),
                 Checkbox::make('is_event'),
             ]);
     }
@@ -37,7 +38,7 @@ class ShowingTypeResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('type')->sortable()->searchable(),
+                TextColumn::make('type_en')->sortable()->searchable(),
                 BooleanColumn::make('is_event')->sortable(),
             ])
             ->filters([
