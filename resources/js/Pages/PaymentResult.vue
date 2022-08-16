@@ -38,9 +38,6 @@ export default defineComponent({
     },
 
     beforeMount(){
-        console.log(this.show)
-        console.log(this.tickets)
-        console.log(this.movie)
     },
 
     methods:{

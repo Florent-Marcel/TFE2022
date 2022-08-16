@@ -86,7 +86,6 @@ export default defineComponent({
                 let app = this;
                 return axios.get("/api/movie/"+movie.id)
                     .then(function(response){
-                        console.log(response);
                         app.dataMovie = response.data;
                         return app.dataMovie;
                     })

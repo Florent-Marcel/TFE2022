@@ -7,6 +7,7 @@ use App\Models\Showing;
 use App\Models\TemporaryTicket;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -121,20 +122,23 @@ class TemporaryTicketController extends Controller
         if(auth()->id() != $tempTickets[0]->user_id){
             throw new HttpException(403, "not authorized to access");
         }
-        $now = now();
+        $now = now('Europe/Brussels');
         $tickDate = new Carbon($tempTickets[0]->created_at);
+        $tickDate->shiftTimezone('Europe/Brussels');
         $tickDate->addMinutes(25);
         $tickDate = $tickDate->timestamp;
         $now = $now->timestamp;
         $time = $now - $tickDate;
         $show = Showing::showWithSeats($tempTickets[0]->showing_id);
         $movie = Movie::getMovieByID($show->movie_id);
-        return [
+        $data =  [
             'show' => $show,
             'temporaryTickets' => $tempTickets,
             'sessionCode' => $code,
             'movie' => $movie,
             'time' => $time,
         ];
+
+        return Inertia::render('Payment', $data);
     }
 }

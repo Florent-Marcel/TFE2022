@@ -19,7 +19,17 @@ class ShowingController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Showings', [
+            'showings' => Showing::currentShowings(),
+        ]);
+    }
+
+    public function indexEvents()
+    {
+        return Inertia::render('Showings', [
+            'showings' => Showing::currentShowings(true),
+            'isEvents' => true,
+        ]);
     }
 
     /**

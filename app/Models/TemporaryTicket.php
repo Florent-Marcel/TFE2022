@@ -88,7 +88,7 @@ class TemporaryTicket extends Model
         $price = 0.0;
         $show = Showing::findOrFail($tempTickets[0]->showing_id);
         $price = $show->price * count($tempTickets);
-        $price = floor($price * 100) / 100;
+        $price = $price;
 
         return floatval($price) == $payed;
     }
