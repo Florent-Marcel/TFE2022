@@ -42,7 +42,7 @@ class Showing extends Model
     }
 
     public static function currentShowings($events = false){
-        $showings = Showing::whereDate('begin', '>=', now('Europe/Brussels'))
+        $showings = Showing::where('begin', '>=', now('Europe/Brussels'))
                     ->join('showing_types', 'showings.showing_type_id', 'showing_types.id')
                     ->join('movies', 'showings.movie_id', 'movies.id')
                     ->join('rooms', 'showings.room_id', 'rooms.id')

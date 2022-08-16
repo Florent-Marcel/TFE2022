@@ -124,7 +124,7 @@ class TemporaryTicketController extends Controller
         }
         $now = now('Europe/Brussels');
         $tickDate = new Carbon($tempTickets[0]->created_at);
-        $tickDate->shiftTimezone('Europe/Brussels');
+        $tickDate->setTimezone('Europe/Brussels');
         $tickDate->addMinutes(25);
         $tickDate = $tickDate->timestamp;
         $now = $now->timestamp;

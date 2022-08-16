@@ -159,7 +159,7 @@ export default defineComponent({
     },
     computed: {
         price(){
-            return this.show.price * this.nbTickets;
+            return Math.round(this.show.price * this.nbTickets * 100) /100;
         },
         nbTickets(){
             return this.temporaryTickets.length;
