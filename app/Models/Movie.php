@@ -104,37 +104,19 @@ class Movie extends Model
         return null;
     }
 
-    public static function getMovieByID($id, $events=false){
-        $movie = Movie::findOrFail($id);
-        $toRemove = [];
-        $movie->showings;
-
-        foreach($movie->showings as $key => &$show){
-            if($show->begin < Carbon::now('Europe/Brussels')){
-                array_push($toRemove, $key);
-                continue;
-            }
-            $show->showingType;
-            $show->language;
-            $show->room->roomType;
-        }
-        unset($show);
-
-        $movie->types;
-        $movie->personalitiesProfessionsMovies;
-        foreach($movie->personalitiesProfessionsMovies as &$perso){
-            $perso->personality;
-            $perso->profession;
-        }
-        unset($perso);
-
-        foreach($toRemove as $rem){
-            $movie->showings->forget($rem);
-        }
-        $showings = $movie->showings->values();
-
-        $movie = $movie->toArray();
-        $movie['showings'] = $showings;
+    public static function getMovieByID($id){
+        $movie = Movie::where('id', '=', $id)
+                ->with(['showings' => function($query) {
+                    $query->where('begin', '>=', Carbon::now('Europe/Brussels'))
+                    ->with('showingType', 'language')
+                    ->with(['room' => function($query) {
+                        $query->with('roomType');
+                    }]);
+                }])
+                ->with('types')
+                ->with(['personalitiesProfessionsMovies' => function($query) {
+                    $query->with('personality', 'profession');
+                }])->first();
 
         return $movie;
     }
