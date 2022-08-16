@@ -11,6 +11,8 @@ class TemporaryTicket extends Model
 {
     use HasFactory;
 
+    private static $durationValidityM = 30;
+
     protected $fillable = [
         'code', 'num_seat', 'showing_id', 'user_id',
     ];
@@ -89,5 +91,11 @@ class TemporaryTicket extends Model
         $price = floor($price * 100) / 100;
 
         return floatval($price) == $payed;
+    }
+
+    public static function deleteOld(){
+        $now = now();
+        $validityLimit = $now->subMinutes(self::$durationValidityM);
+        $tickets = self::where('created_at', '<=', $validityLimit)->delete();
     }
 }
