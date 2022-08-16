@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\TemporaryTicketController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\WebsiteLangController;
 use App\Models\Movie;
 use App\Models\Paypal;
 use App\Models\Showing;
@@ -84,5 +85,10 @@ Route::get('/downloadPDF/{ticket}', function($ticket){
     $controller = new TicketController();
     return $controller->downloadPDF($ticket);
 })->middleware(['auth', 'verified'])->name('download.ticket');
+
+Route::get('lang/change/{lang}', function($lang){
+    $controller = new WebsiteLangController();
+    return $controller->change($lang);
+})->name('lang.change');
 
 require __DIR__.'/auth.php';

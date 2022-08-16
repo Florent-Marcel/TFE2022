@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('showing_types', function (Blueprint $table) {
             $table->id();
-            $table->string("type", 64)->unique();
+            $table->string("type_fr", 64)->unique();
+            $table->string("type_en", 64)->unique();
             $table->boolean("is_event");
             $table->softDeletes();
         });

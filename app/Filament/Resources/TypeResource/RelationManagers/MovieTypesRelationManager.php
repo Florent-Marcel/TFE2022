@@ -28,7 +28,7 @@ class MovieTypesRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                TextColumn::make('movie.title')->searchable()->sortable(),
+                TextColumn::make('movie.title_en')->searchable()->sortable(),
             ])
             ->filters([
 

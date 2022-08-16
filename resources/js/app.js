@@ -14,6 +14,8 @@ import 'vue-multiselect/dist/vue-multiselect.css'
 import moment from 'moment';
 import 'moment/dist/locale/fr';
 import 'moment/dist/locale/en-gb';
+import globalMixin from './base'
+import { usePage } from '@inertiajs/inertia-vue3'
 
 library.add(faUser, faCouch, faCircleXmark, faFilePdf)
 
@@ -24,6 +26,8 @@ createInertiaApp({
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
     setup({ el, app, props, plugin }) {
         const myApp = createApp({ render: () => h(app, props) })
+            .mixin({ methods: { route } })
+            .mixin(globalMixin)
             .use(plugin)
             .use(ZiggyVue, Ziggy)
             .use(moment)
@@ -60,6 +64,11 @@ createInertiaApp({
             let nbMinutes = Math.floor(seconds /60);
             let nbSeconds = seconds % 60;
             return `${nbMinutes}m${nbSeconds}s`;
+        },
+
+        myApp.config.globalProperties.$t = (key) => {
+            let locale = usePage().props.value.locale
+            return `${key}_${locale}`;
         },
 
         myApp.config.globalProperties.$route = route

@@ -19,7 +19,7 @@ class Movie extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'tmdb_id', 'title', 'synopsis', 'date_release', 'duration', 'rating', 'poster_url'
+        'tmdb_id', 'title_fr','title_en', 'synopsis_fr','synopsis_en', 'date_release', 'duration', 'rating', 'poster_url'
     ];
 
     private static $TMDB_API_KEY = "24cfeb5948080c6e86dd4fcb22c877f1";
@@ -99,16 +99,17 @@ class Movie extends Model
     public static function createFromTMDB($tmdbData){
         if(isset($tmdbData['en'], $tmdbData['en']['title'])){
             return self::create([
-                'title' => $tmdbData['en']['title'],
+                'title_en' => $tmdbData['en']['title'],
+                'title_fr' => $tmdbData['fr']['title'],
                 'date_release' => $tmdbData['en']['release_date'],
                 'duration' => $tmdbData['en']['runtime'],
                 'rating' => isset($tmdbData['en']['vote_average']) ? $tmdbData['en']['vote_average'] : "",
-                'synopsis' => $tmdbData['en']['overview'],
+                'synopsis_fr' => $tmdbData['fr']['overview'],
+                'synopsis_en' => $tmdbData['en']['overview'],
                 'tmdb_id' => $tmdbData['en']['id'],
                 'poster_url' => isset($tmdbData['en']['poster_url']) ? $tmdbData['en']['poster_url'] : "",
             ]);
         }
-
         return null;
     }
 

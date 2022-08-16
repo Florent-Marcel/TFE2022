@@ -20,12 +20,12 @@ import { Inertia } from '@inertiajs/inertia'
 
     <BuyLayout :movie="movie" :show="show" :title="'Payment'">
         <div class="wrapper-payment">
-            <span class="info">{{movie.title}}</span>
-            <span class="info">Number of tickets: {{nbTickets}}</span>
-            <span class="info">Total : {{price}}€</span>
+            <span class="info">{{movie[$t('title')]}}</span>
+            <span class="info">{{__("Number of tickets")}}: {{nbTickets}}</span>
+            <span class="info">Total: {{price}}€</span>
             <div class="paypal" ref="paypal" v-show="!timeError"></div>
-            <Button @click="cancel">Cancel</Button>
-            <span class="info">Remaining time: {{$secondsToMinutesString(remainingTime)}}</span>
+            <Button @click="cancel">{{__("Cancel")}}</Button>
+            <span class="info">{{__("Remaining time")}}: {{$secondsToMinutesString(remainingTime)}}</span>
             <div class="errors">
                 <div v-for="error in errors">
                     {{error}}

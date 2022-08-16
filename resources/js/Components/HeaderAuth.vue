@@ -1,5 +1,6 @@
 <script setup>
 import { defineComponent } from 'vue'
+import { Link } from '@inertiajs/inertia-vue3';
 </script>
 
 <template>
@@ -9,8 +10,8 @@ import { defineComponent } from 'vue'
         </div>
         <div class="buttons-header-wrapper">
             <font-awesome-icon icon="fa-solid fa-user" />
-            <span>FR</span>
-            <span>EN</span>
+            <Link :href="route('lang.change', 'fr')">FR</Link>
+            <Link :href="route('lang.change', 'en')">EN</Link>
         </div>
     </div>
 </template>

@@ -44,7 +44,7 @@ class PersonalityResource extends Resource
                 TextColumn::make('professions_count')->counts('professions')->sortable(),
             ])
             ->filters([
-                SelectFilter::make('movie')->relationship('movies', 'title'),
+                SelectFilter::make('movie')->relationship('movies', 'title_en'),
                 SelectFilter::make('profession')->relationship('professions', 'profession'),
             ])
             ->actions([

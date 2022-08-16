@@ -21,7 +21,7 @@ class TypesChart extends PieChartWidget
         ->join('movies', 'movies.id', '=', 'movies_types.movie_id')
         ->join('showings', 'showings.movie_id', '=', 'movies.id')
         ->join('tickets', 'tickets.showing_id', '=', 'showings.id')
-        ->select('types.id', 'types.type as type_type', DB::raw('count(tickets.id) as tickets_count'))
+        ->select('types.id', 'types.type_en as type_type', DB::raw('count(tickets.id) as tickets_count'))
         ->groupBy('types.id')
         ->orderBy('tickets_count')
         ->limit(7)

@@ -13,7 +13,7 @@ class Type extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'tmdb_id', 'type'
+        'tmdb_id', 'type_fr', 'type_en'
     ];
 
     public function movies(){
@@ -28,17 +28,28 @@ class Type extends Model
     // ['id' => integer, 'name' => string]
     public static function createIfNotPresent($arrayData){
         $toAdd = [];
-        foreach($arrayData as $data){
+        foreach($arrayData['en'] as $data){
             $finded = self::getByTMDBID($data['id']);
             if(count($finded) == 0){
+                $dataFr = self::searchInArrayById($arrayData['fr'], $data['id']);
                 array_push($toAdd,
                 [
                     'tmdb_id' => $data['id'],
-                    'type' => $data['name']
+                    'type_en' => $data['name'],
+                    'type_fr' => $dataFr ? $dataFr['name'] : $data['name']
                 ]);
             }
         }
         Type::insert($toAdd);
+    }
+
+    private static function searchInArrayById($arrayData, $id){
+        foreach($arrayData as $data){
+            if($data['id'] == $id){
+                return $data;
+            }
+        }
+        return null;
     }
 
     public static function getByTMDBID($tmdbID){

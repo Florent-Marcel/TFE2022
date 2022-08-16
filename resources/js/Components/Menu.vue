@@ -6,15 +6,15 @@ import { Link } from '@inertiajs/inertia-vue3';
 <template>
     <div class="menu">
         <div class="elem-menu">
-            <Link :class="{'actif' : route().current() == 'movies'}" :href="route('movies')">Films</Link>
+            <Link :class="{'actif' : route().current() == 'movies'}" :href="route('movies')">{{__("Movies")}}</Link>
             <div class="actif-bar" v-if="route().current() == 'movies'"></div>
         </div>
         <div class="elem-menu">
-            <Link :class="{'actif' : route().current() == 'showings'}" :href="route('showings')">Showings</Link>
+            <Link :class="{'actif' : route().current() == 'showings'}" :href="route('showings')">{{__("Showings")}}</Link>
             <div class="actif-bar" v-if="route().current() == 'showings'"></div>
         </div>
         <div class="elem-menu">
-            <Link :class="{'actif' : route().current() == 'events'}" :href="route('events')">Events</Link>
+            <Link :class="{'actif' : route().current() == 'events'}" :href="route('events')">{{__("Events")}}</Link>
             <div class="actif-bar" v-if="route().current() == 'events'"></div>
         </div>
     </div>

@@ -13,10 +13,10 @@ import { Link } from '@inertiajs/inertia-vue3';
 <template>
     <Head title="Dashboard" />
 
-    <BuyLayout :movie="movie" :show="show" :title="'Here is your tickets'">
+    <BuyLayout :movie="movie" :show="show" title="Here are your tickets">
         <div class="tickets-wrapper">
             <div v-for="ticket in tickets" :key="ticket.id" class="ticket">
-                <span class="info">Seat {{ticket.num_seat}}: </span>
+                <span class="info">{{__("Seat")}} {{ticket.num_seat}}: </span>
                 <a :href="route('download.ticket', ticket.id)"><font-awesome-icon class="pdf" icon="fa-solid fa-file-pdf" size="xl"/></a>
             </div>
         </div>

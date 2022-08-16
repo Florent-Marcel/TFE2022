@@ -21,7 +21,6 @@ return new class extends Migration
             $table->foreignId("language_id")->constrained("languages");
             $table->dateTime("begin");
             $table->double("price");
-            $table->integer("buffer")->default(0);
             $table->softDeletes();
         });
     }

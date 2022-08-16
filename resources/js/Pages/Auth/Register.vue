@@ -28,7 +28,7 @@ const submit = () => {
         <Head title="Register" />
         <div class="register-wrapper">
             <div class="register">
-                <h3 class="title">Register</h3>
+                <h3 class="title">{{__("Register")}}</h3>
                 <BreezeValidationErrors class="mb-4 errors" />
 
                 <form @submit.prevent="submit">
@@ -54,10 +54,10 @@ const submit = () => {
                     </div>
                     <div class="flex items-center justify-end mt-4">
                         <Link :href="route('login')" class="underline text-sm hover:text-gray-900 text-white">
-                            Already registered?
+                            {{__("Already registered?")}}
                         </Link>
                         <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            Register
+                            {{__("Register")}}
                         </BreezeButton>
                     </div>
                 </form>

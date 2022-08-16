@@ -52,11 +52,13 @@ class MovieResource extends Resource
     public static function getFormWithTMDB(Form $form, $data): Form{
         return $form
             ->schema([
-                TextInput::make('title')->default(isset($data['en']['title']) ? $data['en']['title'] : "")->required(),
+                TextInput::make('title_en')->default(isset($data['en']['title']) ? $data['en']['title'] : "")->required(),
+                TextInput::make('title_fr')->default(isset($data['fr']['title']) ? $data['en']['title'] : "")->required(),
                 DatePicker::make('date_release')->default(isset($data['en']['release_date']) ? $data['en']['release_date'] : "")->required(),
                 TextInput::make('duration')->numeric()->default(isset($data['en']['runtime']) ? $data['en']['runtime'] : "")->required(),
+                Textarea::make('synopsis_en')->default(isset($data['en']['overview']) ? $data['en']['overview'] : ""),
+                Textarea::make('synopsis_fr')->default(isset($data['fr']['overview']) ? $data['en']['overview'] : ""),
                 TextInput::make('rating')->numeric()->default(isset($data['en']['vote_average']) ? $data['en']['vote_average'] : ""),
-                Textarea::make('synopsis')->default(isset($data['en']['overview']) ? $data['en']['overview'] : ""),
                 TextInput::make('tmdb_id')->numeric()->unique(ignoreRecord: true)->default(isset($data['en']['id']) ? $data['en']['id'] : "")->required(),
                 TextInput::make('poster_url')->url()->default(isset($data['en']['poster_url']) ? $data['en']['poster_url'] : ""),
                 Hidden::make('tmdb_data')->default(isset($data) ? json_encode($data) : ""),
@@ -75,7 +77,7 @@ class MovieResource extends Resource
         return $table
             ->columns([
                 ImageColumn::make('poster_url')->label('Poster'),
-                TextColumn::make('title')->searchable(),
+                TextColumn::make('title_en')->searchable(),
                 TextColumn::make('date_release')->searchable(),
                 TextColumn::make('tmdb_id')->searchable(),
             ])

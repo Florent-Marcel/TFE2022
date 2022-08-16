@@ -32,7 +32,7 @@ const submit = () => {
         <Head title="Log in" />
         <div class="login-wrapper">
             <div class="login">
-                <h3 class="title">Login</h3>
+                <h3 class="title">{{__("Login")}}</h3>
                 <BreezeValidationErrors class="mb-4" />
 
                 <div v-if="status" class="mb-4 font-medium text-sm text-green-600">

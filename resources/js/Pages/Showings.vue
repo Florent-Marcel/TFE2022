@@ -12,23 +12,23 @@ import { Link } from '@inertiajs/inertia-vue3';
 
     <BreezeAuthenticatedLayout>
         <div class="title">
-            <h3 v-if="!isEvents">Liste des séances</h3>
-            <h3 v-else>Liste des évènements</h3>
+            <h3 v-if="!isEvents">{{__("List of movie showings")}}</h3>
+            <h3 v-else>{{__("List of events")}}</h3>
         </div>
 
         <div class="filter-wrapper">
             <div class="filter">
-                <span class="filter-label">Title</span>
+                <span class="filter-label">{{__("Title")}}</span>
                 <VueMultiselect :options="titles" v-model="filters.title">
                 </VueMultiselect>
             </div>
             <div class="filter">
-                <span class="filter-label">Language</span>
+                <span class="filter-label">{{__("Language")}}</span>
                 <VueMultiselect :options="languages" v-model="filters.language">
                 </VueMultiselect>
             </div>
-            <div class="filter">
-                <span class="filter-label">Event type</span>
+            <div class="filter" v-if="isEvents">
+                <span class="filter-label">{{__("Type of event")}}</span>
                 <VueMultiselect :options="events" v-model="filters.event">
                 </VueMultiselect>
             </div>
@@ -40,8 +40,8 @@ import { Link } from '@inertiajs/inertia-vue3';
                 <div v-for="(movie, idMovie) in movies" :key="idMovie">
                     <div :class="{'show-wrapper':true, 'not-last':!isLast(movies,idMovie)}">
                         <div @click="infoMovie(movie)" class="movie-title">
-                        <span>{{movie[0].movie.title}} - {{movie[0].language.language}} {{movie[0].room.room_type.type}}</span>
-                        <span v-if="isEvents"> - {{movie[0].showing_type.type.replace("_", " ")}}</span>
+                        <span>{{movie[0].movie[$t('title')]}} - {{movie[0].language.language}} {{movie[0].room.room_type.type}}</span>
+                        <span v-if="isEvents"> - {{movie[0].showing_type[$t('type')]}}</span>
                         </div>
                         <div class="time-wrapper">
                             <div v-for="show in movie" :key="show.id">
@@ -166,7 +166,7 @@ export default defineComponent({
             let res = {};
             for(const [keyShow, show] of Object.entries(showByDatesMovies)){
                 for(const [keyData, data] of Object.entries(show)){
-                    if(data[0].movie.title.includes(this.filters.title)){
+                    if(data[0].movie[this.$t('title')].includes(this.filters.title)){
                         if(!res[keyShow]){
                             res[keyShow] = {};
                         }
@@ -209,7 +209,7 @@ export default defineComponent({
             for(const [keyShow, show] of Object.entries(showByDatesMovies)){
                 for(const [keyData, data] of Object.entries(show)){
                     for(const [keyDetails, details] of Object.entries(data)){
-                        let event = details.showing_type.type.replace("_", " ")
+                        let event = details.showing_type[this.$t('type')]
                         if(event == this.filters.event){
                             if(!res[keyShow]){
                                 res[keyShow] = {}
@@ -235,8 +235,8 @@ export default defineComponent({
             let res = [];
             for(const [keyShow, show] of Object.entries(this.filtered)){
                 for(const [keyData, data] of Object.entries(show)){
-                    if(!res.includes(data[0].movie.title)){
-                        res.push(data[0].movie.title);
+                    if(!res.includes(data[0].movie[this.$t('title')])){
+                        res.push(data[0].movie[this.$t('title')]);
                     }
                 }
             }
@@ -263,7 +263,7 @@ export default defineComponent({
                 for(const [keyData, data] of Object.entries(show)){
                     for(const [keyDetails, details] of Object.entries(data)){
                         if(keyDetails != 'title'){
-                            let event = details.showing_type.type.replace("_", " ")
+                            let event = details.showing_type[this.$t('type')]
                             if(!res.includes(event)){
                                 res.push(event);
                             }

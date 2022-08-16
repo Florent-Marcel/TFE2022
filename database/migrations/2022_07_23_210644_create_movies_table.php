@@ -16,8 +16,10 @@ return new class extends Migration
         Schema::create('movies', function (Blueprint $table) {
             $table->id();
             $table->integer('tmdb_id')->unique();
-            $table->string("title");
-            $table->text("synopsis")->nullable();
+            $table->string("title_fr");
+            $table->string("title_en");
+            $table->text("synopsis_fr")->nullable();
+            $table->text("synopsis_en")->nullable();
             $table->date("date_release");
             $table->integer("duration", false, true);
             $table->double("rating", null, null, true)->nullable();
