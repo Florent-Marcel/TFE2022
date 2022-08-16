@@ -45,21 +45,12 @@ class Movie extends Model
     }
 
     public static function currentMovies(){
-        $movies = Movie::select('movies.*')->join('showings', 'showings.movie_id', '=', 'movies.id')->whereDate('showings.begin','>=', now())->groupBy('movies.id')->get();
-        $toRemove = [];
-        foreach($movies as $key => &$movie){
-            $movie->showings;
-            if(count($movie->showings) == 0){
-                array_push($toRemove, $key);
-                continue;
-            }
-            $movie->types;
-            unset($movie, $showings, $types);
-        }
-        foreach($toRemove as $rem){
-            $movies->forget($rem);
-        }
-        return $movies->values();
+        $movies = Movie::select('movies.*')->join('showings', 'showings.movie_id', '=', 'movies.id')
+                ->with('types', 'showings')
+                ->whereDate('showings.begin','>=', now('Europe/Brussels'))
+                ->groupBy('movies.id')->has('showings', '>', 0)->get();
+
+        return $movies;
     }
 
     public static function tmdbSearch($title, $year){
