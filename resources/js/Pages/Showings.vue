@@ -40,8 +40,8 @@ import { Link } from '@inertiajs/inertia-vue3';
                 <div v-for="(movie, idMovie) in movies" :key="idMovie">
                     <div :class="{'show-wrapper':true, 'not-last':!isLast(movies,idMovie)}">
                         <div @click="infoMovie(movie)" class="movie-title">
-                        <span>{{movie[0].movie[$t('title')]}} - {{movie[0].language.language}} {{movie[0].room.room_type.type}}</span>
-                        <span v-if="isEvents"> - {{movie[0].showing_type[$t('type')]}}</span>
+                        <span>{{movie[0][$t('title')]}} - {{movie[0].language}} {{movie[0].type_room}}</span>
+                        <span v-if="isEvents"> - {{movie[0][$t('type')]}}</span>
                         </div>
                         <div class="time-wrapper">
                             <div v-for="show in movie" :key="show.id">
@@ -93,7 +93,7 @@ export default defineComponent({
         })
 
         for(let show of this.showings){
-            let key = show.language.id+"_"+show.room.room_type.id+"_"+show.movie_id;
+            let key = show.language_id+"_"+show.room_types_id+"_"+show.movie_id;
             let date = this.dateToString(show.begin)
             if(!this.showByDatesMovies[date]){
                 this.showByDatesMovies[date] = {};
@@ -124,15 +124,15 @@ export default defineComponent({
             return time;
         },
         async infoMovie(movie){
-            await this.getMovie(movie[0].movie);
+            await this.getMovie(movie[0].movie_id);
         },
         movieClose(){
             this.dataMovie = {};
         },
         async getMovie(movie){
-            if(movie && movie.id){
+            if(movie){
                 let app = this;
-                return axios.get("/api/movie/"+movie.id)
+                return axios.get("/api/movie/"+movie)
                     .then(function(response){
                         app.dataMovie = response.data;
                         return app.dataMovie;
@@ -166,7 +166,7 @@ export default defineComponent({
             let res = {};
             for(const [keyShow, show] of Object.entries(showByDatesMovies)){
                 for(const [keyData, data] of Object.entries(show)){
-                    if(data[0].movie[this.$t('title')].includes(this.filters.title)){
+                    if(data[0][this.$t('title')].includes(this.filters.title)){
                         if(!res[keyShow]){
                             res[keyShow] = {};
                         }
@@ -185,7 +185,7 @@ export default defineComponent({
             for(const [keyShow, show] of Object.entries(showByDatesMovies)){
                 for(const [keyData, data] of Object.entries(show)){
                     for(const [keyDetails, details] of Object.entries(data)){
-                        if(details.language.language == this.filters.language){
+                        if(details.language == this.filters.language){
                             if(!res[keyShow]){
                                 res[keyShow] = {}
                             }
@@ -209,7 +209,7 @@ export default defineComponent({
             for(const [keyShow, show] of Object.entries(showByDatesMovies)){
                 for(const [keyData, data] of Object.entries(show)){
                     for(const [keyDetails, details] of Object.entries(data)){
-                        let event = details.showing_type[this.$t('type')]
+                        let event = details[this.$t('type')]
                         if(event == this.filters.event){
                             if(!res[keyShow]){
                                 res[keyShow] = {}
@@ -235,8 +235,8 @@ export default defineComponent({
             let res = [];
             for(const [keyShow, show] of Object.entries(this.filtered)){
                 for(const [keyData, data] of Object.entries(show)){
-                    if(!res.includes(data[0].movie[this.$t('title')])){
-                        res.push(data[0].movie[this.$t('title')]);
+                    if(!res.includes(data[0][this.$t('title')])){
+                        res.push(data[0][this.$t('title')]);
                     }
                 }
             }
@@ -248,8 +248,8 @@ export default defineComponent({
                 for(const [keyData, data] of Object.entries(show)){
                     for(const [keyDetails, details] of Object.entries(data)){
                         if(keyDetails != 'title'){
-                            if(!res.includes(details.language.language)){
-                                res.push(details.language.language);
+                            if(!res.includes(details.language)){
+                                res.push(details.language);
                             }
                         }
                     }
@@ -263,7 +263,7 @@ export default defineComponent({
                 for(const [keyData, data] of Object.entries(show)){
                     for(const [keyDetails, details] of Object.entries(data)){
                         if(keyDetails != 'title'){
-                            let event = details.showing_type[this.$t('type')]
+                            let event = details[this.$t('type')]
                             if(!res.includes(event)){
                                 res.push(event);
                             }
