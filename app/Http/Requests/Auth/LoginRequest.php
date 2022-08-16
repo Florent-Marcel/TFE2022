@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -28,10 +30,19 @@ class LoginRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $data = [
             'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
         ];
+
+        if(session('canConnect')){
+            $data['password'] = ['required', 'string'];
+        } 
+
+        if(session('isAdmin')){
+            $data['tokenAdmin'] = ['required', 'string'];
+        }
+
+        return $data;
     }
 
     /**
@@ -44,6 +55,17 @@ class LoginRequest extends FormRequest
     public function authenticate()
     {
         $this->ensureIsNotRateLimited();
+
+        $user = User::where('email', '=', $this->only('email'))->first();
+        if($user && !$user->is_blocked && $user->is_admin){
+            $t = $this->only('tokenAdmin');
+            if($this->only('tokenAdmin')['tokenAdmin'] != Admin::getToken()){
+                RateLimiter::hit($this->throttleKey());
+                throw ValidationException::withMessages([
+                    'email' => 'The admin token is invalid',
+                ]);
+            }
+        }
 
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
