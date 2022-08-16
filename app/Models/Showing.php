@@ -77,6 +77,12 @@ class Showing extends Model
         return $show;
     }
 
+    public static function isShowStillAvailable($idShow){
+        $show = Showing::where('id', '=', $idShow)->select('begin')->first();
+        $now = now('Europe/Brussels');
+        return $show->begin > $now;
+    }
+
     public static function seatsStillAvailable($idShow, $seats){
         $show = self::findOrFail($idShow);
         if(!is_array($seats) || count($seats) == 0){

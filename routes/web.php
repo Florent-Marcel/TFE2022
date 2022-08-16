@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ShowingController;
 use App\Http\Controllers\TemporaryTicketController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\WebsiteLangController;
@@ -59,15 +60,8 @@ Route::get('/events', function () {
     ]);
 })->middleware(['auth', 'verified'])->name('events');
 
-Route::get('/seats/{idShow}', function ($idShow) {
-    $show = Showing::showWithSeats($idShow);
-    return Inertia::render('Seats', [
-        'show' => $show,
-        'temporaryTickets' => TemporaryTicket::getTemporaryTicketByShow($idShow),
-        'sessionCode' => Uuid::uuid1(),
-        'movie' => Movie::getMovieByID($show->movie_id)
-    ]);
-})->middleware(['auth', 'verified'])->name('seats');
+Route::get('/seats/{idShow}', [ShowingController::class, 'seats'])
+->middleware(['auth', 'verified'])->name('seats');
 
 Route::get('/payment/{code}', function ($code) {
     $controller = new TemporaryTicketController();
