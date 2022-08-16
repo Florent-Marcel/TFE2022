@@ -8,21 +8,24 @@ import BreezeValidationErrors from '@/Components/ValidationErrors.vue';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 import Auth from '@/Layouts/Auth.vue';
 
-defineProps({
+const props = defineProps({
     canResetPassword: Boolean,
     status: String,
     error: String,
+    canConnect: Boolean,
+    isAdmin: Boolean,
 });
 
 const form = useForm({
     email: '',
     password: '',
-    remember: false
+    remember: false,
+    tokenAdmin: '',
 });
 
 const submit = () => {
     form.post(route('login'), {
-        onFinish: () => form.reset('password'),
+            onFinish: () => form.reset('password', 'tokenAdmin'),
     });
 };
 </script>
@@ -48,14 +51,19 @@ const submit = () => {
                         <BreezeInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus autocomplete="username" />
                     </div>
 
-                    <div class="mt-4">
+                    <div class="mt-4" v-show="canConnect">
                         <BreezeLabel for="password" value="Password" />
-                        <BreezeInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="current-password" />
+                        <BreezeInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" autocomplete="current-password" />
+                    </div>
+
+                    <div class="mt-4" v-show="isAdmin">
+                        <BreezeLabel for="tokenAdmin" value="Token admin" />
+                        <BreezeInput id="tokenAdmin" type="password" class="mt-1 block w-full" v-model="form.tokenAdmin"/>
                     </div>
 
                     <div class="block mt-4">
                         <label class="flex items-center">
-                            <BreezeCheckbox name="remember" v-model:checked="form.remember" />
+                            <BreezeCheckbox name="remember" v-model:checked="form.remember"/>
                             <span class="ml-2 text-sm text-gray-600">Remember me</span>
                         </label>
                     </div>
@@ -77,7 +85,7 @@ const submit = () => {
 
 
 <style scoped>
-label, label *{
+label, span{
     color: white;
 }
 .login-wrapper{
