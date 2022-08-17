@@ -27,9 +27,14 @@ import { Link } from '@inertiajs/inertia-vue3';
                 <div class="info">
                     <span class="label-info">{{__("Lastname")}}</span> <span>{{user.lastname}}</span>
                 </div>
-                <Link :href="route('update')" class="link-edit">
-                    <Button>{{__("Edit")}}</Button>
-                </Link>
+                <div class="buttons-wrapper">
+                    <Link :href="route('profil.delete')" class="link-edit">
+                        <Button>{{__("Delete")}}</Button>
+                    </Link>
+                    <Link :href="route('update')" class="link-edit">
+                        <Button>{{__("Edit")}}</Button>
+                    </Link>
+                </div>
             </div>
 
             <div class="tickets-wrapper" v-if="hasTickets">
@@ -113,13 +118,6 @@ export default defineComponent({
 
 </script>
 
-<style>
-.stop-scrolling {
-    height: 100%;
-    overflow: hidden;
-}
-</style>
-
 <style scoped>
 
 .title{
@@ -156,6 +154,13 @@ button{
     text-align: center;
     width: fit-content;
     align-self: center;
+}
+
+.buttons-wrapper{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
 }
 
 .link-edit{

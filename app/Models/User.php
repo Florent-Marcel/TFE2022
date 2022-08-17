@@ -66,4 +66,14 @@ class User extends Authenticatable implements FilamentUser, HasName
     public function temporaryTickets(){
         return $this->hasMany(TemporaryTicket::class);
     }
+
+    public function softDeleteRGPD(){
+        $this->email = "deleted.user@".$this->id;
+        $this->firstname = "deleted";
+        $this->lastname = "deleted";
+        $this->is_blocked = true;
+
+        $this->save();
+        $this->delete();
+    }
 }

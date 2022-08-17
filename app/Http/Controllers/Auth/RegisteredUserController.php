@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -97,5 +98,34 @@ class RegisteredUserController extends Controller
             'user' => $user,
             'tickets' => Ticket::getByUser($user->id)
         ]);
+    }
+
+    public function viewDelete(){
+        $user = auth()->user();
+        return Inertia::render('ProfilDelete', [
+            'user' => $user,
+        ]);
+    }
+
+    public function delete(Request $request){
+        $request->validate([
+            'password' => ['required', 'string'],
+            'confirm' => ['accepted']
+        ]);
+
+        $user = $request->user();
+
+        if (! Auth::guard('web')->validate([
+            'email' => $user->email,
+            'password' => $request->password,
+        ])) {
+            throw ValidationException::withMessages([
+                'password' => __('auth.password'),
+            ]);
+        }
+
+        $user->softDeleteRGPD();
+
+        return redirect(RouteServiceProvider::HOME);
     }
 }

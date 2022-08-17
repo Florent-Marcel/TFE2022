@@ -61,4 +61,10 @@ Route::get('lang/change/{lang}', [WebsiteLangController::class, 'change'])
 Route::get('profil', [RegisteredUserController::class, 'view'])
 ->middleware(['auth', 'verified'])->name('profil');
 
+Route::get('profil/delete', [RegisteredUserController::class, 'viewDelete'])
+->middleware(['auth', 'verified'])->name('profil.delete');
+
+Route::post('profil/delete', [RegisteredUserController::class, 'delete'])
+->middleware(['auth', 'verified']);
+
 require __DIR__.'/auth.php';
