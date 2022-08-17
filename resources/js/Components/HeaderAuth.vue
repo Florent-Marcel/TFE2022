@@ -7,9 +7,9 @@ import BreezeDropdownLink from '@/Components/DropdownLink.vue';
 
 <template>
     <div class="header">
-        <div class="logo-wrapper">
-
-        </div>
+        <Link class="logo-wrapper" :href="route('home')">
+            Cinemar
+        </Link>
 
         <div class="buttons-header-wrapper">
             <BreezeDropdown align="middle" width="48" :contentClasses="['py-1', 'bg-slate-200']">

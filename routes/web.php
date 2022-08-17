@@ -20,7 +20,11 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', [MovieController::class, 'indexFivePopular'])
+Route::get('/', function () {
+    return redirect(route('home'));
+});
+
+Route::get('/home', [MovieController::class, 'indexFivePopular'])
 ->name('home');
 
 Route::get('/dashboard', function () {
