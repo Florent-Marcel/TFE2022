@@ -101,10 +101,7 @@ class RegisteredUserController extends Controller
     }
 
     public function viewDelete(){
-        $user = auth()->user();
-        return Inertia::render('ProfilDelete', [
-            'user' => $user,
-        ]);
+        return Inertia::render('ProfilDelete');
     }
 
     public function delete(Request $request){
@@ -127,5 +124,9 @@ class RegisteredUserController extends Controller
         $user->softDeleteRGPD();
 
         return redirect(RouteServiceProvider::HOME);
+    }
+
+    public function viewPasswordEdit(){
+        return Inertia::render('ProfilPasswordEdit');
     }
 }
