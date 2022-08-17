@@ -53,5 +53,9 @@
     "you don't have an account?": "vous n'avez pas de compte ?",
     "Log in": "Se connecter",
     "Remember me": "Se souvenir de moi",
-    "Token admin": "Code admin"
+    "Token admin": "Code admin",
+    "Home": "Accueil",
+    "Welcome to Cinemar!": "Bienvenue sur Cinemar !",
+    "Most popular movies": "Films les plus populaires",
+    "Top rated movies": "Films les mieux notés"
 }

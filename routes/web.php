@@ -20,18 +20,11 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return redirect(route('movies'));
-    /* return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]); */
-});
+Route::get('/', [MovieController::class, 'indexFivePopular'])
+->name('home');
 
 Route::get('/dashboard', function () {
-    return redirect(route('movies'));
+    return redirect(route('home'));
 })->name('dashboard');
 
 Route::get('/movies', [MovieController::class, 'index'])
