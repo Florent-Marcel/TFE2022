@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'accepted' => 'L\'attribut :attribute doit être accepté.',
+    'accepted' => ':attribute doit être accepté.',
     'accepted_if' => 'L\'attribut :attribute doit être accepté lorsque :other est :value.',
     'active_url' => 'L\'attribut :attribute n\'est pas une URL valide',
     'after' => 'L\'attribut :attribute doit être une date postérieure à :date.',
