@@ -48,5 +48,10 @@
     "Current password": "Current password",
     "New password": "New password",
     "Confirm Password": "Confirm Password",
-    "Edit profil": "Edit profil"
+    "Edit profil": "Edit profil",
+    "Visitor": "Visitor",
+    "you don't have an account?": "you don't have an account?",
+    "Log in": "Log in",
+    "Remember me": "Remember me",
+    "Token admin": "Token admin"
 }

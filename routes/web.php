@@ -31,8 +31,8 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    return redirect(route('movies'));
+})->name('dashboard');
 
 Route::get('/movies', [MovieController::class, 'index'])
 ->middleware([])->name('movies');

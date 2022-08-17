@@ -42,8 +42,8 @@ const open = ref(false);
 </script>
 
 <template>
-    <div class="relative">
-        <div @click="open = ! open">
+    <div class="relative flex">
+        <div @click="open = ! open" class="relative flex flex-no-wrap flex-row content-center items-center">
             <slot name="trigger" />
         </div>
 
@@ -58,7 +58,7 @@ const open = ref(false);
             leave-from-class="transform opacity-100 scale-100"
             leave-to-class="transform opacity-0 scale-95">
             <div v-show="open"
-                    class="absolute z-50 mt-2 rounded-md shadow-lg"
+                    class="absolute z-50 mt-5 rounded-md shadow-lg"
                     :class="[widthClass, alignmentClasses]"
                     style="display: none;"
                     @click="open = false">
