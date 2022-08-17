@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:sanctum')->get('/movie/{id}', function (Request $request, $id) {
+Route::middleware([])->get('/movie/{id}', function (Request $request, $id) {
     return Movie::getMovieByID($id);
 });
 
