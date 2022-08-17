@@ -13,7 +13,6 @@ const form = useForm({
 });
 
 const submit = () => {
-    console.log(form)
     form.post(route('profil.delete'), {
         onFinish: () => form.reset('password'),
     });

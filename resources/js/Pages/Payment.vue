@@ -120,7 +120,6 @@ export default defineComponent({
                         })
                     },
                     onError: err => {
-                        console.log(err);
                     }
                 })
             .render(this.$refs.paypal);
@@ -136,7 +135,6 @@ export default defineComponent({
                 return response.data
             })
             .catch(function(error){
-                console.log(error)
                 return false;
             })
         },
@@ -146,7 +144,6 @@ export default defineComponent({
                 return response.data;
             })
             .catch(function(error){
-                console.log(error)
                 return false
             })
         },

@@ -114,7 +114,6 @@ export default defineComponent({
                 } else{
                     app.errors.push('An error occured');
                 }
-                console.log(error)
                 return false;
             })
         }

@@ -138,7 +138,6 @@ export default defineComponent({
                         return app.dataMovie;
                     })
                     .catch(function(response){
-                        console.log(response)
                     })
             }
         },
