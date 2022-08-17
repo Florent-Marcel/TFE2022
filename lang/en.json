@@ -42,5 +42,10 @@
     "Password": "Password",
     "Delete profil": "Delete profil",
     "Delete your account with your data": "Delete your account with your data",
-    "I confirm": "I confirm"
+    "I confirm": "I confirm",
+    "Edit password": "Edit password",
+    "Edit your password": "Edit your password",
+    "Current password": "Current password",
+    "New password": "New password",
+    "Confirm Password": "Confirm Password",
 }

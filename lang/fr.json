@@ -42,5 +42,10 @@
     "Password": "Mot de passe",
     "Delete profil": "Supprimer votre profil",
     "Delete your account with your data": "Supprimer votre compte avec vos données",
-    "I confirm": "Je confirme"
+    "I confirm": "Je confirme",
+    "Edit password": "Modifier mot de passe",
+    "Edit your password": "Modifier votre mot de passe",
+    "Current password": "Mot de passe actuel",
+    "New password": "Nouveau mot de passe",
+    "Confirm Password": "Confirmation du mot de passe",
 }

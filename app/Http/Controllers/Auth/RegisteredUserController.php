@@ -126,7 +126,32 @@ class RegisteredUserController extends Controller
         return redirect(RouteServiceProvider::HOME);
     }
 
-    public function viewPasswordEdit(){
-        return Inertia::render('ProfilPasswordEdit');
+    public function viewPasswordEdit($status=""){
+        return Inertia::render('ProfilPasswordEdit', [
+            "status" => $status
+        ]);
+    }
+
+    public function passwordEdit(Request $request){
+        $request->validate([
+            'current_password' => ['required'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        $user = $request->user();
+
+        if (! Auth::guard('web')->validate([
+            'email' => $user->email,
+            'password' => $request->current_password,
+        ])) {
+            throw ValidationException::withMessages([
+                'password' => __('auth.password'),
+            ]);
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return self::viewPasswordEdit(__('passwords.edited'));
     }
 }
