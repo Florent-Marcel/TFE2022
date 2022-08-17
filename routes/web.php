@@ -67,4 +67,10 @@ Route::get('profil/delete', [RegisteredUserController::class, 'viewDelete'])
 Route::post('profil/delete', [RegisteredUserController::class, 'delete'])
 ->middleware(['auth', 'verified']);
 
+Route::get('profil/password/edit', [RegisteredUserController::class, 'viewPasswordEdit'])
+->middleware(['auth', 'verified'])->name('profil.password.edit');
+
+Route::post('profil/password/edit', [RegisteredUserController::class, 'passwordEdit'])
+->middleware(['auth', 'verified'])->name('profil.password.edit');
+
 require __DIR__.'/auth.php';
