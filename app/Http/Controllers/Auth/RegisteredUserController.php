@@ -32,9 +32,11 @@ class RegisteredUserController extends Controller
      *
      * @return \Inertia\Response
      */
-    public function viewUpdate()
+    public function viewUpdate($status = '')
     {
-        return Inertia::render('Auth/Update');
+        return Inertia::render('Auth/Update', [
+            'status' => $status,
+        ]);
     }
 
     /**
@@ -77,19 +79,17 @@ class RegisteredUserController extends Controller
                         'max:255',
                         Rule::unique('users')->ignore(Auth::user()->id),
                         ],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'firstname' => 'required|string|max:128',
             'lastname' => 'required|string|max:128',
         ]);
 
         Auth::user()->email = $request->email;
-        Auth::user()->password = Hash::make($request->password);
         Auth::user()->firstname = $request->firstname;
         Auth::user()->lastname = $request->lastname;
 
         auth::user()->save();
 
-        return redirect(RouteServiceProvider::HOME);
+        return self::viewUpdate(__('success.profil_edited'));
     }
 
     public function view(){
