@@ -30,5 +30,12 @@
     "Select your seats": "Select your seats",
     "Payment": "Payment",
     "From": "From",
-    "to": "to"
+    "to": "to",
+    "My profil": "My profil",
+    "Firstname": "Firstname",
+    "Lastname": "Lastname",
+    "Edit": "Edit",
+    "at": "at",
+    "You don't have any tickets": "You don't have any tickets",
+    "My tickets": "My tickets"
 }

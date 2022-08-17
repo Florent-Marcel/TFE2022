@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ticket;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -88,5 +89,13 @@ class RegisteredUserController extends Controller
         auth::user()->save();
 
         return redirect(RouteServiceProvider::HOME);
+    }
+
+    public function view(){
+        $user = auth()->user();
+        return Inertia::render('Profil', [
+            'user' => $user,
+            'tickets' => Ticket::getByUser($user->id)
+        ]);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\ShowingController;
 use App\Http\Controllers\TemporaryTicketController;
@@ -56,5 +57,8 @@ Route::get('/downloadPDF/{ticket}', [TicketController::class, 'downloadPDF'])
 
 Route::get('lang/change/{lang}', [WebsiteLangController::class, 'change'])
 ->name('lang.change');
+
+Route::get('profil', [RegisteredUserController::class, 'view'])
+->middleware(['auth', 'verified'])->name('profil');
 
 require __DIR__.'/auth.php';

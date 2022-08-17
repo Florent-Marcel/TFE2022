@@ -30,5 +30,12 @@
     "Select your seats": "Sélectionnez vos sièges",
     "Payment": "Paiement",
     "From": "Du",
-    "to": "au"
+    "to": "au",
+    "My profil": "Mon profil",
+    "Firstname": "Prénom",
+    "Lastname": "Nom",
+    "Edit": "Modifier",
+    "at": "à",
+    "You don't have any tickets": "Vous n'avez pas de tickets",
+    "My tickets": "Mes tickets"
 }
