@@ -8,7 +8,7 @@ import { Link } from '@inertiajs/inertia-vue3';
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head :title="isEvents ? __('Events') : __('Showings')" />
 
     <BreezeAuthenticatedLayout>
         <div class="title">

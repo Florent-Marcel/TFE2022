@@ -9,7 +9,7 @@ import { Link } from '@inertiajs/inertia-vue3';
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head :title="__('My profil')" />
 
     <BreezeAuthenticatedLayout>
         <div class="title">
@@ -47,7 +47,7 @@ import { Link } from '@inertiajs/inertia-vue3';
                         </div>
                         <div class="movie-title">{{show[0].showing.movie[$t('title')]}}</div>
                         <div class="info-sup-show">
-                        {{show[0].showing.language.language}} - 
+                        {{show[0].showing.language.language}} -
                         {{show[0].showing.room.room_type.type}} - {{show[0].showing.showing_type[$t('type')]}}</div>
                         <div class="list-tickets">
                             <div class="ticket" v-for="ticket in show" :key="ticket.id">
@@ -63,7 +63,7 @@ import { Link } from '@inertiajs/inertia-vue3';
             </div>
         </div>
 
-        
+
 
     </BreezeAuthenticatedLayout>
 </template>
@@ -112,7 +112,7 @@ export default defineComponent({
         }
     },
     watch: {
-        
+
     }
 })
 

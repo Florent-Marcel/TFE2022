@@ -7,7 +7,7 @@ import { Head } from '@inertiajs/inertia-vue3';
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head :title="__('Movies')" />
 
     <BreezeAuthenticatedLayout>
         <div class="title">
