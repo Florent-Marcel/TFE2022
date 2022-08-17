@@ -21,6 +21,10 @@ import { Link } from '@inertiajs/inertia-vue3';
             <Link :class="{'actif' : route().current() == 'events'}" :href="route('events')">{{__("Events")}}</Link>
             <div class="actif-bar" v-if="route().current() == 'events'"></div>
         </div>
+        <div class="elem-menu" v-if="user && user.is_admin">
+            <Link :class="{'actif' : route().current() == 'admin'}" @click="goToAdmin">{{__("Administration")}}</Link>
+            <div class="actif-bar" v-if="route().current() == 'admin'"></div>
+        </div>
     </div>
 </template>
 

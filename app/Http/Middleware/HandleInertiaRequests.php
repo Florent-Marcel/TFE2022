@@ -45,7 +45,7 @@ class HandleInertiaRequests extends Middleware
                 ]);
             },
             Inertia::share('user', fn (Request $request) => $request->user()
-                ? $request->user()->only('id', 'firstname', 'lastname', 'email')
+                ? $request->user()->only('id', 'firstname', 'lastname', 'email', 'is_admin')
                 : null
             ),
         ]);
