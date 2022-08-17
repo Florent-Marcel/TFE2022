@@ -22,7 +22,7 @@ const submit = () => {
 
 <template>
     <Auth>
-        <Head title="Delete profil" />
+        <Head :title="__('Delete profil')"/>
         <div class="register-wrapper">
             <div class="register">
                 <h3 class="title">{{__("Delete your account with your data")}}</h3>
@@ -36,7 +36,7 @@ const submit = () => {
                     <div class="block mt-4">
                         <label class="flex items-center">
                             <BreezeCheckbox name="confirm" v-model:checked="form.confirm"/>
-                            <span class="ml-2 text-sm text-gray-600">I confirm</span>
+                            <span class="ml-2 text-sm text-gray-600">{{__('I confirm')}}</span>
                         </label>
                     </div>
                     <div class="flex items-center justify-end mt-4">
