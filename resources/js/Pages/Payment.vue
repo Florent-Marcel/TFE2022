@@ -113,7 +113,6 @@ export default defineComponent({
                         return await actions.order.capture().then( async function(details) {
                             // This function shows a transaction success message to your buyer.
                             app.idCapture = details.purchase_units[0].payments.captures[0].id;
-                            alert('Transaction completed by ' + details.payer.name.given_name);
                             let res = await app.createTickets();
                             if(res){
                                 window.location.href = app.$route('result.payment', app.idCapture);
@@ -121,7 +120,6 @@ export default defineComponent({
                         })
                     },
                     onError: err => {
-                        console.log(err);
                     }
                 })
             .render(this.$refs.paypal);
@@ -137,7 +135,6 @@ export default defineComponent({
                 return response.data
             })
             .catch(function(error){
-                console.log(error)
                 return false;
             })
         },
@@ -147,7 +144,6 @@ export default defineComponent({
                 return response.data;
             })
             .catch(function(error){
-                console.log(error)
                 return false
             })
         },

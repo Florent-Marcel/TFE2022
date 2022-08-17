@@ -10,6 +10,10 @@ import { usePage } from '@inertiajs/inertia-vue3'
 
 const user = usePage().props.value.auth.user
 
+const props = defineProps({
+    status: String,
+});
+
 const form = useForm({
     email: user.email,
     firstname: user.firstname,
@@ -27,11 +31,15 @@ const submit = () => {
 
 <template>
     <Auth>
-        <Head title="update" />
+        <Head :title="__('Edit profil')" />
         <div class="update-wrapper">
             <div class="update">
                 <h3 class="title">{{__("Edit your user data")}}</h3>
                 <BreezeValidationErrors class="mb-4 errors" />
+
+                <div v-if="status" class="mb-4 font-bold text-sm text-green-600">
+                    {{ status }}
+                </div>
 
                 <form @submit.prevent="submit">
                     <div class="mt-4">
@@ -46,15 +54,13 @@ const submit = () => {
                         <BreezeLabel for="lastname" value="Lastname" />
                         <BreezeInput id="lastname" type="text" class="mt-1 block w-full" v-model="form.lastname" required autocomplete="lastname" />
                     </div>
-                    <div class="mt-4">
-                        <BreezeLabel for="password" value="Password" />
-                        <BreezeInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="new-password" />
-                    </div>
-                    <div class="mt-4">
-                        <BreezeLabel for="password_confirmation" value="Confirm Password" />
-                        <BreezeInput id="password_confirmation" type="password" class="mt-1 block w-full" v-model="form.password_confirmation" required autocomplete="new-password" />
-                    </div>
                     <div class="flex items-center justify-end mt-4">
+                        <Link :href="route('profil')" class="underline text-sm text-white hover:text-gray-300 mx-2">
+                            {{__("Cancel")}}
+                        </Link>
+                        <Link :href="route('profil.password.edit')" class="underline text-sm text-white hover:text-gray-300 mx-2">
+                            {{__("Edit password")}}
+                        </Link>
                         <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                             {{__("Update")}}
                         </BreezeButton>

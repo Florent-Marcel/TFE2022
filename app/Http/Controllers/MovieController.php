@@ -20,6 +20,14 @@ class MovieController extends Controller
         ]);
     }
 
+    public function indexFivePopular()
+    {
+        return Inertia::render('Home', [
+            'moviesPopular' => Movie::currentMoviesPopular(5),
+            'moviesRated' => Movie::currentMoviesRated(5),
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -2,12 +2,13 @@
 import BreezeAuthenticatedLayout from '@/Layouts/Auth.vue';
 import Modal from '@/Components/Modal.vue';
 import InfoMovie from '@/Components/InfoMovie.vue';
+import MovieRectange from '@/Components/MovieRectangle.vue';
 import { defineComponent } from 'vue'
 import { Head } from '@inertiajs/inertia-vue3';
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head :title="__('Movies')" />
 
     <BreezeAuthenticatedLayout>
         <div class="title">
@@ -29,19 +30,7 @@ import { Head } from '@inertiajs/inertia-vue3';
 
         <div class="movie-wrapper" scroll="false">
             <div class="movie-rectangle" v-for="movie in movies" :key="movie.id" v-show="filter(movie)" @click="getMovie(movie)">
-                <div class="movie-title">
-                    <span>{{movie[$t('title')]}}</span>
-                </div>
-                <div class="movie-poster">
-                    <img v-if="movie.poster_url && movie.canLoadIMG" :src="movie.poster_url" @load="loadNext()">
-                    <img v-else>
-                </div>
-                <div class="movie-dates" v-if="findExtremitySceance(movie.showings, true) != findExtremitySceance(movie.showings, false)">
-                    {{__("From")}} {{dateToString(findExtremitySceance(movie.showings, true))}} {{__("to")}} {{dateToString(findExtremitySceance(movie.showings, false))}}
-                </div>
-                <div class="movie-dates" v-else>
-                    {{dateToString(findExtremitySceance(movie.showings, true))}}
-                </div>
+                <MovieRectange :movie="movie" @loadnext="loadNext()"></MovieRectange>
             </div>
         </div>
 
@@ -90,7 +79,6 @@ export default defineComponent({
                         return app.dataMovie;
                     })
                     .catch(function(response){
-                        console.log(response)
                     })
             }
         },

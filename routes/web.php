@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\ShowingController;
 use App\Http\Controllers\TemporaryTicketController;
@@ -20,18 +21,15 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return redirect(route('movies'));
-    /* return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]); */
+    return redirect(route('home'));
 });
 
+Route::get('/home', [MovieController::class, 'indexFivePopular'])
+->name('home');
+
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    return redirect(route('home'));
+})->name('dashboard');
 
 Route::get('/movies', [MovieController::class, 'index'])
 ->middleware([])->name('movies');
@@ -56,5 +54,20 @@ Route::get('/downloadPDF/{ticket}', [TicketController::class, 'downloadPDF'])
 
 Route::get('lang/change/{lang}', [WebsiteLangController::class, 'change'])
 ->name('lang.change');
+
+Route::get('profil', [RegisteredUserController::class, 'view'])
+->middleware(['auth', 'verified'])->name('profil');
+
+Route::get('profil/delete', [RegisteredUserController::class, 'viewDelete'])
+->middleware(['auth', 'verified'])->name('profil.delete');
+
+Route::post('profil/delete', [RegisteredUserController::class, 'delete'])
+->middleware(['auth', 'verified']);
+
+Route::get('profil/password/edit', [RegisteredUserController::class, 'viewPasswordEdit'])
+->middleware(['auth', 'verified'])->name('profil.password.edit');
+
+Route::post('profil/password/edit', [RegisteredUserController::class, 'passwordEdit'])
+->middleware(['auth', 'verified'])->name('profil.password.edit');
 
 require __DIR__.'/auth.php';

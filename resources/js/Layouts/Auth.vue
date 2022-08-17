@@ -96,5 +96,27 @@ body{
     height: 100%;
     margin-top: 80px;
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 5px;
+  z-index: 5;
+}
+
+::-webkit-scrollbar-track {
+  background: #6995B2;
+  z-index: 5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #AFD2E9;
+  border-radius: 10px;
+  z-index: 5;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #CFE4F2;
+  z-index: 5;
+}
 </style>
 

@@ -39,5 +39,20 @@ class Ticket extends Model
         return self::where("paypal_capture_id", "=", "$captureId")->get();
     }
 
+    public static function getByUser($idUser){
+        $tickets = self::where('user_id', $idUser)
+            ->with(['showing' => function($query){
+                $query->where('begin', '>=', now('Europe/Brussels'))
+                        ->with('movie')
+                        ->with('language')
+                        ->with('showingType')
+                        ->with(['room' => function($query){
+                            $query->with('roomType');
+                        }]);
+            }])->whereHas('showing', function($query) {
+                $query->where('begin', '>=', now('Europe/Brussels'));
+            })->get();
 
+        return $tickets;
+    }
 }

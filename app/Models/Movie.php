@@ -45,10 +45,39 @@ class Movie extends Model
     }
 
     public static function currentMovies(){
-        $movies = Movie::select('movies.*')->join('showings', 'showings.movie_id', '=', 'movies.id')
-                ->with('types', 'showings')
-                ->where('showings.begin','>=', Carbon::now('Europe/Brussels'))
-                ->groupBy('movies.id')->has('showings', '>', 0)->get();
+        $movies = Movie::select('movies.*')
+                ->with('types')
+                ->with(['showings' => function($query) {
+                    $query->where('begin', '>=', Carbon::now('Europe/Brussels'));
+                }])
+                ->groupBy('movies.id')->whereHas('showings', function($query) {
+                    $query->where('begin', '>=', now('Europe/Brussels'));
+                })->get();
+
+        return $movies;
+    }
+
+    public static function currentMoviesPopular($limit=5){
+        $movies = Movie::selectRaw('movies.*, count(tickets.id) AS tickets_count')->join('showings', 'movies.id', 'showings.movie_id')
+                ->join('tickets', 'showings.id', 'tickets.showing_id')
+                ->with('showings')
+                ->groupBy('movies.id')->whereHas('showings', function($query) {
+                    $query->where('begin', '>=', now('Europe/Brussels'));
+                })
+                ->orderBy('tickets_count', 'desc')->limit($limit)
+                ->get();
+
+        return $movies;
+    }
+
+    public static function currentMoviesRated($limit=5){
+        $movies = Movie::select('movies.*')
+                ->with('showings')
+                ->groupBy('movies.id')->whereHas('showings', function($query) {
+                    $query->where('begin', '>=', now('Europe/Brussels'));
+                })
+                ->orderBy('rating', 'desc')->limit($limit)
+                ->get();
 
         return $movies;
     }

@@ -6,58 +6,61 @@ import BreezeLabel from '@/Components/Label.vue';
 import BreezeValidationErrors from '@/Components/ValidationErrors.vue';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 import Auth from '@/Layouts/Auth.vue';
+import { usePage } from '@inertiajs/inertia-vue3'
+
+defineProps({
+    status: String,
+});
 
 const form = useForm({
-    email: '',
-    firstname: '',
-    lastname: '',
+    current_password: '',
     password: '',
     password_confirmation: '',
-    terms: false,
 });
 
 const submit = () => {
-    form.post(route('register'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+    form.post(route('profil.password.edit'), {
+        onFinish: () => {
+            form.reset('current_password', 'password', 'password_confirmation'); //Don't always work
+            form.current_password = "";
+            form.password = "";
+            form.password_confirmation = "";
+            },
     });
 };
 </script>
 
 <template>
     <Auth>
-        <Head title="Register" />
-        <div class="register-wrapper">
-            <div class="register">
-                <h3 class="title">{{__("Register")}}</h3>
+        <Head :title="__('Edit password')" />
+        <div class="update-wrapper">
+            <div class="update">
+                <h3 class="title">{{__("Edit your password")}}</h3>
                 <BreezeValidationErrors class="mb-4 errors" />
+
+                <div v-if="status" class="mb-4 font-bold text-sm text-green-600">
+                    {{ status }}
+                </div>
 
                 <form @submit.prevent="submit">
                     <div class="mt-4">
-                        <BreezeLabel for="email" value="Email" />
-                        <BreezeInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autocomplete="username" />
+                        <BreezeLabel for="current_password" value="Current password" />
+                        <BreezeInput id="current_password" type="password" class="mt-1 block w-full" v-model="form.current_password" required />
                     </div>
                     <div class="mt-4">
-                        <BreezeLabel for="firstname" value="Firstname" />
-                        <BreezeInput id="firstname" type="text" class="mt-1 block w-full" v-model="form.firstname" required autocomplete="firstname" />
-                    </div>
-                    <div class="mt-4">
-                        <BreezeLabel for="lastname" value="Lastname" />
-                        <BreezeInput id="lastname" type="text" class="mt-1 block w-full" v-model="form.lastname" required autocomplete="lastname" />
-                    </div>
-                    <div class="mt-4">
-                        <BreezeLabel for="password" value="Password" />
+                        <BreezeLabel for="password" value="New password" />
                         <BreezeInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="new-password" />
                     </div>
                     <div class="mt-4">
                         <BreezeLabel for="password_confirmation" value="Confirm Password" />
-                        <BreezeInput id="password_confirmation" type="password" class="mt-1 block w-full" v-model="form.password_confirmation" required autocomplete="new-password" />
+                        <BreezeInput id="password_confirmation" type="password" class="mt-1 block w-full" v-model="form.password_confirmation" required />
                     </div>
                     <div class="flex items-center justify-end mt-4">
-                        <Link :href="route('login')" class="underline text-sm hover:text-gray-300 text-white">
-                            {{__("Already registered?")}}
+                        <Link :href="route('profil')" class="underline text-sm text-white hover:text-gray-300 mx-2">
+                            {{__("Cancel")}}
                         </Link>
                         <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            {{__("Register")}}
+                            {{__("Update")}}
                         </BreezeButton>
                     </div>
                 </form>
@@ -68,15 +71,15 @@ const submit = () => {
 
 
 <style scoped>
-    label{
+    label, span{
         color: white;
     }
-    .register-wrapper{
+    .update-wrapper{
         height: calc(100% - var(--header-margin));
         width: 100%;
         display: flex;
     }
-    .register{
+    .update{
         width: 500px;
         height: fit-content;
         margin: auto;

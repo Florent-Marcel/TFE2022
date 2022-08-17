@@ -40,11 +40,29 @@ import { Link } from '@inertiajs/inertia-vue3';
             </div>
         </div>
         <div class="under-section">
-            <h3 class="sub-title">{{__("Showings")}}</h3>
+            <h3 class="sub-title" v-if="hasShowings > 0">{{__("Showings")}}</h3>
             <div class="showings-wrapper">
-                <div class="showing-type" v-for="showingType in showingTypes" :key="showingType">
+                <div class="showing-type" v-for="showingType in typeShowings.showings" :key="showingType">
                     <h4 class="sub-title">
                         {{showingType.language}} - {{showingType.type}} - {{showingType.price}}€
+                    </h4>
+                    <div class="showing-list">
+                        <Link :href="route('seats', show.id)" class="showing" v-for="show in showingType.showings" :key="show.id" v-if="!idShow">
+                            <div>{{$dateToLittleString(show.begin)}}</div>
+                            <div>{{$dateToHourString(show.begin)}}</div>
+                        </Link>
+                        <div :href="route('seats', show.id)" class="showing-disabled" v-for="show in showingType.showings" :key="show" v-else>
+                            <div>{{$dateToLittleString(show.begin)}}</div>
+                            <div>{{$dateToHourString(show.begin)}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h3 class="sub-title" v-if="hasEvents > 0">{{__("Events")}}</h3>
+            <div class="showings-wrapper">
+                <div class="showing-type" v-for="showingType in typeShowings.events" :key="showingType">
+                    <h4 class="sub-title">
+                        {{showingType.language}} - {{showingType.type}} - {{showingType.showings[0]['showing_type'][$t('type')]}} - {{showingType.price}}€
                     </h4>
                     <div class="showing-list">
                         <Link :href="route('seats', show.id)" class="showing" v-for="show in showingType.showings" :key="show.id" v-if="!idShow">
@@ -88,6 +106,7 @@ export default defineComponent({
         return {
             loadIndex: 0,
             maxImgLoadSimultaneous: 19,
+            typeShowings: {},
         }
     },
     beforeMount(){
@@ -107,6 +126,9 @@ export default defineComponent({
             }
             return 0;
         })
+
+        this.typeShowings = this.showingTypes();
+        console.log(this.typeShowings)
     },
     methods: {
         loadNext(){
@@ -118,28 +140,38 @@ export default defineComponent({
         redirectSeats(show){
             window.location.href = this.$route('seats', show.id);
         },
-    },
-    computed: {
         showingTypes(){
-            let res = {}
+            let res = {events:{}, showings: {}}
             if(!this.movie){
                 return res;
             }
             for(let show of this.movie.showings){
                 if(!this.idShow || show.id == this.idShow){
-                    let key = show.language.id+"_"+show.room.room_type.id;
-                    if(!res[key]){
-                        res[key] = {};
-                        res[key].language = show.language.language;
-                        res[key].type = show.room.room_type.type;
-                        res[key].price = show.price
-                        res[key].showings = [];
+                    let obj = res.showings;
+                    if(show.showing_type.is_event){
+                        obj = res.events;
                     }
-                    res[key].showings.push(show);
+                    let key = show.language.id+"_"+show.room.room_type.id;
+                    if(!obj[key]){
+                        obj[key] = {};
+                        obj[key].language = show.language.language;
+                        obj[key].type = show.room.room_type.type;
+                        obj[key].price = show.price
+                        obj[key].showings = [];
+                    }
+                    obj[key].showings.push(show);
                 }
             }
             return res;
-        }
+        },
+    },
+    computed: {
+        hasEvents(){
+            return Object.keys(this.typeShowings.events).length
+        },
+        hasShowings(){
+            return Object.keys(this.typeShowings.showings).length
+        },
     }
 })
 
