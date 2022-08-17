@@ -69,7 +69,7 @@ const submit = () => {
                     </div>
 
                     <div class="flex items-center justify-end mt-4">
-                        <Link v-if="canResetPassword" :href="route('register')" class="underline text-sm text-white hover:text-gray-900">
+                        <Link v-if="canResetPassword" :href="route('register')" class="underline text-sm text-white hover:text-gray-300">
                             you don't have an account?
                         </Link>
 

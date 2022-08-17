@@ -40,9 +40,9 @@ const submit = () => {
                         </label>
                     </div>
                     <div class="flex items-center justify-end mt-4">
-                        <!-- <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                        <Link :href="route('profil')" class="underline text-sm text-white hover:text-gray-300">
                             {{__("Cancel")}}
-                        </BreezeButton> -->
+                        </Link>
                         <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                             {{__("Delete")}}
                         </BreezeButton>
