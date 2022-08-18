@@ -30,6 +30,7 @@ class Personality extends Model
 
     public static function addFromTMDB($tmdbData){
         $toAdd = [];
+        $res = [];
         unset($tmdbData['id']);
         foreach($tmdbData as $data){
             foreach($data as $cast){
@@ -44,12 +45,14 @@ class Personality extends Model
                 if($need){
                     $tmdb_ids = array_column($toAdd, 'tmdb_id');
                     $found_key = array_search($cast['id'], $tmdb_ids);
+                    $data = [
+                        'tmdb_id' => $cast['id'],
+                        'name' => $cast['name'],
+                        'profile_url' => isset($cast['profile_path']) ? "https://image.tmdb.org/t/p/w300".$cast['profile_path'] : "",
+                    ];
+                    array_push($res, $data);
                     if($found_key === false && count(self::getByTMDBID($cast['id'])) == 0){
-                        array_push($toAdd, [
-                            'tmdb_id' => $cast['id'],
-                            'name' => $cast['name'],
-                            'profile_url' => isset($cast['profile_path']) ? "https://image.tmdb.org/t/p/w300".$cast['profile_path'] : "",
-                        ]);
+                        array_push($toAdd, $data);
                     }
                 }
             }
@@ -58,7 +61,7 @@ class Personality extends Model
             self::insert($toAdd);
         }
 
-        return $toAdd;
+        return $res;
     }
 
     public static function getByTMDBID($tmdbID){

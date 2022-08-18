@@ -37,14 +37,8 @@ class MovieResource extends Resource
     public static function form(Form $form): Form
     {
         //Type::createIfNotPresent([['id' => 500, 'name' => 'dsdsqs']]);
-        if(isset($_GET['title'], $_GET['year'])){
-            $data = Tmdb::search($_GET['title'], $_GET['year']);
-            if(isset($data['results']) && count($data['results']) > 0){
-                $data = $data['results'][0];
-                $data = Tmdb::getByID($data['id']);
-            } else{
-                unset($data);
-            }
+        if(isset($_GET['idTMDB'])){
+            $data = Tmdb::getByID($_GET['idTMDB']);
         }
 
         return self::getFormWithTMDB($form, isset($data) ? $data : "");
