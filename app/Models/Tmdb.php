@@ -50,6 +50,14 @@ class Tmdb extends Model
             $fr['poster_url'] = $data->base_url_img.$fr['poster_path'];
         }
 
+        if(isset($en['overview'])){
+            $fr['overview'] = $fr['overview'] ? $fr['overview'] : $en['overview'];
+        }
+
+        if(isset($fr['overview'])){
+            $en['overview'] = $en['overview'] ? $en['overview'] : $fr['overview'];
+        }
+
         return ['en' => $en, 'fr' => $fr];
     }
 
