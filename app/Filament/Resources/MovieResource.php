@@ -6,6 +6,7 @@ use App\Filament\Resources\MovieResource\Pages;
 use App\Filament\Resources\MovieResource\RelationManagers;
 use App\Filament\Resources\MovieResource\RelationManagers\MovieTypesRelationManager;
 use App\Models\Movie;
+use App\Models\Tmdb;
 use App\Models\Type;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
@@ -37,10 +38,10 @@ class MovieResource extends Resource
     {
         //Type::createIfNotPresent([['id' => 500, 'name' => 'dsdsqs']]);
         if(isset($_GET['title'], $_GET['year'])){
-            $data = Movie::tmdbSearch($_GET['title'], $_GET['year']);
+            $data = Tmdb::search($_GET['title'], $_GET['year']);
             if(isset($data['results']) && count($data['results']) > 0){
                 $data = $data['results'][0];
-                $data = Movie::tmdbGetByID($data['id']);
+                $data = Tmdb::getByID($data['id']);
             } else{
                 unset($data);
             }

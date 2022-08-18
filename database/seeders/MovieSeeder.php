@@ -7,11 +7,11 @@ use App\Models\MovieType;
 use App\Models\Personality;
 use App\Models\PersonalityProfessionMovie;
 use App\Models\Profession;
+use App\Models\Tmdb;
 use App\Models\Type;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
-use Xylis\FakerCinema\FakerCinema\Provider;
 require_once 'vendor/autoload.php';
 
 class MovieSeeder extends Seeder
@@ -74,10 +74,10 @@ class MovieSeeder extends Seeder
         $ids = [1018,1023,1024,1039,1040,1049,1050,1051,1052,1058,1059,1073,1075,1088,1089,1090,1091,1092,1093,1103,1114,1115,1116,1123,1124,1125,1126,1127,1162,1163,1164,1165,1285,1213,1244,1245,1246,1247,1248,1249,1250,1251,1252,1253,1254,1255,1256,1257,1259,1260,1262,1263,1264,1265,1266,1267,1268,1269,1271,1272,1273,1277,1278,1279,1280,1281,1282,1283,1284,1294,1358,1359,1360,1361,1362,1363,1364,1365,1366,1367,1368,1369,1370,1371,1372,1373,1374,1375,1376,1377,1378,1379,1380,1381,1382,1386,1387,1388,1389,1391,1392,1393,1394,1396];
 
         foreach($ids as $i){
-            $infoMovie = Movie::tmdbGetByID($i);
+            $infoMovie = Tmdb::getByID($i);
             $movie = Movie::createFromTMDB($infoMovie);
             if($movie){
-                $movieCredits = Movie::getCredids($infoMovie['en']['id']);
+                $movieCredits = Tmdb::getCredits($infoMovie['en']['id']);
                 $addedCast = Personality::addFromTMDB($movieCredits);
                 $addedProfession = Profession::addFromTMDB($movieCredits, $addedCast);
                 PersonalityProfessionMovie::addFromTMDB($movieCredits, $addedCast, $movie);

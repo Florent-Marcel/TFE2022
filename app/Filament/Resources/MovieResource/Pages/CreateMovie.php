@@ -8,6 +8,7 @@ use App\Models\MovieType;
 use App\Models\Personality;
 use App\Models\PersonalityProfessionMovie;
 use App\Models\Profession;
+use App\Models\Tmdb;
 use App\Models\Type;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\CreateRecord;
@@ -27,7 +28,7 @@ class CreateMovie extends CreateRecord
                 return $movie;
             }
 
-            $movieCredits = Movie::getCredids($tmdbData['en']['id']);
+            $movieCredits = Tmdb::getCredits($tmdbData['en']['id']);
             $addedCast = Personality::addFromTMDB($movieCredits);
             $addedProfession = Profession::addFromTMDB($movieCredits, $addedCast);
 
