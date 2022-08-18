@@ -32,14 +32,17 @@ class ShowingResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $begin = isset($_GET['begin']) ? $_GET['begin'] :"";
+        $roomId = isset($_GET['roomId']) ? $_GET['roomId'] :"";
+
         return $form
             ->schema([
-                DateTimePicker::make('begin')->required(),
+                DateTimePicker::make('begin')->required()->default($begin),
                 TextInput::make('price')->numeric()->mask(fn (TextInput\Mask $mask) => $mask->money('€', ',', 2)),
                 Select::make('movie_id')->relationship('movie', 'title_en')->required(),
                 Select::make('showing_type_id')->relationship('showingtype', 'type_en')->required(),
                 Select::make('language_id')->relationship('language', 'language')->required(),
-                Select::make('room_id')->relationship('room', 'num_room_type', function ($query) {
+                Select::make('room_id')->default($roomId)->relationship('room', 'num_room_type', function ($query) {
                     return $query->join('room_types', 'rooms.room_type_id', '=', 'room_types.id')->select('rooms.id as id', 'num_room', DB::raw("CONCAT(num_room, ' (', type, ')') as num_room_type"));
                 })->required(),
             ]);

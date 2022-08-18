@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\RoomResource\Pages;
 use App\Filament\Resources\RoomResource\RelationManagers;
+use App\Filament\Resources\RoomResource\Widgets\RoomCalendar;
 use App\Models\Room;
 use App\Models\RoomType;
 use Filament\Forms;
@@ -77,6 +78,13 @@ class RoomResource extends Resource
             'create' => Pages\CreateRoom::route('/create'),
             'edit' => Pages\EditRoom::route('/{record}/edit'),
             'layout' => Pages\EditLayout::route('/{record}/layout'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            RoomCalendar::class,
         ];
     }
 }

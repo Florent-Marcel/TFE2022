@@ -113,4 +113,10 @@ class Showing extends Model
         }
         return $count == count($numSeats);
     }
+
+    public static function getShowingsByIdRoom($idRoom){
+        $showings = self::where("room_id", $idRoom)->with('movie')->get();
+
+        return $showings;
+    }
 }
