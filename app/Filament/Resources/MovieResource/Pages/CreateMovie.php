@@ -8,6 +8,7 @@ use App\Models\MovieType;
 use App\Models\Personality;
 use App\Models\PersonalityProfessionMovie;
 use App\Models\Profession;
+use App\Models\Tmdb;
 use App\Models\Type;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\CreateRecord;
@@ -27,16 +28,18 @@ class CreateMovie extends CreateRecord
                 return $movie;
             }
 
-            $movieCredits = Movie::getCredids($tmdbData['en']['id']);
+            $movieCredits = Tmdb::getCredits($tmdbData['en']['id']);
             $addedCast = Personality::addFromTMDB($movieCredits);
             $addedProfession = Profession::addFromTMDB($movieCredits, $addedCast);
 
             PersonalityProfessionMovie::addFromTMDB($movieCredits, $addedCast, $movie);
 
-            $genres = $tmdbData['en']['genres'];
+            $genres = [];
+            $genres['en'] = $tmdbData['en']['genres'];
+            $genres['fr'] = $tmdbData['fr']['genres'];
             Type::createIfNotPresent($genres);
             $movieTypesToAdd = [];
-            foreach($genres as $genre){
+            foreach($genres['en'] as $genre){
                 $types = Type::getByTMDBID($genre['id']);
                 if(count($types) > 0){
                     array_push($movieTypesToAdd, ['movie_id' => $movie->id, 'type_id' => $types[0]->id]);

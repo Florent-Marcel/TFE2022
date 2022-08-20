@@ -28,4 +28,8 @@ class EditRoom extends EditRecord
             Actions\Action::make("layout")->url(RoomResource::getUrl("layout", $this->getRecord()->id)),
         ];
     }
+
+    protected function getFooterWidgets(): array{
+        return RoomResource::getWidgets();
+    }
 }

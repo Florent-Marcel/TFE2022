@@ -6,6 +6,7 @@ use App\Filament\Resources\MovieResource\Pages;
 use App\Filament\Resources\MovieResource\RelationManagers;
 use App\Filament\Resources\MovieResource\RelationManagers\MovieTypesRelationManager;
 use App\Models\Movie;
+use App\Models\Tmdb;
 use App\Models\Type;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
@@ -36,14 +37,8 @@ class MovieResource extends Resource
     public static function form(Form $form): Form
     {
         //Type::createIfNotPresent([['id' => 500, 'name' => 'dsdsqs']]);
-        if(isset($_GET['title'], $_GET['year'])){
-            $data = Movie::tmdbSearch($_GET['title'], $_GET['year']);
-            if(isset($data['results']) && count($data['results']) > 0){
-                $data = $data['results'][0];
-                $data = Movie::tmdbGetByID($data['id']);
-            } else{
-                unset($data);
-            }
+        if(isset($_GET['idTMDB'])){
+            $data = Tmdb::getByID($_GET['idTMDB']);
         }
 
         return self::getFormWithTMDB($form, isset($data) ? $data : "");
@@ -53,11 +48,11 @@ class MovieResource extends Resource
         return $form
             ->schema([
                 TextInput::make('title_en')->default(isset($data['en']['title']) ? $data['en']['title'] : "")->required(),
-                TextInput::make('title_fr')->default(isset($data['fr']['title']) ? $data['en']['title'] : "")->required(),
+                TextInput::make('title_fr')->default(isset($data['fr']['title']) ? $data['fr']['title'] : "")->required(),
                 DatePicker::make('date_release')->default(isset($data['en']['release_date']) ? $data['en']['release_date'] : "")->required(),
                 TextInput::make('duration')->numeric()->default(isset($data['en']['runtime']) ? $data['en']['runtime'] : "")->required(),
                 Textarea::make('synopsis_en')->default(isset($data['en']['overview']) ? $data['en']['overview'] : ""),
-                Textarea::make('synopsis_fr')->default(isset($data['fr']['overview']) ? $data['en']['overview'] : ""),
+                Textarea::make('synopsis_fr')->default(isset($data['fr']['overview']) ? $data['fr']['overview'] : ""),
                 TextInput::make('rating')->numeric()->default(isset($data['en']['vote_average']) ? $data['en']['vote_average'] : ""),
                 TextInput::make('tmdb_id')->numeric()->unique(ignoreRecord: true)->default(isset($data['en']['id']) ? $data['en']['id'] : "")->required(),
                 TextInput::make('poster_url')->url()->default(isset($data['en']['poster_url']) ? $data['en']['poster_url'] : ""),

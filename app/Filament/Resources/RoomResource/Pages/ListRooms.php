@@ -21,4 +21,8 @@ class ListRooms extends ListRecords
     {
         return 'num_room';
     }
+
+    protected function getFooterWidgets(): array{
+        return RoomResource::getWidgets();
+    }
 }
