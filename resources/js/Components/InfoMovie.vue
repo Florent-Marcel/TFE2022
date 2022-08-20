@@ -82,7 +82,7 @@ import { Link } from '@inertiajs/inertia-vue3';
                     <img v-if="perso.canLoadIMG" :src="perso.personality.profile_url" @load="loadNext"/>
                     <img v-else/>
                     <div class="personality-name">{{perso.personality.name}}</div>
-                    <div class="personality-profession">{{perso.profession.profession}}</div>
+                    <div class="personality-profession">{{__(perso.profession.profession)}}</div>
                 </div>
             </div>
         </div>
