@@ -126,6 +126,12 @@ class TicketController extends Controller
 
     public function indexFromCaptureId($captureId){
         $tickets = Ticket::getByIdCapture($captureId);
+        if(!$tickets || count($tickets) == 0) {
+            throw new HttpException(423, "No tickets");
+        }
+        if($tickets[0]->user_id != auth()->id()) {
+            throw new HttpException(403, "You cannot see these tickets");
+        }
         $show = Showing::showWithSeats($tickets[0]->showing_id);
         $movie = Movie::getMovieByID($show->movie_id);
         $data = [
