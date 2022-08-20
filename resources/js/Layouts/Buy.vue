@@ -8,7 +8,7 @@ import BreezeNavLink from '@/Components/NavLink.vue';
 import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/inertia-vue3';
 import { defineComponent } from 'vue'
-import Header from '@/Components/HeaderAuth.vue'
+import Header from '@/Components/Header.vue'
 import Menu from '@/Components/Menu.vue'
 import InfoMovie from '@/Components/InfoMovie.vue';
 import Modal from '@/Components/Modal.vue';
