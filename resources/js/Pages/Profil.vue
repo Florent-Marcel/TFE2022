@@ -1,5 +1,5 @@
 <script setup>
-import BreezeAuthenticatedLayout from '@/Layouts/Auth.vue';
+import Base from '@/Layouts/Base.vue';
 import Modal from '@/Components/Modal.vue';
 import InfoMovie from '@/Components/InfoMovie.vue';
 import { defineComponent } from 'vue'
@@ -11,7 +11,7 @@ import { Link } from '@inertiajs/inertia-vue3';
 <template>
     <Head :title="__('My profil')" />
 
-    <BreezeAuthenticatedLayout>
+    <Base>
         <div class="title">
             <h3>{{__("My profil")}}</h3>
         </div>
@@ -65,7 +65,7 @@ import { Link } from '@inertiajs/inertia-vue3';
 
 
 
-    </BreezeAuthenticatedLayout>
+    </Base>
 </template>
 
 <script>

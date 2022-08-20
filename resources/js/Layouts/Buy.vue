@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import BreezeAuthenticatedLayout from '@/Layouts/Auth.vue';
+import Base from '@/Layouts/Base.vue';
 import BreezeApplicationLogo from '@/Components/ApplicationLogo.vue';
 import BreezeDropdown from '@/Components/Dropdown.vue';
 import BreezeDropdownLink from '@/Components/DropdownLink.vue';
@@ -39,7 +39,7 @@ const displayMovie = ref(false);
 </script>
 
 <template>
-    <BreezeAuthenticatedLayout>
+    <Base>
         <div class="title">
             <h3>{{__(title)}}</h3>
         </div>
@@ -59,7 +59,7 @@ const displayMovie = ref(false);
         <Modal v-if="displayMovie" @close="movieClose">
             <InfoMovie :movie="movie" :idShow="show.id"></InfoMovie>
         </Modal>
-    </BreezeAuthenticatedLayout>
+    </Base>
 </template>
 
 

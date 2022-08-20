@@ -5,7 +5,7 @@ import BreezeInput from '@/Components/Input.vue';
 import BreezeLabel from '@/Components/Label.vue';
 import BreezeValidationErrors from '@/Components/ValidationErrors.vue';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
-import Auth from '@/Layouts/Auth.vue';
+import Base from '@/Layouts/Base.vue';
 import { usePage } from '@inertiajs/inertia-vue3'
 
 defineProps({
@@ -31,7 +31,7 @@ const submit = () => {
 </script>
 
 <template>
-    <Auth>
+    <Base>
         <Head :title="__('Edit password')" />
         <div class="update-wrapper">
             <div class="update">
@@ -66,7 +66,7 @@ const submit = () => {
                 </form>
             </div>
         </div>
-    </Auth>
+    </Base>
 </template>
 
 

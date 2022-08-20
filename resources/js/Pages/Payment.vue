@@ -1,5 +1,4 @@
 <script setup>
-import BreezeAuthenticatedLayout from '@/Layouts/Auth.vue';
 import BuyLayout from '@/Layouts/Buy.vue';
 import moment from 'moment';
 import { defineComponent } from 'vue'

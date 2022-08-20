@@ -1,5 +1,5 @@
 <script setup>
-import BreezeAuthenticatedLayout from '@/Layouts/Auth.vue';
+import Base from '@/Layouts/Base.vue';
 import Modal from '@/Components/Modal.vue';
 import InfoMovie from '@/Components/InfoMovie.vue';
 import MovieRectange from '@/Components/MovieRectangle.vue';
@@ -10,7 +10,7 @@ import { Head } from '@inertiajs/inertia-vue3';
 <template>
     <Head :title="__('Home')" />
 
-    <BreezeAuthenticatedLayout>
+    <Base>
         <div class="title">
             <h3>{{__("Welcome to Cinemar!")}}</h3>
         </div>
@@ -33,7 +33,7 @@ import { Head } from '@inertiajs/inertia-vue3';
             </div>
         </div>
 
-    </BreezeAuthenticatedLayout>
+    </Base>
     <Modal :enabled="true" v-if="dataMovie.id" @close="movieClose">
         <InfoMovie :movie="dataMovie"></InfoMovie>
     </Modal>

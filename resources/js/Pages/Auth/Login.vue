@@ -6,7 +6,7 @@ import BreezeInput from '@/Components/Input.vue';
 import BreezeLabel from '@/Components/Label.vue';
 import BreezeValidationErrors from '@/Components/ValidationErrors.vue';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
-import Auth from '@/Layouts/Auth.vue';
+import Base from '@/Layouts/Base.vue';
 
 const props = defineProps({
     canResetPassword: Boolean,
@@ -31,7 +31,7 @@ const submit = () => {
 </script>
 
 <template>
-    <Auth>
+    <Base>
         <Head title="Log in" />
         <div class="login-wrapper">
             <div class="login">
@@ -80,7 +80,7 @@ const submit = () => {
                 </form>
             </div>
         </div>
-    </Auth>
+    </Base>
 </template>
 
 

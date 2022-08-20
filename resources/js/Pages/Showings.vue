@@ -1,5 +1,5 @@
 <script setup>
-import BreezeAuthenticatedLayout from '@/Layouts/Auth.vue';
+import Base from '@/Layouts/Base.vue';
 import { defineComponent } from 'vue'
 import { Head } from '@inertiajs/inertia-vue3';
 import Modal from '@/Components/Modal.vue';
@@ -10,7 +10,7 @@ import { Link } from '@inertiajs/inertia-vue3';
 <template>
     <Head :title="isEvents ? __('Events') : __('Showings')" />
 
-    <BreezeAuthenticatedLayout>
+    <Base>
         <div class="title">
             <h3 v-if="!isEvents">{{__("List of movie showings")}}</h3>
             <h3 v-else>{{__("List of events")}}</h3>
@@ -54,7 +54,7 @@ import { Link } from '@inertiajs/inertia-vue3';
                 </div>
             </div>
         </div>
-    </BreezeAuthenticatedLayout>
+    </Base>
     <Modal :enabled="true" v-if="dataMovie.id" @close="movieClose">
         <InfoMovie :movie="dataMovie"></InfoMovie>
     </Modal>

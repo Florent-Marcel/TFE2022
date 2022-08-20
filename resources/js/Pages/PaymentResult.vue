@@ -1,7 +1,5 @@
 <script setup>
-import BreezeAuthenticatedLayout from '@/Layouts/Auth.vue';
 import BuyLayout from '@/Layouts/Buy.vue';
-
 import { defineComponent } from 'vue'
 import { Head } from '@inertiajs/inertia-vue3';
 import Button from '@/Components/Button.vue';
