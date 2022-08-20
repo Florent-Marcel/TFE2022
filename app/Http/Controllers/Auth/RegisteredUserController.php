@@ -94,14 +94,14 @@ class RegisteredUserController extends Controller
 
     public function view(){
         $user = auth()->user();
-        return Inertia::render('Profil', [
+        return Inertia::render('Auth/Profil', [
             'user' => $user,
             'tickets' => Ticket::getByUser($user->id)
         ]);
     }
 
     public function viewDelete(){
-        return Inertia::render('ProfilDelete');
+        return Inertia::render('Auth/ProfilDelete');
     }
 
     public function delete(Request $request){
@@ -127,7 +127,7 @@ class RegisteredUserController extends Controller
     }
 
     public function viewPasswordEdit($status=""){
-        return Inertia::render('ProfilPasswordEdit', [
+        return Inertia::render('Auth/ProfilPasswordEdit', [
             "status" => $status
         ]);
     }
