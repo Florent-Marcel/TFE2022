@@ -86,6 +86,11 @@ import { Link } from '@inertiajs/inertia-vue3';
                 </div>
             </div>
         </div>
+        <div class="icon-wrapper">
+            <a :href="'https://www.themoviedb.org/movie/'+movie.tmdb_id" target="_blank">
+                <img class="tmdb-icon" src="/img/tmdb.svg"/>
+            </a>
+        </div>
     </div>
 </template>
 
@@ -290,5 +295,16 @@ export default defineComponent({
     flex-wrap: wrap;
     align-items: center;
     align-content: center;
+}
+
+.icon-wrapper{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+}
+
+.tmdb-icon{
+    height: 30px;
 }
 </style>
