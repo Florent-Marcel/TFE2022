@@ -92,6 +92,7 @@ class MovieResource extends Resource
         return [
             RelationManagers\MovieTypesRelationManager::class,
             RelationManagers\PersonalityProfessionMovieRelationManager::class,
+            RelationManagers\ShowingsRelationManager::class,
         ];
     }
 
@@ -103,13 +104,5 @@ class MovieResource extends Resource
             'edit' => Pages\EditMovie::route('/{record}/edit'),
             'search' => Pages\SearchMovie::route('/search'),
         ];
-    }
-
-    protected function handleRecordCreation(array $data): Movie
-    {
-        $data2 = [];
-        $movie = static::getModel()::create($data2);
-
-        return $movie;
     }
 }

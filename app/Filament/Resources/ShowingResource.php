@@ -99,6 +99,7 @@ class ShowingResource extends Resource
             RelationManagers\ShowingTypeRelationManager::class,
             RelationManagers\RoomRelationManager::class,
             RelationManagers\TicketsRelationManager::class,
+            RelationManagers\MovieRelationManager::class,
         ];
     }
 
