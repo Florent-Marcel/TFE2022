@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId("user_id")->constrained("users");
             $table->foreignId("showing_id")->constrained("showings");
-            $table->string("unique_code");
+            $table->string("unique_code")->unique();
             $table->boolean("is_used")->default(false);
             $table->boolean("is_blocked")->default(false);
             $table->integer("num_seat");

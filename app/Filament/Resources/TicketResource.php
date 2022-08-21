@@ -6,7 +6,6 @@ use App\Filament\Resources\TicketResource\Pages;
 use App\Filament\Resources\TicketResource\RelationManagers;
 use App\Filament\Widgets\TicketsChart;
 use App\Models\Ticket;
-use Faker\Provider\Uuid;
 use Filament\Forms;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
@@ -20,6 +19,7 @@ use Filament\Tables\Columns\BooleanColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Ramsey\Uuid\Uuid;
 
 class TicketResource extends Resource
 {
@@ -31,7 +31,7 @@ class TicketResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('unique_code')->default(Uuid::uuid())->disabled()->required()->maxLength(512),
+                TextInput::make('unique_code')->default(Uuid::uuid4())->disabled()->required()->maxLength(255)->unique(),
                 Select::make('user_id')->relationship('user', 'email')->required(),
                 Select::make('showing_id')->relationship('showing', 'begin')->required(),
                 Select::make('num_seat')->required(),
