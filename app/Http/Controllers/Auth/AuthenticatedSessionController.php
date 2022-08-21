@@ -49,15 +49,15 @@ class AuthenticatedSessionController extends Controller
                 session()->put('isAdmin', $user->is_admin);
                 return $this->create(true, $user->is_admin);
             } else if($user && $user->is_blocked) {
-                return redirect()->route('login')->with('error', session('url.intended'));
-            } 
+                return redirect()->route('login')->with('error', __('auth.blocked'));
+            }
         }
 
         if(session('canConnect') && session('emailConnect') != $request->email){
             self::clearSessionConnect();
             return $this->create();
         }
-        
+
         $request->authenticate();
 
         $request->session()->regenerate();

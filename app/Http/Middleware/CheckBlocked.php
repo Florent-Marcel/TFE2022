@@ -23,7 +23,7 @@ class CheckBlocked
             $request->session()->invalidate();
             $request->session()->regenerateToken();
 
-            return redirect()->route('login')->with('error', 'Your Account is blocked.');
+            return redirect()->route('login')->with('error', __('auth.blocked'));
         }
         return $next($request);
     }
