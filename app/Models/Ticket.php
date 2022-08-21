@@ -51,7 +51,8 @@ class Ticket extends Model
                         }]);
             }])->whereHas('showing', function($query) {
                 $query->where('begin', '>=', now('Europe/Brussels'));
-            })->get();
+            })->where('is_blocked', false)
+            ->get();
 
         return $tickets;
     }
