@@ -21,8 +21,16 @@ class UserSeeder extends Seeder
 
         for($i=0; $i<150; $i++){
             $name = $faker->firstName();
+            $email = "";
+            do{
+                $doublon = false;
+                $email = $faker->safeEmail();
+                foreach($data as $user){
+                    $doublon = $doublon || ($user['email'] == $email);
+                }
+            } while($doublon === true);
             $data[$i] = [
-                "email" => $faker->safeEmail(),
+                "email" => $email,
                 "password" => Str::random(200),
                 "firstname" => $name,
                 "lastname" => $faker->lastName(),
