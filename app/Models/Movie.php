@@ -43,11 +43,14 @@ class Movie extends Model
         return $this->hasMany(Showing::class);
     }
 
+    /**
+     * Get the movies that have at least one upcoming showing.
+     */
     public static function currentMovies(){
         $movies = Movie::select('movies.*')
                 ->with('types')
                 ->with(['showings' => function($query) {
-                    $query->where('begin', '>=', Carbon::now('Europe/Brussels'));
+                    $query->where('begin', '>=', now('Europe/Brussels'));
                 }])
                 ->groupBy('movies.id')->whereHas('showings', function($query) {
                     $query->where('begin', '>=', now('Europe/Brussels'));
@@ -56,6 +59,11 @@ class Movie extends Model
         return $movies;
     }
 
+    /**
+     * Get the current most popular movies
+     * @param $limit The number of movies to get
+     * @return array The list of the most popular movies
+     */
     public static function currentMoviesPopular($limit=5){
         $movies = Movie::selectRaw('movies.*, count(tickets.id) AS tickets_count')->join('showings', 'movies.id', 'showings.movie_id')
                 ->join('tickets', 'showings.id', 'tickets.showing_id')
@@ -69,6 +77,11 @@ class Movie extends Model
         return $movies;
     }
 
+    /**
+     * Get the current most rated movies
+     * @param $limit The number of movies to get
+     * @return array The list of the most rated movies
+     */
     public static function currentMoviesRated($limit=5){
         $movies = Movie::select('movies.*')
                 ->with('showings')
@@ -79,40 +92,6 @@ class Movie extends Model
                 ->get();
 
         return $movies;
-    }
-
-    public static function tmdbSearch($title, $year){
-        $url = self::$TMDB_BASE_URL."/search/movie?api_key=24cfeb5948080c6e86dd4fcb22c877f1&query=".$title."&year=".$year;
-
-        $response = Http::get($url);
-
-        return $response->json();
-    }
-
-    public static function tmdbGetByID($tmdbID){
-        $url = self::$TMDB_BASE_URL."/movie/$tmdbID?api_key=24cfeb5948080c6e86dd4fcb22c877f1";
-        $response = Http::get($url);
-        $en = $response->json();
-        if(isset($en['poster_path']) && $en['poster_path']){
-            $en['poster_url'] = self::$TMDB_IMG_BASE_URL.$en['poster_path'];
-        }
-
-        $url = self::$TMDB_BASE_URL."/movie/$tmdbID?api_key=24cfeb5948080c6e86dd4fcb22c877f1&language=fr-BE";
-        $response = Http::get($url);
-        $fr=$response->json();
-        if(isset($fr['poster_path']) && $fr['poster_path']){
-            $fr['poster_url'] = self::$TMDB_IMG_BASE_URL.$fr['poster_path'];
-        }
-
-        return ['en' => $en, 'fr' => $fr];
-    }
-
-    public static function getCredids($tmdbID){
-        $url = self::$TMDB_BASE_URL."/movie/$tmdbID/credits?api_key=24cfeb5948080c6e86dd4fcb22c877f1";
-        $response = Http::get($url);
-        $response = $response->json();
-
-        return $response;
     }
 
     public static function createFromTMDB($tmdbData){
@@ -132,6 +111,11 @@ class Movie extends Model
         return null;
     }
 
+    /**
+     * Get the movie by ID
+     * @param $id The id of the movie to get
+     * @return Movie The movie found with the given ID
+     */
     public static function getMovieByID($id){
         $movie = Movie::where('id', '=', $id)
                 ->with(['showings' => function($query) {

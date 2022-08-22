@@ -30,6 +30,12 @@ class PersonalityProfessionMovie extends Model
         return $this->belongsTo(Profession::class);
     }
 
+    /**
+     * link the credits to a movie
+     * @param credits The credits from TMDB
+     * @param addedCast The casting we have filtered and should be linked to the movie
+     * @param movie The movie
+     */
     public static function addFromTMDB($credits, $addedCast, $movie){
         $toAdd = [];
         unset($credits['id']);

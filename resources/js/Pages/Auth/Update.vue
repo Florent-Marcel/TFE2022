@@ -18,13 +18,11 @@ const form = useForm({
     email: user.email,
     firstname: user.firstname,
     lastname: user.lastname,
-    password: '',
-    password_confirmation: '',
 });
 
 const submit = () => {
     form.post(route('update'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+        onFinish: () => form.reset(),
     });
 };
 </script>

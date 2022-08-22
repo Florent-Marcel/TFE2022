@@ -9,12 +9,15 @@ use Carbon\Carbon;
 
 class CalendarController extends Controller
 {
+    /**
+     * Create a calendar for a room
+     * @param idRoom the id of the room
+     */
     public static function getForRoom($idRoom){
         $calendar = new Calendar();
         $showings = Showing::getShowingsByIdRoom($idRoom);
         foreach ($showings as $show) {
             $begin = new Carbon($show->begin);
-            $end = $begin->addMinutes($show->movie->duration);
             $calendar->addEvent(\Calendar::event(
                     $show->movie->title_en,
                     false,
@@ -28,6 +31,9 @@ class CalendarController extends Controller
         return $calendar;
     }
 
+    /**
+     * Create a calendar for all rooms
+     */
     public static function getAll(){
         $calendar = new Calendar();
         $showings = Showing::with('room')->get();

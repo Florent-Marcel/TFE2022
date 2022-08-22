@@ -28,6 +28,11 @@ class Personality extends Model
         return $this->belongsToMany(Profession::class, PersonalityProfessionMovie::class);
     }
 
+    /**
+     * Add the personalities getted from TMDB
+     * @param tmdbData the casting from TMDB
+     * @return array of personalities that have to be linked to a movie
+     */
     public static function addFromTMDB($tmdbData){
         $toAdd = [];
         $res = [];

@@ -8,6 +8,9 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class WebsiteLangController extends Controller
 {
+    /**
+     * Set the current language
+     */
     public function change($lang)
     {
         if(!isset($lang)){

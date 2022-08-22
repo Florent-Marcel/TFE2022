@@ -49,7 +49,7 @@
             <div class="grid">
                 <?php
                 for($i=1; $i<=$maxSeat; $i++){
-                        echo '<div><input name="'.$i.'" id="'.$i.'" type="checkbox" class="seat" onclick="test()"></div>';
+                        echo '<div><input name="'.$i.'" id="'.$i.'" type="checkbox" class="seat" onclick="refreshLayout()"></div>';
                 }
                 ?>
             </div>
@@ -62,7 +62,7 @@
 
 </div>
 <script >
-    function test(){
+    function refreshLayout(){
         let seats = document.getElementsByClassName("seat")
         let num_seat = 1;
         if(seats.length){

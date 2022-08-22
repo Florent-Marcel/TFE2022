@@ -34,7 +34,8 @@ class TicketResource extends Resource
                 TextInput::make('unique_code')->default(Uuid::uuid4())->disabled()->required()->maxLength(255)->unique(),
                 Select::make('user_id')->relationship('user', 'email')->required(),
                 Select::make('showing_id')->relationship('showing', 'begin')->required(),
-                Select::make('num_seat')->required(),
+                TextInput::make('num_seat')->required()->numeric()->minValue(1),
+                TextInput::make('paypal_capture_id')->required(),
                 Toggle::make('is_used'),
                 Toggle::make('is_blocked'),
             ]);

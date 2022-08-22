@@ -22,7 +22,7 @@ class Ticket extends Model
         return $this->belongsTo(Showing::class);
     }
 
-    public static function create($showId, $numSeat, $paypalCapId){
+    public static function createTicket($showId, $numSeat, $paypalCapId){
         return self::insert([
             "unique_code" => Uuid::uuid4(),
             "is_used" => false,
@@ -39,6 +39,11 @@ class Ticket extends Model
         return self::where("paypal_capture_id", "=", "$captureId")->get();
     }
 
+    /**
+     * Get the valid tickets from the given ID of a user.
+     * @param $idUser the ID of the user
+     * @return array of tickets
+     */
     public static function getByUser($idUser){
         $tickets = self::where('user_id', $idUser)
             ->with(['showing' => function($query){

@@ -41,6 +41,11 @@ class Showing extends Model
         return $this->hasMany(TemporaryTicket::class);
     }
 
+    /**
+     * Get the upcoming showings
+     * @param $events Boolean, true to get only the events, false to get only the basic showings.
+     * @return array of showings
+     */
     public static function currentShowings($events = false){
         $showings = Showing::where('begin', '>=', now('Europe/Brussels'))
                     ->join('showing_types', 'showings.showing_type_id', 'showing_types.id')
@@ -55,18 +60,21 @@ class Showing extends Model
         return $showings;
     }
 
+    /**
+     * Get the showing with tickets, room, seats and language
+     * @param $idShow the id of the showing
+     * @return Showing the showing
+     */
     public static function showWithSeats($idShow){
-        $show = Showing::findOrFail($idShow);
-        $show->tickets;
-        $show->room->roomType;
-        $show->movie;
-        $show->language;
-        foreach($show->tickets as &$ticket){
-            unset($ticket->unique_code);
-            unset($ticket->user_id);
-            unset($ticket->showing_id);
-        }
-        unset($ticket);
+        $show = Showing::where('id', $idShow)
+                ->with(['tickets' => function($query) {
+                    $query->select('num_seat', 'id', 'showing_id')
+                        ->where('is_blocked', false);
+                }])
+                ->with(['room' => function($query){
+                    $query->with('roomType');
+                }])
+                ->with('movie', 'language')->first();
 
         return $show;
     }
@@ -77,6 +85,12 @@ class Showing extends Model
         return $show->begin > $now;
     }
 
+    /**
+     * Check if all seats in the array seats are still available
+     * @param idShow The id of the showing
+     * @param seats The array of num seats
+     * @return Boolean true if all seats are available, else return false
+     */
     public static function seatsStillAvailable($idShow, $seats){
         $show = self::findOrFail($idShow);
         if(!is_array($seats) || count($seats) == 0){
@@ -101,6 +115,12 @@ class Showing extends Model
         return true;
     }
 
+    /**
+     * Check if all num seat in the given array $numSeats are present in the room layout
+     * @param $idShow the id of the showing
+     * @param $numSeats The array of num seats
+     * @return Boolean true if all num seats are correct, else return false.
+     */
     public static function isNumSeatsCorrect($idShow, $numSeats){
         $show = self::findOrFail($idShow);
         $room = $show->room;

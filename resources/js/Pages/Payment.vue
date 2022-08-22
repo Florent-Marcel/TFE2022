@@ -45,6 +45,7 @@ export default defineComponent({
         sessionCode: String,
         movie: Object,
         time: Number,
+        clientId: Text,
     },
 
     data() {
@@ -78,7 +79,7 @@ export default defineComponent({
 
     mounted(){
         const script = document.createElement("script");
-        script.src ="https://www.paypal.com/sdk/js?currency=EUR&client-id=Aawzj-LDXzTPUd-AltFDeaBa-f-mXkBAAbyU5Urj3_6FYOOk7Jx46jfkOJ2WN7k9QA1R88p2UwfGCMqV";
+        script.src ="https://www.paypal.com/sdk/js?currency=EUR&client-id="+this.clientId;
         script.addEventListener("load", this.setLoaded);
         document.body.appendChild(script);
     },
@@ -108,9 +109,7 @@ export default defineComponent({
                         });
                     },
                     onApprove: async (data, actions, resp) => {
-                        // This function captures the funds from the transaction.
                         return await actions.order.capture().then( async function(details) {
-                            // This function shows a transaction success message to your buyer.
                             app.idCapture = details.purchase_units[0].payments.captures[0].id;
                             let res = await app.createTickets();
                             if(res){

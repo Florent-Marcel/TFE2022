@@ -23,6 +23,11 @@ class Paypal extends Model
         return $data;
     }
 
+    public static function getClientId(){
+        $data = self::getDecryptedData();
+        return $data->client_id;
+    }
+
     private static function auth($data){
         $url = $data->base_url."/v1/oauth2/token";
         $client = new Client();
@@ -46,6 +51,10 @@ class Paypal extends Model
         return json_decode($res->getBody()->getContents());
     }
 
+    /**
+     * Get the info on a Paypal caputre
+     * @param idCapture The id of the Paypal capture.
+     */
     public static function getcapture($idCapture){
         $data = self::getDecryptedData();
         $auth = self::auth($data);

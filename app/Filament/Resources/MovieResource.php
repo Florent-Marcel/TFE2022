@@ -36,15 +36,14 @@ class MovieResource extends Resource
 
     public static function form(Form $form): Form
     {
-        //Type::createIfNotPresent([['id' => 500, 'name' => 'dsdsqs']]);
         if(isset($_GET['idTMDB'])){
             $data = Tmdb::getByID($_GET['idTMDB']);
         }
 
-        return self::getFormWithTMDB($form, isset($data) ? $data : "");
+        return self::getForm($form, isset($data) ? $data : "");
     }
 
-    public static function getFormWithTMDB(Form $form, $data): Form{
+    public static function getForm(Form $form, $data): Form{
         return $form
             ->schema([
                 TextInput::make('title_en')->default(isset($data['en']['title']) ? $data['en']['title'] : "")->required(),

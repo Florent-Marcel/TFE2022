@@ -92,6 +92,9 @@ class TicketController extends Controller
         //
     }
 
+    /**
+     * Create the tickets
+     */
     public function multipleStore($request){
         if(!isset($request->codeTempTicket, $request->idCapturePaypal)){
             throw new HttpException(400, "the parameters are incorrect");
@@ -115,7 +118,7 @@ class TicketController extends Controller
         }
 
         foreach($tickets as $ticket){
-            $res = Ticket::create($ticket->showing_id, $ticket->num_seat, $request->idCapturePaypal);
+            $res = Ticket::createTicket($ticket->showing_id, $ticket->num_seat, $request->idCapturePaypal);
             if(!$res){
                 throw new HttpException(400, "Error creating ticket");
             }
@@ -124,6 +127,10 @@ class TicketController extends Controller
         return $res;
     }
 
+    /**
+     * Show the result of the payment
+     * @param captureId The paypal capture ID
+     */
     public function indexFromCaptureId($captureId){
         $tickets = Ticket::getByIdCapture($captureId);
         if(!$tickets || count($tickets) == 0) {
@@ -142,6 +149,11 @@ class TicketController extends Controller
         return Inertia::render('PaymentResult', $data );
     }
 
+    /**
+     * Download the pdf from the given ticket id
+     * @param id the ticket id
+     * @return PDF
+     */
     public function downloadPDF($id) {
         $ticket = Ticket::findOrFail($id);
         if($ticket->user_id != auth()->id()){

@@ -61,12 +61,7 @@ export default defineComponent({
         calcIndex(nRow, i){
             return ((nRow)*this.show.room.max_places_row) +i;
         },
-        isTaken(nRow, i){
 
-        },
-        isSeat(seat){
-            return seat.activated
-        },
         generateSeats(){
             let res = [];
             for(let row=0; row<this.show.room.nb_rows; row++){
@@ -78,6 +73,9 @@ export default defineComponent({
                 }
             }
             return res;
+        },
+        isSeat(seat){
+            return seat.activated
         },
         select(seat){
             if(!this.isTaken(seat) && seat.activated){

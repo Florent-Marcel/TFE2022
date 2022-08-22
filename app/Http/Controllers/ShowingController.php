@@ -98,6 +98,10 @@ class ShowingController extends Controller
         //
     }
 
+    /**
+     * Show the selection seats for the given showing id
+     * @param $idShow the id of the showing
+     */
     public function seats($idShow){
         if(!isset($idShow) || !is_numeric($idShow)){
             throw new HttpException(400, "Invalid parameters");

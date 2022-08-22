@@ -24,8 +24,10 @@ class Type extends Model
         return $this->hasMany(MovieType::class);
     }
 
-    //Array from tmdb structured like this:
-    // ['id' => integer, 'name' => string]
+    /**
+     * Create the types if not present in the database
+     * @param arrayData an Array of types from TMDB
+     */
     public static function createIfNotPresent($arrayData){
         $toAdd = [];
         foreach($arrayData['en'] as $data){
