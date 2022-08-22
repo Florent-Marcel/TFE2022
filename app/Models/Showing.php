@@ -41,6 +41,11 @@ class Showing extends Model
         return $this->hasMany(TemporaryTicket::class);
     }
 
+    /**
+     * Get the upcoming showings
+     * @param $events Boolean, true to get only the events, false to get only the basic showings.
+     * @return array of showings
+     */
     public static function currentShowings($events = false){
         $showings = Showing::where('begin', '>=', now('Europe/Brussels'))
                     ->join('showing_types', 'showings.showing_type_id', 'showing_types.id')

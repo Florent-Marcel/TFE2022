@@ -81,6 +81,7 @@ export default defineComponent({
     },
 
     mounted(){
+        //Sort by date
         this.showings.sort(function(a, b){
             let aBegin = Date.parse(a.begin);
             let bBegin = Date.parse(b.begin);
@@ -92,6 +93,7 @@ export default defineComponent({
             return 0;
         })
 
+        //grouping by language, room_type and movie
         for(let show of this.showings){
             let key = show.language_id+"_"+show.room_types_id+"_"+show.movie_id;
             let date = this.dateToString(show.begin)

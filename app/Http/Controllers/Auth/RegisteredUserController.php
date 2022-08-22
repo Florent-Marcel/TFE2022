@@ -29,7 +29,7 @@ class RegisteredUserController extends Controller
 
     /**
      * Display the update view.
-     *
+     * @param $status display a message on the page
      * @return \Inertia\Response
      */
     public function viewUpdate($status = '')
@@ -92,6 +92,9 @@ class RegisteredUserController extends Controller
         return self::viewUpdate(__('success.profil_edited'));
     }
 
+    /**
+     * Show the profil of the connected user
+     */
     public function view(){
         $user = auth()->user();
         return Inertia::render('Auth/Profil', [

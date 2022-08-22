@@ -20,6 +20,9 @@ class MovieController extends Controller
         ]);
     }
 
+    /**
+     * Show the home page
+     */
     public function indexFivePopular()
     {
         return Inertia::render('Home', [

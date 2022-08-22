@@ -39,6 +39,11 @@ class Ticket extends Model
         return self::where("paypal_capture_id", "=", "$captureId")->get();
     }
 
+    /**
+     * Get the valid tickets from the given ID of a user.
+     * @param $idUser the ID of the user
+     * @return array of tickets
+     */
     public static function getByUser($idUser){
         $tickets = self::where('user_id', $idUser)
             ->with(['showing' => function($query){

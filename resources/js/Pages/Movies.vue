@@ -138,10 +138,11 @@ export default defineComponent({
     },
     computed: {
         titles(){
-            return this.movies.map(x => x[this.$t('title')]);
-        },
-        filterTitle(){
-            return this.filters.title;
+            let movies = this.movies;
+            if(this.filters.genre){
+                movies = movies.filter(x => this.filterByGenre(x));
+            }
+            return movies.map(x => x[this.$t('title')]);
         },
         genres(){
             let genres = []

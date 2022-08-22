@@ -4,8 +4,8 @@ import { defineComponent } from 'vue'
 
 <template>
     <div id="vueModal" class="modal">
-        <div :class="{'modal-content' : true, 'resizable' : resizable}">
-            <font-awesome-icon v-if="closeButton" icon="fa-solid fa-circle-xmark" title="Close" class="close-modal" @click="close"/>
+        <div :class="{'modal-content' : true}">
+            <font-awesome-icon icon="fa-solid fa-circle-xmark" title="Close" class="close-modal" @click="close"/>
             <slot></slot>
         </div>
     </div>
@@ -15,16 +15,6 @@ import { defineComponent } from 'vue'
 <script>
 
 export default defineComponent({
-    props:{
-        resizable: {
-            type: Boolean,
-            default: false
-        },
-        closeButton: {
-            type: Boolean,
-            default: true
-        },
-    },
     methods: {
         close(){
             this.$emit('close');
@@ -89,10 +79,6 @@ export default defineComponent({
     text-align: center;
     font-size: large;
     margin-bottom: 15px;
-}
-
-.resizable{
-    resize: both;
 }
 
 .close-modal{

@@ -10,6 +10,8 @@ import { usePage } from '@inertiajs/inertia-vue3'
 
 const user = usePage().props.value.auth.user
 
+console.log(user)
+
 const props = defineProps({
     status: String,
 });
@@ -18,13 +20,11 @@ const form = useForm({
     email: user.email,
     firstname: user.firstname,
     lastname: user.lastname,
-    password: '',
-    password_confirmation: '',
 });
 
 const submit = () => {
     form.post(route('update'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+        onFinish: () => form.reset(),
     });
 };
 </script>
