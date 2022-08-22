@@ -40,10 +40,18 @@ class UserSeeder extends Seeder
 
         $data[150] = [
             "email" => "flo.marcel@hotmail.com",
-            "password" => '$2y$10$phyZqyYk27l8hbOtl9HxH.SmbwuEP4y3O4nrdULIxWv64jhoKu4ry',
+            "password" => '$2y$10$ySRCCf11ruobj9fxnqJnsOzkRd/FJ6F/lRTI2bOJNcdSAq3d0KkCu',
             "firstname" => "Florent",
             "lastname" => "Marcel",
             "is_admin" => 1,
+        ];
+
+        $data[151] = [
+            "email" => "test@testICC.be",
+            "password" => '$2y$10$AdiQYc7ZX0EzLMpM1jA0aO9lZUYe0yPCbn6UQ32p4S971C4j9.NGi',
+            "firstname" => "Test",
+            "lastname" => "Test",
+            "is_admin" => 0,
         ];
 
         User::insert($data);
