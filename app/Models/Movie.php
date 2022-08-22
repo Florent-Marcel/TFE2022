@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Mail\OrderShipped;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
