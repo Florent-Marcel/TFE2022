@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class PersonalityProfessionMovie extends Model
+class MoviePersonalityProfession extends Model
 {
     use HasFactory;
 
@@ -16,7 +16,7 @@ class PersonalityProfessionMovie extends Model
         'movie_id', 'profession_id', 'personality_id'
     ];
 
-    protected $table = "personalities_professions_movies";
+    protected $table = "movies_personalities_professions";
 
     public function movie(){
         return $this->belongsTo(Movie::class);

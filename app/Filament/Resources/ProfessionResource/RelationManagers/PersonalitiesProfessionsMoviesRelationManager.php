@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\ProfessionResource\RelationManagers;
 
-use App\Filament\Resources\PersonalityProfessionMovieResource;
+use App\Filament\Resources\MoviePersonalityProfessionResource;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -11,19 +11,19 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class PersonalitiesProfessionsMoviesRelationManager extends RelationManager
+class moviesPersonalitiesProfessionsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'personalitiesProfessionsMovies';
+    protected static string $relationship = 'moviesPersonalitiesProfessions';
 
     protected static ?string $recordTitleAttribute = 'id';
 
     public static function form(Form $form): Form
     {
-        return PersonalityProfessionMovieResource::form($form);
+        return MoviePersonalityProfessionResource::form($form);
     }
 
     public static function table(Table $table): Table
     {
-        return PersonalityProfessionMovieResource::table($table);
+        return MoviePersonalityProfessionResource::table($table);
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PersonalityProfessionMovie;
+use App\Models\MoviePersonalityProfession;
 use Illuminate\Http\Request;
 
-class PersonalityProfessionMovieController extends Controller
+class MoviePersonalityProfessionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class PersonalityProfessionMovieController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\PersonalityProfessionMovie  $personalityProfessionMovie
+     * @param  \App\Models\MoviePersonalityProfession  $MoviePersonalityProfession
      * @return \Illuminate\Http\Response
      */
-    public function show(PersonalityProfessionMovie $personalityProfessionMovie)
+    public function show(MoviePersonalityProfession $MoviePersonalityProfession)
     {
         //
     }
@@ -52,10 +52,10 @@ class PersonalityProfessionMovieController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\PersonalityProfessionMovie  $personalityProfessionMovie
+     * @param  \App\Models\MoviePersonalityProfession  $MoviePersonalityProfession
      * @return \Illuminate\Http\Response
      */
-    public function edit(PersonalityProfessionMovie $personalityProfessionMovie)
+    public function edit(MoviePersonalityProfession $MoviePersonalityProfession)
     {
         //
     }
@@ -64,10 +64,10 @@ class PersonalityProfessionMovieController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\PersonalityProfessionMovie  $personalityProfessionMovie
+     * @param  \App\Models\MoviePersonalityProfession  $MoviePersonalityProfession
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PersonalityProfessionMovie $personalityProfessionMovie)
+    public function update(Request $request, MoviePersonalityProfession $MoviePersonalityProfession)
     {
         //
     }
@@ -75,10 +75,10 @@ class PersonalityProfessionMovieController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\PersonalityProfessionMovie  $personalityProfessionMovie
+     * @param  \App\Models\MoviePersonalityProfession  $MoviePersonalityProfession
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PersonalityProfessionMovie $personalityProfessionMovie)
+    public function destroy(MoviePersonalityProfession $MoviePersonalityProfession)
     {
         //
     }

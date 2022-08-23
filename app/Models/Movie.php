@@ -35,8 +35,8 @@ class Movie extends Model
         return $this->hasMany(MovieType::class);
     }
 
-    public function personalitiesProfessionsMovies(){
-        return $this->hasMany(PersonalityProfessionMovie::class);
+    public function moviesPersonalitiesProfessions(){
+        return $this->hasMany(MoviePersonalityProfession::class);
     }
 
     public function showings(){
@@ -126,7 +126,7 @@ class Movie extends Model
                     }]);
                 }])
                 ->with('types')
-                ->with(['personalitiesProfessionsMovies' => function($query) {
+                ->with(['moviesPersonalitiesProfessions' => function($query) {
                     $query->with('personality', 'profession');
                 }])->first();
 

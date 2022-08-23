@@ -78,7 +78,7 @@ import { Link } from '@inertiajs/inertia-vue3';
             </div>
             <h3 class="sub-title">{{__("Personalities")}}</h3>
             <div class="personalities">
-                <div class="personality" v-for="perso in movie.personalities_professions_movies" :key="perso.id">
+                <div class="personality" v-for="perso in movie.movies_personalities_professions" :key="perso.id">
                     <img v-if="perso.canLoadIMG" :src="perso.personality.profile_url" @load="loadNext"/>
                     <img v-else/>
                     <div class="personality-name">{{perso.personality.name}}</div>
@@ -115,7 +115,7 @@ export default defineComponent({
         }
     },
     beforeMount(){
-        for(let perso of this.movie.personalities_professions_movies){
+        for(let perso of this.movie.movies_personalities_professions){
             perso.canLoadIMG = false
             if(this.loadIndex < this.maxImgLoadSimultaneous){
                 perso.canLoadIMG = true;
@@ -136,8 +136,8 @@ export default defineComponent({
     },
     methods: {
         loadNext(){
-            if(this.movie.personalities_professions_movies[this.loadIndex]){
-                this.movie.personalities_professions_movies[this.loadIndex].canLoadIMG = true;
+            if(this.movie.movies_personalities_professions[this.loadIndex]){
+                this.movie.movies_personalities_professions[this.loadIndex].canLoadIMG = true;
             }
             this.loadIndex++;
         },

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\PersonalityProfessionMovieResource\RelationManagers;
+namespace App\Filament\Resources\MoviePersonalityProfessionResource\RelationManagers;
 
 use App\Filament\Resources\MovieResource;
 use App\Models\Movie;

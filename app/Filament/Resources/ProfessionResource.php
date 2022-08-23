@@ -49,7 +49,7 @@ class ProfessionResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\PersonalitiesProfessionsMoviesRelationManager::class,
+            RelationManagers\moviesPersonalitiesProfessionsRelationManager::class,
         ];
     }
 

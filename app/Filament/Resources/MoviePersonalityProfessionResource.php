@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PersonalityProfessionMovieResource\Pages;
-use App\Filament\Resources\PersonalityProfessionMovieResource\RelationManagers;
-use App\Filament\Resources\PersonalityProfessionMovieResource\RelationManagers\MovieRelationManager;
-use App\Models\PersonalityProfessionMovie;
+use App\Filament\Resources\MoviePersonalityProfessionResource\Pages;
+use App\Filament\Resources\MoviePersonalityProfessionResource\RelationManagers;
+use App\Filament\Resources\MoviePersonalityProfessionResource\RelationManagers\MovieRelationManager;
+use App\Models\MoviePersonalityProfession;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Resources\Form;
@@ -17,9 +17,9 @@ use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class PersonalityProfessionMovieResource extends Resource
+class MoviePersonalityProfessionResource extends Resource
 {
-    protected static ?string $model = PersonalityProfessionMovie::class;
+    protected static ?string $model = MoviePersonalityProfession::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
@@ -64,9 +64,9 @@ class PersonalityProfessionMovieResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPersonalityProfessionMovies::route('/'),
-            'create' => Pages\CreatePersonalityProfessionMovie::route('/create'),
-            'edit' => Pages\EditPersonalityProfessionMovie::route('/{record}/edit'),
+            'index' => Pages\ListMoviePersonalityProfessions::route('/'),
+            'create' => Pages\CreateMoviePersonalityProfession::route('/create'),
+            'edit' => Pages\EditMoviePersonalityProfession::route('/{record}/edit'),
         ];
     }
 }

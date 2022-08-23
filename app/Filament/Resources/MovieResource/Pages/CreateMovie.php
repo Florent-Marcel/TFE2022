@@ -6,7 +6,7 @@ use App\Filament\Resources\MovieResource;
 use App\Models\Movie;
 use App\Models\MovieType;
 use App\Models\Personality;
-use App\Models\PersonalityProfessionMovie;
+use App\Models\MoviePersonalityProfession;
 use App\Models\Profession;
 use App\Models\Tmdb;
 use App\Models\Type;
@@ -32,7 +32,7 @@ class CreateMovie extends CreateRecord
             $addedCast = Personality::addFromTMDB($movieCredits);
             $addedProfession = Profession::addFromTMDB($movieCredits, $addedCast);
 
-            PersonalityProfessionMovie::addFromTMDB($movieCredits, $addedCast, $movie);
+            MoviePersonalityProfession::addFromTMDB($movieCredits, $addedCast, $movie);
 
             $genres = [];
             $genres['en'] = $tmdbData['en']['genres'];

@@ -16,16 +16,16 @@ class Profession extends Model
         'profession',
     ];
 
-    public function personalitiesProfessionsMovies(){
-        return $this->hasMany(PersonalityProfessionMovie::class);
+    public function moviesPersonalitiesProfessions(){
+        return $this->hasMany(MoviePersonalityProfession::class);
     }
 
     public function personalities(){
-        return $this->belongsToMany(Personality::class, PersonalityProfessionMovie::class);
+        return $this->belongsToMany(Personality::class, MoviePersonalityProfession::class);
     }
 
     public function movies(){
-        return $this->belongsToMany(Movie::class, PersonalityProfessionMovie::class);
+        return $this->belongsToMany(Movie::class, MoviePersonalityProfession::class);
     }
 
     /**

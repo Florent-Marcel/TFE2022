@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\Movie;
 use App\Models\MovieType;
 use App\Models\Personality;
-use App\Models\PersonalityProfessionMovie;
+use App\Models\MoviePersonalityProfession;
 use App\Models\Profession;
 use App\Models\Tmdb;
 use App\Models\Type;
@@ -80,7 +80,7 @@ class MovieSeeder extends Seeder
                 $movieCredits = Tmdb::getCredits($infoMovie['en']['id']);
                 $addedCast = Personality::addFromTMDB($movieCredits);
                 $addedProfession = Profession::addFromTMDB($movieCredits, $addedCast);
-                PersonalityProfessionMovie::addFromTMDB($movieCredits, $addedCast, $movie);
+                MoviePersonalityProfession::addFromTMDB($movieCredits, $addedCast, $movie);
 
                 $genres = [];
                 $genres['en'] = $infoMovie['en']['genres'];
@@ -114,7 +114,7 @@ class MovieSeeder extends Seeder
         }); */
 
         /* Movie::all()->each(function ($movie) use ($personalities, $professions) {
-            PersonalityProfessionMovie::insert(
+            MoviePersonalityProfession::insert(
                 [
                     "personality_id" => $personalities->random(1)->pluck("id")[0],
                     "profession_id" => $professions->random(1)->pluck("id")[0],
