@@ -14,7 +14,7 @@ class Showing extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'begin', 'price', 'buffer', 'movie_id', 'showing_type_id', 'language_id', 'room_id'
+        'begin', 'price', 'movie_id', 'showing_type_id', 'language_id', 'room_id'
     ];
 
     public function showingType(){

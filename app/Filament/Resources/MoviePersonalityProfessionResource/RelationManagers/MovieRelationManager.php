@@ -30,7 +30,7 @@ class MovieRelationManager extends RelationManager
         return $table
             ->columns([
                 ImageColumn::make('poster_url')->label('Poster'),
-                TextColumn::make('title')->searchable(),
+                TextColumn::make('title_en')->searchable(),
                 TextColumn::make('date_release')->searchable(),
                 TextColumn::make('tmdb_id')->searchable(),
             ])
