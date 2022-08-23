@@ -12,6 +12,7 @@ import Header from '@/Components/Header.vue'
 import Menu from '@/Components/Menu.vue'
 import InfoMovie from '@/Components/InfoMovie.vue';
 import Modal from '@/Components/Modal.vue';
+import { Head } from '@inertiajs/inertia-vue3';
 
 const showingNavigationDropdown = ref(false);
 
@@ -34,11 +35,9 @@ const movieClose = () =>{
 const displayMovie = ref(false);
 </script>
 
-<script>
-
-</script>
-
 <template>
+    <Head :title="__(title)" />
+
     <Base>
         <div class="title">
             <h3>{{__(title)}}</h3>

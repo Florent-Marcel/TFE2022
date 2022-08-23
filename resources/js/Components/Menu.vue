@@ -43,7 +43,6 @@ export default defineComponent({
     },
 
     mounted(){
-        console.log(window.location.origin)
     },
 
     methods: {

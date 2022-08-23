@@ -133,7 +133,6 @@ export default defineComponent({
         })
 
         this.typeShowings = this.showingTypes();
-        console.log(this.typeShowings)
     },
     methods: {
         loadNext(){

@@ -23,27 +23,38 @@ class Tmdb extends Model
         return $data;
     }
 
+    /**
+     * Search a movie by title and year with TMDB
+     * @param title The title of the movie
+     * @param year The year of release of the movie
+     * @return JSON The result
+     */
     public static function search($title, $year){
         $data = self::getDecryptedData();
 
-        $url = $data->base_url."/search/movie?api_key=24cfeb5948080c6e86dd4fcb22c877f1&query=".$title."&year=".$year;
+        $url = $data->base_url."/search/movie?api_key=".$data->key."&query=".$title."&year=".$year;
 
         $response = Http::get($url);
 
         return $response->json();
     }
 
+    /**
+     * Get a movie on TMDB by id
+     * @param tmdbID the ID of the movie on TMDB
+     * @return Array the data of the movie with english and frensh translations
+     */
     public static function getByID($tmdbID){
         $data = self::getDecryptedData();
 
-        $url = $data->base_url."/movie/$tmdbID?api_key=24cfeb5948080c6e86dd4fcb22c877f1";
+        $url = $data->base_url."/movie/$tmdbID?api_key=".$data->key;
         $response = Http::get($url);
         $en = $response->json();
         if(isset($en['poster_path']) && $en['poster_path']){
             $en['poster_url'] = $data->base_url_img.$en['poster_path'];
         }
 
-        $url = $data->base_url."/movie/$tmdbID?api_key=24cfeb5948080c6e86dd4fcb22c877f1&language=fr-BE";
+        $url = $data->base_url."/movie/$tmdbID?api_key=".$data->key."&language=fr-BE";
         $response = Http::get($url);
         $fr=$response->json();
         if(isset($fr['poster_path']) && $fr['poster_path']){
@@ -61,10 +72,15 @@ class Tmdb extends Model
         return ['en' => $en, 'fr' => $fr];
     }
 
+    /**
+     * Get the credits of a given tmdb id movie
+     * @param tmdbID The id on TMDB
+     * @return Object of credits
+     */
     public static function getCredits($tmdbID){
         $data = self::getDecryptedData();
 
-        $url = $data->base_url."/movie/$tmdbID/credits?api_key=24cfeb5948080c6e86dd4fcb22c877f1";
+        $url = $data->base_url."/movie/$tmdbID/credits?api_key=".$data->key;
         $response = Http::get($url);
         $response = $response->json();
 

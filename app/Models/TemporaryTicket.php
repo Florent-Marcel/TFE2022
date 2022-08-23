@@ -34,6 +34,11 @@ class TemporaryTicket extends Model
         return $res->toArray();
     }
 
+    /**
+     * Get the temporary tickets of the given showing id
+     * @param $showId the Id of the showing
+     * @return array of TemporaryTicket
+     */
     public static function getTemporaryTicketByShow($showId){
         $res= self::select('*')->where([
             ['showing_id', '=', $showId],
@@ -50,11 +55,17 @@ class TemporaryTicket extends Model
         return $res;
     }
 
+    /**
+     * Create the temporary tickets
+     * @param showID The id of the showing
+     * @param seats The array of num seats
+     * @param code the session code
+     */
     public static function createTemporaryTickets($showId, $seats, $code){
         if(!Showing::seatsStillAvailable($showId, $seats)){
             return false;
         }
-        $show = Showing::findOrFail($showId);
+
         $data = [];
         foreach($seats as $seat){
             array_push($data, [
@@ -81,6 +92,12 @@ class TemporaryTicket extends Model
         return TemporaryTicket::where('code', '=', $temp->code)->delete();
     }
 
+    /**
+     * Check if the amount of the payment matches the price of the temporary tickets
+     * @param tempTickets array of temporary tickets
+     * @param payment one paypal payment getted via a capture
+     * @return Boolean true if the payment is correct, else return false
+     */
     public static function checkPayment($tempTickets, $payment){
         $payed = $payment->amount->value;
         $payed = $payed;
@@ -93,6 +110,9 @@ class TemporaryTicket extends Model
         return $price == $payed;
     }
 
+    /**
+     * Delete old temporary tickets
+     */
     public static function deleteOld(){
         $now = now();
         $validityLimit = $now->subMinutes(self::$durationValidityM);

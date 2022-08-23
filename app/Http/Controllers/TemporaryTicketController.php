@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Movie;
+use App\Models\Paypal;
 use App\Models\Showing;
 use App\Models\TemporaryTicket;
 use Carbon\Carbon;
@@ -114,6 +115,10 @@ class TemporaryTicketController extends Controller
         return TemporaryTicket::deleteLastFromUser();
     }
 
+    /**
+     * Show payment page
+     * @param code The session code
+     */
     public function askPayment($code){
         $tempTickets = TemporaryTicket::getTemporaryTicketByCode($code);
         if(count($tempTickets) == 0){
@@ -137,6 +142,7 @@ class TemporaryTicketController extends Controller
             'sessionCode' => $code,
             'movie' => $movie,
             'time' => $time,
+            'clientId' => Paypal::getClientId(),
         ];
 
         return Inertia::render('Payment', $data);
