@@ -18,11 +18,13 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\MultiSelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class MovieResource extends Resource
@@ -82,7 +84,19 @@ class MovieResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                //Soft delete shows for each movies
+                BulkAction::make('delete')
+                ->action(function(Collection $records){
+                    foreach($records as $movie){
+                        foreach($movie->showings as $show){
+                            $show->delete();
+                        }
+                        $movie->delete();
+                    }
+                })
+                ->deselectRecordsAfterCompletion()
+                ->color('danger')
+                ->icon('heroicon-o-trash')
             ]);
     }
 

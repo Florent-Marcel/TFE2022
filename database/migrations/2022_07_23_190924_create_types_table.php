@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer('tmdb_id')->unique();
             $table->string("type_fr", 64)->unique();
             $table->string("type_en", 64)->unique();
-            $table->softDeletes();
         });
     }
 

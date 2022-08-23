@@ -17,9 +17,4 @@ class ListMovies extends ListRecords
             Actions\Action::make("Create with tmdb")->url(MovieResource::getUrl('search')),
         ];
     }
-
-    public function test(): void
-    {
-
-    }
 }

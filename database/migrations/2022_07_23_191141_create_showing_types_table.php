@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string("type_fr", 64)->unique();
             $table->string("type_en", 64)->unique();
             $table->boolean("is_event");
-            $table->softDeletes();
         });
     }
 

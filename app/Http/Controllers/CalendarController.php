@@ -17,6 +17,10 @@ class CalendarController extends Controller
         $calendar = new Calendar();
         $showings = Showing::getShowingsByIdRoom($idRoom);
         foreach ($showings as $show) {
+            if(!$show->movie)
+            {
+                continue;
+            }
             $begin = new Carbon($show->begin);
             $calendar->addEvent(\Calendar::event(
                     $show->movie->title_en,
@@ -38,6 +42,10 @@ class CalendarController extends Controller
         $calendar = new Calendar();
         $showings = Showing::with('room')->get();
         foreach ($showings as $show) {
+            if(!$show->movie)
+            {
+                continue;
+            }
             $begin = new Carbon($show->begin);
             $end = $begin->addMinutes($show->movie->duration);
             $calendar->addEvent(\Calendar::event(

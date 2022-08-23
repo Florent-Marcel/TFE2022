@@ -21,7 +21,6 @@ return new class extends Migration
             $table->integer("nb_rows");
             $table->integer("max_places_row");
             $table->text("layout_json");
-            $table->softDeletes();
         });
     }
 
