@@ -21,7 +21,7 @@ if (preg_match('/rooms\/(.*?)\/edit/', url()->current(), $match) == 1) {
     var idRoom = "{{$idRoom}}"
     </script>
     <?php
-        
+
     $calendar->setOptions([
         'locale' => 'en',
         'firstDay' => 0,
@@ -63,17 +63,17 @@ if (preg_match('/rooms\/(.*?)\/edit/', url()->current(), $match) == 1) {
         }'
     ]);
     ?>
-        
-        
+
+
     <head>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.0/main.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.0/locales-all.min.js"></script>
-        
+
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.0/main.css"/>
-        
-        
+
+
         <style>
             .fc-event:hover{
                 cursor: pointer;

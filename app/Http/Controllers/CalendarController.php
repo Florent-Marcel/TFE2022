@@ -22,11 +22,12 @@ class CalendarController extends Controller
                 continue;
             }
             $begin = new Carbon($show->begin);
+            $end = $begin->copy()->addMinutes($show->movie->duration);
             $calendar->addEvent(\Calendar::event(
                     $show->movie->title_en,
                     false,
                     $begin,
-                    $begin->addMinutes($show->movie->duration),
+                    $end,
                 	$show->id
                 )
             );
@@ -47,12 +48,12 @@ class CalendarController extends Controller
                 continue;
             }
             $begin = new Carbon($show->begin);
-            $end = $begin->addMinutes($show->movie->duration);
+            $end = $begin->copy()->addMinutes($show->movie->duration);
             $calendar->addEvent(\Calendar::event(
                     $show->movie->title_en." (Room: ".$show->room->num_room.")",
                     false,
                     $begin,
-                    $begin->addMinutes($show->movie->duration),
+                    $end,
                 	$show->id
                 )
             );
